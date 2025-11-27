@@ -19,9 +19,11 @@ export default function Accordion({ items = [], variant = "soft" }) {
   };
 
   // Keep solid surfaces; use a subtle container treatment
+  // Apply vertical spacing between items without affecting each item's internal padding.
+  // Use flex + space-y utilities instead of relying solely on borders for separation.
   const containerStyle =
-    "divide-y divide-black/5 rounded-2xl overflow-hidden " +
-    (variant === "outline" ? "border border-black/10 bg-surface" : "shadow-soft bg-surface");
+    "flex flex-col space-y-2 rounded-2xl " +
+    (variant === "outline" ? "" : ""); // keep variant styling on each item instead of the container
 
   return (
     <div className={containerStyle} role="region" aria-label="Accordion">
@@ -32,6 +34,7 @@ export default function Accordion({ items = [], variant = "soft" }) {
           title={item.title}
           isOpen={openIds.includes(item.id ?? String(idx))}
           onToggle={toggle}
+          variant={variant}
         >
           {item.content}
         </AccordionItem>
@@ -40,14 +43,21 @@ export default function Accordion({ items = [], variant = "soft" }) {
   );
 }
 
-function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
+function AccordionItem({ idProp, title, isOpen, onToggle, children, variant = "soft" }) {
   const reactId = useId();
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
+  // Item wrapper: apply per-item surface/border/shadow so outer container can manage spacing safely.
+  // Keep rounded corners and separation without interfering with inner padding or focus outlines.
+  const itemWrapperClass =
+    variant === "outline"
+      ? "bg-surface border border-black/10 rounded-2xl overflow-hidden"
+      : "bg-surface shadow-soft rounded-2xl overflow-hidden";
+
   // Header: maintain thin left brand strip. Icon: full gradient background with white chevron.
   return (
-    <div className="bg-white">
+    <div className={itemWrapperClass}>
       <h3 className="m-0">
         <button
           id={buttonId}
@@ -56,7 +66,7 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
             "bg-white text-text",
             "hover:bg-gray-50",
             "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
-            isOpen ? "border-b border-black/5" : "",
+            // keep clean edge; item wrapper already has its own border/shadow
           ]
             .filter(Boolean)
             .join(" ")}
