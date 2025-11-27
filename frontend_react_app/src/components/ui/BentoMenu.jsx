@@ -20,16 +20,15 @@ export default function BentoMenu({ items = [], className = "" }) {
     "sm:col-span-2 row-span-1",
   ];
 
-  // Wrapper styles:
-  // - Apply the same subtle stronger brand gradient treatment as Accordion panels.
-  // - Maintain solid white inner content for readability (ocean-surface inside).
-  // - Ensure accessible focus with visible ring and hover elevation.
+  // Wrapper styles: preserve focus and hover elevation; keep wrapper background neutral
+  // so the gradient is applied to the inner content only (per requirement).
   const wrapperBase =
     "group rounded-2xl transition hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
-  const wrapperBg = "brand-panel-strong"; // stronger gradient panel background for outer wrapper
 
+  // Inner content now adopts the same soft-strong brand gradient as Accordion answer panels.
+  // Remove bg-surface from inner container to prevent overriding the gradient.
   const Content = ({ item }) => (
-    <div className="ocean-surface p-5 h-full flex flex-col justify-between">
+    <div className="brand-panel-soft-strong p-5 h-full flex flex-col justify-between rounded-2xl">
       <div className="flex items-start gap-3">
         {item.icon ? (
           <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0">
@@ -67,7 +66,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           return (
             <a
               key={idx}
-              className={`${wrapperBase} ${wrapperBg} ${spanCls}`}
+              className={`${wrapperBase} ${spanCls}`}
               href={item.href}
               aria-label={item.ariaLabel || `Open ${item.title}`}
             >
@@ -80,7 +79,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           <button
             key={idx}
             type="button"
-            className={`${wrapperBase} ${wrapperBg} ${spanCls} text-left`}
+            className={`${wrapperBase} ${spanCls} text-left`}
             onClick={item.onClick}
             aria-label={item.ariaLabel || `Open ${item.title}`}
           >
