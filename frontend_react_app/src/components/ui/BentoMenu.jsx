@@ -20,6 +20,40 @@ export default function BentoMenu({ items = [], className = "" }) {
     "sm:col-span-2 row-span-1",
   ];
 
+  // Wrapper styles:
+  // - Apply the same subtle stronger brand gradient treatment as Accordion panels.
+  // - Maintain solid white inner content for readability (ocean-surface inside).
+  // - Ensure accessible focus with visible ring and hover elevation.
+  const wrapperBase =
+    "group rounded-2xl transition hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
+  const wrapperBg = "brand-panel-soft-strong"; // gradient + soft border
+
+  const Content = ({ item }) => (
+    <div className="ocean-surface p-5 h-full flex flex-col justify-between">
+      <div className="flex items-start gap-3">
+        {item.icon ? (
+          <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0">
+            {item.icon}
+          </div>
+        ) : (
+          <div className="h-10 w-10 rounded-xl bg-primary text-white grid place-items-center shrink-0">
+            {item.title?.[0] ?? "•"}
+          </div>
+        )}
+        <div>
+          <div className="text-base font-semibold text-text">{item.title}</div>
+          {item.description && (
+            <div className="text-sm text-text/70 mt-0.5">{item.description}</div>
+          )}
+        </div>
+      </div>
+      <div className="mt-4 flex items-center justify-between text-sm text-primary">
+        <span>Open</span>
+        <span aria-hidden="true" className="transition group-hover:translate-x-0.5">→</span>
+      </div>
+    </div>
+  );
+
   return (
     <div
       className={`grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[minmax(120px,auto)] ${className}`}
@@ -28,41 +62,16 @@ export default function BentoMenu({ items = [], className = "" }) {
     >
       {items.map((item, idx) => {
         const spanCls = item.span || defaultPattern[idx % defaultPattern.length];
-        const CardContent = () => (
-          <div className="ocean-surface p-5 h-full flex flex-col justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
-            <div className="flex items-start gap-3">
-              {item.icon ? (
-                <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0">
-                  {item.icon}
-                </div>
-              ) : (
-                <div className="h-10 w-10 rounded-xl bg-primary text-white grid place-items-center shrink-0">
-                  {item.title?.[0] ?? "•"}
-                </div>
-              )}
-              <div>
-                <div className="text-base font-semibold text-text">{item.title}</div>
-                {item.description && (
-                  <div className="text-sm text-text/70 mt-0.5">{item.description}</div>
-                )}
-              </div>
-            </div>
-            <div className="mt-4 flex items-center justify-between text-sm text-primary">
-              <span>Open</span>
-              <span aria-hidden="true" className="transition group-hover:translate-x-0.5">→</span>
-            </div>
-          </div>
-        );
 
         if (item.href) {
           return (
             <a
               key={idx}
-              className={`group rounded-2xl border border-black/5 hover:shadow-card transition ${spanCls}`}
+              className={`${wrapperBase} ${wrapperBg} ${spanCls}`}
               href={item.href}
               aria-label={item.ariaLabel || `Open ${item.title}`}
             >
-              <CardContent />
+              <Content item={item} />
             </a>
           );
         }
@@ -71,11 +80,11 @@ export default function BentoMenu({ items = [], className = "" }) {
           <button
             key={idx}
             type="button"
-            className={`text-left group rounded-2xl border border-black/5 hover:shadow-card transition ${spanCls}`}
+            className={`${wrapperBase} ${wrapperBg} ${spanCls} text-left`}
             onClick={item.onClick}
             aria-label={item.ariaLabel || `Open ${item.title}`}
           >
-            <CardContent />
+            <Content item={item} />
           </button>
         );
       })}
