@@ -31,15 +31,15 @@ export default function Navbar({ theme, onToggle }) {
 
   return (
     <nav className="sticky top-0 z-40">
-      {/* Brand gradient background with a subtle translucent overlay to ensure readability */}
+      {/* Brand gradient bar with subtle overlay to keep contrast strong */}
       <div className="w-full bg-brand-gradient">
-        <div className="backdrop-blur-sm bg-black/0">
+        <div className="surface-overlay-soft">
           <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
             <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
-              <div className="h-8 w-8 rounded-xl bg-white/90 text-text grid place-items-center font-bold shadow-soft">
+              <div className="h-8 w-8 rounded-xl bg-white text-text grid place-items-center font-bold shadow-soft">
                 UI
               </div>
-              <span className="text-lg font-semibold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]">
+              <span className="text-lg font-semibold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]">
                 Components Showcase
               </span>
             </NavLink>
@@ -71,7 +71,7 @@ export default function Navbar({ theme, onToggle }) {
 
       {/* Mobile quick links */}
       <div
-        className="md:hidden border-t border-white/10 bg-white/10 backdrop-blur-sm"
+        className="md:hidden border-t border-white/10 surface-overlay-softer"
         role="navigation"
         aria-label="Mobile"
       >

@@ -10,7 +10,7 @@ export default function Home() {
     <section className="animate-fadeIn">
       <div className="rounded-2xl border border-black/5 overflow-hidden">
         <div className="bg-brand-gradient">
-          <div className="px-6 py-12 sm:px-10 sm:py-16">
+          <div className="surface-overlay-soft px-6 py-12 sm:px-10 sm:py-16">
             <div className="max-w-3xl">
               <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]">
                 UI Components Showcase

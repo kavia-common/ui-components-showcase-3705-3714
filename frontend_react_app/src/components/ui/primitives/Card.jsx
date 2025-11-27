@@ -4,7 +4,7 @@ import React from "react";
 / PUBLIC_INTERFACE
  * Card: Ocean Professional card primitive with optional sections.
  * Props:
- * - variant: "surface" | "outline" | "ghost"
+ * - variant: "surface" | "outline" | "ghost" | "brand" | "brandOutline" | "brandGlow"
  * - className: outer container classes
  * - header, footer: ReactNode
  * - children: content
@@ -21,6 +21,9 @@ export default function Card({
     surface: "bg-surface shadow-soft border border-black/5",
     outline: "bg-white border border-black/10",
     ghost: "bg-transparent border border-transparent",
+    brand: "bg-white border border-transparent",
+    brandOutline: "bg-white border-brand-gradient",
+    brandGlow: "bg-white border border-transparent glow-brand",
   };
 
   return (
@@ -35,8 +38,9 @@ export default function Card({
       {...rest}
     >
       {header && (
-        <div className="px-5 py-4 border-b border-black/5 bg-white/70">
-          {header}
+        <div className="px-5 py-4 border-b border-black/5 bg-white/70 relative">
+          <div className="pointer-events-none absolute inset-0 bg-brand-gradient opacity-[0.08]" aria-hidden="true" />
+          <div className="relative">{header}</div>
         </div>
       )}
       <div className="p-5">{children}</div>

@@ -4,7 +4,7 @@ import React from "react";
 / PUBLIC_INTERFACE
  * Button: Ocean Professional button primitive with variants and sizes.
  * Props:
- * - variant: "primary" | "secondary" | "ghost" | "outline" | "danger"
+ * - variant: "primary" | "secondary" | "ghost" | "outline" | "danger" | "brand" | "brandOutline" | "brandGlow"
  * - size: "sm" | "md" | "lg"
  * - as: element type to render (default "button")
  * - loading: boolean (adds spinner and aria-busy)
@@ -37,6 +37,10 @@ export default function Button({
       "bg-transparent text-text hover:bg-white/60 border border-black/10",
     danger:
       "bg-red-600 text-white hover:bg-red-700 shadow-soft",
+    // Brand gradient variants
+    brand: "text-white bg-brand-gradient hover:opacity-95 shadow-soft",
+    brandOutline: "border-brand-gradient bg-white text-text hover:bg-gray-50",
+    brandGlow: "text-white bg-brand-gradient hover:opacity-95 glow-brand",
   };
 
   const sizes = {

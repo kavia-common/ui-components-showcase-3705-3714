@@ -41,9 +41,52 @@
   .ocean-gradient {
     @apply bg-gradient-to-r from-blue-500/10 to-gray-50;
   }
-  .brand-gradient {
+
+  /* PUBLIC_INTERFACE
+     bg-brand-gradient: background filled with the brand gradient.
+     border-brand-gradient: gradient border ring using padding + mask so interior stays solid.
+     glow-brand: soft glow shadow using brand hues. */
+  .bg-brand-gradient {
     background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
   }
+  .border-brand-gradient {
+    position: relative;
+    background:
+      linear-gradient(#ffffff, #ffffff) padding-box,
+      linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%) border-box;
+    border: 1px solid transparent;
+    border-radius: 0.875rem; /* match rounded-xl default */
+  }
+  .glow-brand {
+    box-shadow:
+      0 0 0 1px rgba(175, 36, 151, 0.25),
+      0 12px 24px -8px rgba(24, 64, 160, 0.28),
+      0 6px 12px -6px rgba(144, 45, 154, 0.22);
+  }
+
+  /* Assist dark mode for gradient-backed surfaces to ensure readability */
+  .surface-overlay-soft {
+    @apply bg-white/80 backdrop-blur;
+  }
+  .surface-overlay-softer {
+    @apply bg-white/70 backdrop-blur;
+  }
+
+  /* Dark mode balances: on dark, use near-black surface to improve contrast */
+  @media (prefers-color-scheme: dark) {
+    .border-brand-gradient {
+      background:
+        linear-gradient(#0b0b0c, #0b0b0c) padding-box,
+        linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%) border-box;
+    }
+    .surface-overlay-soft {
+      @apply bg-black/40;
+    }
+    .surface-overlay-softer {
+      @apply bg-black/30;
+    }
+  }
+
   .shadow-floating {
     @apply shadow-[0_12px_24px_-8px_rgba(2,6,23,0.15)];
   }

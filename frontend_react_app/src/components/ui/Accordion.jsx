@@ -44,60 +44,41 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // We add a subtle brand-gradient treatment:
-  // - A very light translucent gradient background on the header for both states
-  // - On hover/focus: slightly stronger translucency to indicate interactivity
-  // - When open: an accent "gradient border" ring using an outer wrapper (relative + pseudo gradient with padding)
-  // All text remains dark for readability on light backgrounds; focus-visible ring ensures accessibility.
+  // Brand gradient accent with accessible overlay and clear focus styles.
   return (
     <div className="bg-white">
       <h3 className="m-0">
-        <div
-          className={[
-            "group relative",
-            isOpen
-              ? // When open, create a gradient border effect using padding wrapper
-                "p-[1px] rounded-xl bg-[linear-gradient(45deg,#af2497_10%,#902d9a_20%,#1840a0_100%)] mx-4 mt-4"
-              : "mx-0 mt-0",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
-          <button
-            id={buttonId}
-            className={[
-              "w-full px-5 py-4 flex items-center justify-between text-left",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-xl",
-              // Subtle translucent gradient background with good contrast for text
-              // Base state:
-              "bg-[linear-gradient(45deg,#af2497_10%,#902d9a_20%,#1840a0_100%)]",
-              "bg-[length:100%_100%] bg-no-repeat",
-              // Make it translucent to keep it subtle; use white overlay for readability
-              "bg-opacity-[0.10] [--tw-bg-opacity:1] relative",
-              // Create an inner overlay to soften the gradient: white in light mode, slight dark in dark mode
-              "before:absolute before:inset-0 before:rounded-xl before:bg-white/80 dark:before:bg-white/70",
-              // Hover/Focus states increase gradient visibility slightly while preserving legibility
-              "hover:before:bg-white/85 hover:bg-opacity-[0.12]",
-              "group-focus-visible:before:bg-white/85",
-              // If open, place the actual header on top of border wrapper
-              isOpen ? "rounded-xl" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            aria-expanded={isOpen}
-            aria-controls={panelId}
-            onClick={() => onToggle(idProp)}
-          >
-            <span className="relative z-[1] font-medium text-text">{title}</span>
-            <span
-              className={`relative z-[1] ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-white transition-transform ${
-                isOpen ? "rotate-90" : ""
-              }`}
-              aria-hidden="true"
+        <div className={["group relative", isOpen ? "mx-4 mt-4" : "mx-0 mt-0"].join(" ")}>
+          {/* Gradient ring wrapper only when open */}
+          <div className={isOpen ? "p-[1px] rounded-xl border-brand-gradient glow-brand" : ""}>
+            <button
+              id={buttonId}
+              className={[
+                "w-full px-5 py-4 flex items-center justify-between text-left rounded-xl",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+                // Soft inner surface with subtle gradient wash
+                "relative bg-white",
+                "after:absolute after:inset-0 after:rounded-xl after:pointer-events-none",
+                "after:bg-brand-gradient after:opacity-[0.10]",
+                "hover:after:opacity-[0.14] transition",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              onClick={() => onToggle(idProp)}
             >
-              ▸
-            </span>
-          </button>
+              <span className="relative z-[1] font-medium text-text">{title}</span>
+              <span
+                className={`relative z-[1] ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-white transition-transform ${
+                  isOpen ? "rotate-90" : ""
+                }`}
+                aria-hidden="true"
+              >
+                ▸
+              </span>
+            </button>
+          </div>
         </div>
       </h3>
       <div
@@ -108,6 +89,8 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
           isOpen ? "block animate-slideUp" : "hidden"
         }`}
       >
+        {/* Expanded panel accent line */}
+        {isOpen && <div className="h-1 w-12 rounded-full bg-brand-gradient opacity-30 mt-3 mb-3" aria-hidden="true" />}
         {children}
       </div>
     </div>
