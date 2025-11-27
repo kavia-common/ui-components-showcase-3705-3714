@@ -100,6 +100,10 @@
     @apply shadow-[0_12px_24px_-8px_rgba(2,6,23,0.15)];
   }
 
+  /* Minor sizing helper for in-between icon sizes */
+  .h-4\.5 { height: 1.125rem; } /* 18px */
+  .w-4\.5 { width: 1.125rem; }
+
   /* Optional helper: darker contrast on dark backgrounds for small icon wrappers */
   .icon-wrapper-contrast {
     @apply bg-black/5 hover:bg-black/10;

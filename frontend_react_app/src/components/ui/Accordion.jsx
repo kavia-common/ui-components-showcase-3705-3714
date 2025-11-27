@@ -79,55 +79,67 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
           */}
           <span
             className={[
-              "ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg transition-transform",
+              // Slightly larger icon wrapper for more gradient area
+              "ml-3 inline-flex h-7 w-7 items-center justify-center rounded-lg transition-transform",
               isOpen ? "rotate-90" : "",
-              "bg-black/5 hover:bg-black/10 focus-visible:bg-black/10",
+              // Maintain subtle background for light/dark with better contrast
+              "icon-wrapper-contrast",
+              // Hover/focus brightness boost without affecting layout
+              "hover:brightness-110 focus-visible:brightness-110",
+              // Subtle drop shadow for extra separation from background
+              "shadow-[0_1px_2px_rgba(0,0,0,0.08)]",
             ].join(" ")}
             aria-hidden="true"
           >
             <svg
-              className="h-4 w-4"
+              className="h-4.5 w-4.5" /* slightly thicker footprint than 4 */
               viewBox="0 0 24 24"
               role="presentation"
               aria-hidden="true"
             >
-              {/* Masked chevron path; the rect with bg-brand-gradient is revealed through the mask */}
-              <defs>
-                <mask id={`chev-mask-${buttonId}`}>
-                  <rect x="0" y="0" width="24" height="24" fill="white" />
-                  {/* Cut out everything except the chevron by drawing the chevron in black on a black background and inverting */}
-                </mask>
-              </defs>
-              {/* Use a path for a right-pointing chevron; we fill with white in mask space by using currentColor.
-                  We'll implement a direct mask by using the path as a maskContentUnits="userSpaceOnUse" */}
+              {/* Masked chevron path with thicker stroke and white outline via duplicate stroke */}
               <g>
-                <mask id={`chev-only-${buttonId}`}>
-                  <rect x="0" y="0" width="24" height="24" fill="black" />
-                  <path
-                    d="M9 6l6 6-6 6"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </mask>
-                {/* Gradient rect that will be visible only where the chevron path is */}
+                {/* Outer thin white outline for contrast across backgrounds */}
+                <path
+                  d="M9 6l6 6-6 6"
+                  fill="none"
+                  stroke="white"
+                  strokeOpacity="0.9"
+                  strokeWidth="3.2" /* outline underlay */
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Gradient fill using mask technique to keep brand colors vivid */}
+                <defs>
+                  <mask id={`chev-only-${buttonId}`}>
+                    <rect x="0" y="0" width="24" height="24" fill="black" />
+                    <path
+                      d="M9 6l6 6-6 6"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="2.8" /* slightly thicker than before for bolder look */
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </mask>
+                </defs>
                 <rect
                   x="0"
                   y="0"
                   width="24"
                   height="24"
                   mask={`url(#chev-only-${buttonId})`}
-                  fill="url(#brand-grad)"
+                  fill={`url(#brand-grad-${buttonId})`}
                 />
               </g>
 
-              {/* Define gradient; scoped to this icon for consistent rendering */}
+              {/* Define a per-icon gradient id to avoid id collisions when multiple accordions render */}
               <defs>
-                <linearGradient id="brand-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="10%" stopColor="#af2497" />
-                  <stop offset="20%" stopColor="#902d9a" />
+                <linearGradient id={`brand-grad-${buttonId}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                  {/* Increase contrast by adjusting stops and spacing */}
+                  <stop offset="0%" stopColor="#bf1fa3" />     {/* brighter magenta */}
+                  <stop offset="22%" stopColor="#a533a8" />
+                  <stop offset="55%" stopColor="#5a3bb0" />
                   <stop offset="100%" stopColor="#1840a0" />
                 </linearGradient>
               </defs>
