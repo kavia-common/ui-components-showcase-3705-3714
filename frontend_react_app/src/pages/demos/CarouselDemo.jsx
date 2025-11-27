@@ -27,7 +27,6 @@ export default function CarouselDemoPage() {
             </p>
           </div>
         </div>
-        </div>
       ),
       alt: "Custom slide",
     },
@@ -38,10 +37,11 @@ export default function CarouselDemoPage() {
       <header className="rounded-2xl overflow-hidden border border-black/5">
         <div className="bg-brand-gradient">
           <div className="surface-overlay-soft px-6 py-6">
-          <h1 className="text-2xl font-bold text-white">Carousel</h1>
-          <p className="text-white/90 mt-1">
-            Slide through content with autoplay, indicators, keyboard and swipe support.
-          </p>
+            <h1 className="text-2xl font-bold text-white">Carousel</h1>
+            <p className="text-white/90 mt-1">
+              Slide through content with autoplay, indicators, keyboard and swipe support.
+            </p>
+          </div>
         </div>
       </header>
 

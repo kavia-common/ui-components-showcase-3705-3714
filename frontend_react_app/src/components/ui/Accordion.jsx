@@ -44,23 +44,19 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // Brand gradient accent with accessible overlay and clear focus styles.
+  // Solid, accessible header styling without broad gradient usage.
   return (
     <div className="bg-white">
       <h3 className="m-0">
         <div className={["group relative", isOpen ? "mx-4 mt-4" : "mx-0 mt-0"].join(" ")}>
-          {/* Gradient ring wrapper only when open */}
-          <div className={isOpen ? "p-[1px] rounded-xl border-brand-gradient glow-brand" : ""}>
+          <div className={isOpen ? "p-[1px] rounded-xl border border-black/10" : ""}>
             <button
               id={buttonId}
               className={[
                 "w-full px-5 py-4 flex items-center justify-between text-left rounded-xl",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
-                // Soft inner surface with subtle gradient wash
-                "relative bg-white",
-                "after:absolute after:inset-0 after:rounded-xl after:pointer-events-none",
-                "after:bg-brand-gradient after:opacity-[0.10]",
-                "hover:after:opacity-[0.14] transition",
+                "bg-white border border-black/5",
+                "hover:bg-gray-50 transition",
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -68,9 +64,9 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
               aria-controls={panelId}
               onClick={() => onToggle(idProp)}
             >
-              <span className="relative z-[1] font-medium text-text">{title}</span>
+              <span className="font-medium text-text">{title}</span>
               <span
-                className={`relative z-[1] ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-white transition-transform ${
+                className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-white transition-transform ${
                   isOpen ? "rotate-90" : ""
                 }`}
                 aria-hidden="true"
@@ -89,8 +85,6 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
           isOpen ? "block animate-slideUp" : "hidden"
         }`}
       >
-        {/* Expanded panel accent line */}
-        {isOpen && <div className="h-1 w-12 rounded-full bg-brand-gradient opacity-30 mt-3 mb-3" aria-hidden="true" />}
         {children}
       </div>
     </div>

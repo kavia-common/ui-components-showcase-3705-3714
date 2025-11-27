@@ -38,14 +38,13 @@ export default function Card({
       {...rest}
     >
       {header && (
-        <div className="px-5 py-4 border-b border-black/5 bg-white/70 relative">
-          <div className="pointer-events-none absolute inset-0 bg-brand-gradient opacity-[0.08]" aria-hidden="true" />
-          <div className="relative">{header}</div>
+        <div className="px-5 py-4 border-b border-black/5 bg-white">
+          {header}
         </div>
       )}
       <div className="p-5">{children}</div>
       {footer && (
-        <div className="px-5 py-4 border-t border-black/5 bg-white/60">
+        <div className="px-5 py-4 border-t border-black/5 bg-white">
           {footer}
         </div>
       )}
