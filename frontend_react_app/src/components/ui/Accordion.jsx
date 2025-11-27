@@ -54,7 +54,7 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
               id={buttonId}
               className={[
                 "w-full px-5 py-4 flex items-center justify-between text-left rounded-xl transition",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#af2497]/40",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#af2497]",
                 "bg-white border border-black/5",
                 "hover:bg-gray-50",
                 isOpen ? "shadow-soft" : "",

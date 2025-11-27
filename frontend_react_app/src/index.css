@@ -87,12 +87,7 @@
         linear-gradient(#0b0b0c, #0b0b0c) padding-box,
         linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%) border-box;
     }
-    .surface-overlay-soft {
-      @apply bg-black/40;
-    }
-    .surface-overlay-softer {
-      @apply bg-black/30;
-    }
+
   }
 
   .shadow-floating {

@@ -31,47 +31,45 @@ export default function Navbar({ theme, onToggle }) {
 
   return (
     <nav className="sticky top-0 z-40">
-      {/* Brand gradient bar with subtle overlay to keep contrast strong */}
+      {/* Brand gradient bar with solid gradient and solid foregrounds for contrast */}
       <div className="w-full bg-brand-gradient">
-        <div className="surface-overlay-soft">
-          <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-            <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
-              <div className="h-8 w-8 rounded-xl bg-white text-text grid place-items-center font-bold shadow-soft">
-                UI
-              </div>
-              <span className="text-lg font-semibold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]">
-                Components Showcase
-              </span>
-            </NavLink>
-
-            {/* Desktop nav */}
-            <div
-              className="hidden md:flex items-center gap-2"
-              role="navigation"
-              aria-label="Primary"
-            >
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.end}
-                  className={linkClass}
-                >
-                  {item.label}
-                </NavLink>
-              ))}
+        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+          <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
+            <div className="h-8 w-8 rounded-xl bg-white text-text grid place-items-center font-bold shadow-soft">
+              UI
             </div>
+            <span className="text-lg font-semibold text-white">
+              Components Showcase
+            </span>
+          </NavLink>
 
-            <div className="flex items-center gap-3">
-              <ThemeToggle theme={theme} onToggle={onToggle} />
-            </div>
+          {/* Desktop nav */}
+          <div
+            className="hidden md:flex items-center gap-2"
+            role="navigation"
+            aria-label="Primary"
+          >
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={linkClass}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <ThemeToggle theme={theme} onToggle={onToggle} />
           </div>
         </div>
       </div>
 
       {/* Mobile quick links */}
       <div
-        className="md:hidden border-t border-white/10 surface-overlay-softer"
+        className="md:hidden border-t border-white/10 bg-white"
         role="navigation"
         aria-label="Mobile"
       >

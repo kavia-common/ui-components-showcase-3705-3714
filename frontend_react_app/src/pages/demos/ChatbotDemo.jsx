@@ -20,6 +20,16 @@ export default function ChatbotDemoPage() {
 
   return (
     <>
+      <header className="rounded-2xl overflow-hidden border border-black/5 mb-6">
+        <div className="bg-brand-gradient">
+          <div className="px-6 py-6">
+            <h1 className="text-2xl font-bold text-white">Chatbot</h1>
+            <p className="text-white mt-1">
+              Conversational UI with a floating panel and mock responses.
+            </p>
+          </div>
+        </div>
+      </header>
       {/* Floating Action Button (FAB) — always visible */}
       <button
         type="button"
@@ -62,7 +72,7 @@ export default function ChatbotDemoPage() {
           >
             {/* Header remains visible */}
             <div className="sticky top-0 z-10">
-              <div className="px-5 py-3 border-b border-black/5 bg-white/80 backdrop-blur">
+              <div className="px-5 py-3 border-b border-black/5 bg-white">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="h-8 w-8 rounded-xl bg-primary text-white grid place-items-center">🤖</div>

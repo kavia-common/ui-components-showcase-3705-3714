@@ -19,9 +19,9 @@ export default function BentoMenuDemoPage() {
     <section className="space-y-6">
       <header className="rounded-2xl overflow-hidden border border-black/5">
         <div className="bg-brand-gradient">
-          <div className="surface-overlay-soft px-6 py-6">
+          <div className="px-6 py-6">
             <h1 className="text-2xl font-bold text-white">Bento Menu</h1>
-            <p className="text-white/90 mt-1">
+            <p className="text-white mt-1">
               A modern grid-based navigation menu. Fully responsive and keyboard accessible.
             </p>
           </div>

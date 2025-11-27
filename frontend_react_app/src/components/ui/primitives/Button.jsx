@@ -43,11 +43,11 @@ export default function Button({
     // - brandOutline: gradient border with white surface; good for text-heavy contexts
     // - brandGlow: solid with subtle glow shadow
     brand:
-      "bg-brand-gradient text-white shadow-soft hover:opacity-95 focus-visible:ring-[#af2497]/40",
+      "bg-brand-gradient text-white shadow-soft hover:brightness-110 focus-visible:ring-white",
     brandOutline:
-      "border-brand-gradient bg-white text-text hover:bg-gray-50 focus-visible:ring-[#1840a0]/30",
+      "border-brand-gradient bg-white text-text hover:bg-gray-50 focus-visible:ring-[#1840a0]",
     brandGlow:
-      "bg-primary text-white glow-brand hover:bg-blue-600 focus-visible:ring-[#902d9a]/30",
+      "bg-primary text-white glow-brand hover:bg-blue-600 focus-visible:ring-white",
   };
 
   const sizes = {
