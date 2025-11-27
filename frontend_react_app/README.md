@@ -27,6 +27,36 @@ Launches the test runner in interactive watch mode.
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
+## Environment configuration
+
+Environment variables are read via a centralized helper at `src/config/env.js`. Only variables prefixed with `REACT_APP_` are exposed to the client by Create React App. Sensible defaults are provided for local development.
+
+Supported variables:
+- REACT_APP_API_BASE (default: "/api")
+- REACT_APP_BACKEND_URL (default: "http://localhost:3001")
+- REACT_APP_FRONTEND_URL (default: "http://localhost:3000")
+- REACT_APP_WS_URL (default: "ws://localhost:3001")
+- REACT_APP_NODE_ENV (fallbacks to NODE_ENV)
+- REACT_APP_NEXT_TELEMETRY_DISABLED (default: true)
+- REACT_APP_ENABLE_SOURCE_MAPS (default: true)
+- REACT_APP_PORT (default: 3000)
+- REACT_APP_TRUST_PROXY (default: false)
+- REACT_APP_LOG_LEVEL (default: "info")
+- REACT_APP_HEALTHCHECK_PATH (default: "/healthz")
+- REACT_APP_FEATURE_FLAGS (JSON object or comma/semicolon-separated list; default: {})
+- REACT_APP_EXPERIMENTS_ENABLED (default: false)
+
+Usage:
+
+```jsx
+import env, { getEnv, getFlag } from "./src/config/env";
+
+const { apiBase, backendUrl } = env;
+const experiments = getFlag("experimentsEnabled");
+```
+
+The Home and Chatbot demo pages surface current configuration for quick verification.
+
 ## Tailwind CSS
 
 This project is configured with Tailwind CSS using the "Ocean Professional" theme.
