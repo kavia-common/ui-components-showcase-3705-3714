@@ -19,11 +19,7 @@ function makeDemo(name, description) {
   return Demo;
 }
 
-export const AccordionDemo = makeDemo("Accordion", "Expandable/collapsible content panels.");
-export const BentoMenuDemo = makeDemo("Bento Menu", "Grid-based modern navigation layout.");
+// Keep only placeholders that are still unused elsewhere (none required currently).
 export const BreadcrumbsDemo = makeDemo("Breadcrumbs", "Hierarchical navigation aid.");
-export const CarouselDemo = makeDemo("Carousel", "Sliding content or images.");
-export const ChatbotDemo = makeDemo("Chatbot", "Conversational interface.");
 export const FormWizardDemo = makeDemo("Form Wizard", "Multi-step form workflow.");
-export const TestimonialDemo = makeDemo("Testimonial", "Customer feedback display.");
 export const ToastDemo = makeDemo("Toast", "Ephemeral notifications.");

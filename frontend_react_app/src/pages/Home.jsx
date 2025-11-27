@@ -8,10 +8,10 @@ import { Link } from "react-router-dom";
 export default function Home() {
   const demos = [
     { to: "/accordion", title: "Accordion", desc: "Expandable panels for content" },
-    { to: "/bentomenu", title: "Bento Menu", desc: "Modern bento-grid navigation" },
+    { to: "/bentomenu", title: "Bento Menu", desc: "Modern grid-based navigation" },
     { to: "/breadcrumbs", title: "Breadcrumbs", desc: "Hierarchical navigation" },
-    { to: "/carousel", title: "Carousel", desc: "Slide through content" },
-    { to: "/chatbot", title: "Chatbot", desc: "Conversational UI" },
+    { to: "/carousel", title: "Carousel", desc: "Slide through images/content" },
+    { to: "/chatbot", title: "Chatbot", desc: "Conversational UI with mock responses" },
     { to: "/form-wizard", title: "Form Wizard", desc: "Multi-step forms" },
     { to: "/testimonial", title: "Testimonial", desc: "Customer quotes" },
     { to: "/toast", title: "Toast", desc: "Transient notifications" },
