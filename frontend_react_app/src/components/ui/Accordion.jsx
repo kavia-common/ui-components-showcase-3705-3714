@@ -113,9 +113,13 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children, variant = "s
         id={panelId}
         role="region"
         aria-labelledby={buttonId}
-        className={`px-5 pb-5 text-sm text-text/90 transition-all origin-top bg-white ${
-          isOpen ? "block animate-slideUp" : "hidden"
-        }`}
+        className={[
+          "px-5 pb-5 text-sm text-text/90 transition-all origin-top",
+          // Keep base white for predictable contrast; add soft gradient overlay only when open
+          isOpen ? "block animate-slideUp brand-panel-soft" : "hidden bg-white",
+        ]
+          .filter(Boolean)
+          .join(" ")}
       >
         {children}
       </div>

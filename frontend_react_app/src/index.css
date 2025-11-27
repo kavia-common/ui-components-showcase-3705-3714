@@ -119,4 +119,21 @@
       background-color: rgba(255,255,255,0.14);
     }
   }
+
+  /* Subtle, lighter brand gradient surface for expanded panels.
+     - Uses low-opacity gradient overlay to preserve text readability.
+     - Adds a soft border for separation.
+     - Dark mode adjusts overlay for contrast while keeping content readable. */
+  .brand-panel-soft {
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.06) 10%, rgba(144, 45, 154, 0.06) 20%, rgba(24, 64, 160, 0.06) 100%);
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    .brand-panel-soft {
+      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.12) 10%, rgba(144, 45, 154, 0.12) 20%, rgba(24, 64, 160, 0.12) 100%);
+      background-color: #0b0b0c;
+      border-color: rgba(255,255,255,0.08);
+    }
+  }
 }
