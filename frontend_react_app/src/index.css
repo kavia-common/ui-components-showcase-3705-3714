@@ -136,4 +136,21 @@
       border-color: rgba(255,255,255,0.08);
     }
   }
+
+  /* Slightly stronger variant for better brand presence while keeping readability.
+     - Opacity is increased just enough to be noticeable.
+     - Maintains white base and soft border for contrast.
+     - Apply conditionally when panels are expanded. */
+  .brand-panel-soft-strong {
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.10) 10%, rgba(144, 45, 154, 0.10) 20%, rgba(24, 64, 160, 0.10) 100%);
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    .brand-panel-soft-strong {
+      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.18) 10%, rgba(144, 45, 154, 0.18) 20%, rgba(24, 64, 160, 0.18) 100%);
+      background-color: #0b0b0c;
+      border-color: rgba(255,255,255,0.10);
+    }
+  }
 }
