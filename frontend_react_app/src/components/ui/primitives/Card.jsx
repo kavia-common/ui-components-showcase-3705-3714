@@ -21,7 +21,8 @@ export default function Card({
     surface: "bg-surface shadow-soft border border-black/5",
     outline: "bg-white border border-black/10",
     ghost: "bg-transparent border border-transparent",
-    brand: "bg-white border border-transparent",
+    // Brand variants: prefer gradient borders/headers for readability
+    brand: "bg-white border-brand-gradient",
     brandOutline: "bg-white border-brand-gradient",
     brandGlow: "bg-white border border-transparent glow-brand",
   };

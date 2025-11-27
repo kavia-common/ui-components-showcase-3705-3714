@@ -58,9 +58,9 @@ export default function Badge({
       outline: "border border-sky-200 text-sky-700",
     },
     brand: {
-      solid: "bg-primary text-white",
+      solid: "bg-brand-gradient text-white",
       soft: "bg-blue-50 text-blue-700",
-      outline: "border border-blue-200 text-blue-700",
+      outline: "border-brand-gradient bg-white text-text",
     },
   };
 

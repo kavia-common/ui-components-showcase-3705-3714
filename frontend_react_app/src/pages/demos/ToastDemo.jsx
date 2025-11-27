@@ -22,11 +22,13 @@ export default function ToastDemoPage() {
   return (
     <section className="space-y-6">
       <header className="rounded-2xl overflow-hidden border border-black/5">
-        <div className="bg-brand-gradient px-6 py-6">
-          <h1 className="text-2xl font-bold text-white">Toast</h1>
-          <p className="text-white/90 mt-1">
-            Ephemeral notifications rendered via a provider with an aria-live region.
-          </p>
+        <div className="bg-brand-gradient">
+          <div className="surface-overlay-soft px-6 py-6">
+            <h1 className="text-2xl font-bold text-white">Toast</h1>
+            <p className="text-white/90 mt-1">
+              Ephemeral notifications rendered via a provider with an aria-live region.
+            </p>
+          </div>
         </div>
       </header>
 

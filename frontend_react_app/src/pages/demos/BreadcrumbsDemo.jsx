@@ -12,11 +12,11 @@ export default function BreadcrumbsDemoPage() {
       <header className="rounded-2xl overflow-hidden border border-black/5">
         <div className="bg-brand-gradient">
           <div className="surface-overlay-soft px-6 py-6">
-          <h1 className="text-2xl font-bold text-white">Breadcrumbs</h1>
-          <p className="text-white/90 mt-1">
-            Hierarchical navigation trail to indicate the current location.
-          </p>
-        </div>
+            <h1 className="text-2xl font-bold text-white">Breadcrumbs</h1>
+            <p className="text-white/90 mt-1">
+              Hierarchical navigation trail to indicate the current location.
+            </p>
+          </div>
         </div>
       </header>
 

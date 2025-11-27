@@ -44,19 +44,20 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // Solid, accessible header styling without broad gradient usage.
+  // Gradient-accented header with accessible focus states. Uses subtle gradient border when open.
   return (
     <div className="bg-white">
       <h3 className="m-0">
         <div className={["group relative", isOpen ? "mx-4 mt-4" : "mx-0 mt-0"].join(" ")}>
-          <div className={isOpen ? "p-[1px] rounded-xl border border-black/10" : ""}>
+          <div className={isOpen ? "p-[1px] rounded-xl border-brand-gradient" : ""}>
             <button
               id={buttonId}
               className={[
-                "w-full px-5 py-4 flex items-center justify-between text-left rounded-xl",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+                "w-full px-5 py-4 flex items-center justify-between text-left rounded-xl transition",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#af2497]/40",
                 "bg-white border border-black/5",
-                "hover:bg-gray-50 transition",
+                "hover:bg-gray-50",
+                isOpen ? "shadow-soft" : "",
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -66,8 +67,8 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
             >
               <span className="font-medium text-text">{title}</span>
               <span
-                className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-white transition-transform ${
-                  isOpen ? "rotate-90" : ""
+                className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-white transition-transform ${
+                  isOpen ? "rotate-90 bg-brand-gradient" : "bg-primary"
                 }`}
                 aria-hidden="true"
               >

@@ -37,10 +37,17 @@ export default function Button({
       "bg-transparent text-text hover:bg-white/60 border border-black/10",
     danger:
       "bg-red-600 text-white hover:bg-red-700 shadow-soft",
-    // Brand variants toned down to solid/outline for non-header usage
-    brand: "bg-primary text-white hover:bg-blue-600 shadow-soft",
-    brandOutline: "border border-black/10 bg-white text-text hover:bg-gray-50",
-    brandGlow: "bg-primary text-white hover:bg-blue-600 shadow-soft",
+
+    // Brand variants
+    // - brand: gradient background, white text, strong focus ring
+    // - brandOutline: gradient border with white surface; good for text-heavy contexts
+    // - brandGlow: solid with subtle glow shadow
+    brand:
+      "bg-brand-gradient text-white shadow-soft hover:opacity-95 focus-visible:ring-[#af2497]/40",
+    brandOutline:
+      "border-brand-gradient bg-white text-text hover:bg-gray-50 focus-visible:ring-[#1840a0]/30",
+    brandGlow:
+      "bg-primary text-white glow-brand hover:bg-blue-600 focus-visible:ring-[#902d9a]/30",
   };
 
   const sizes = {
