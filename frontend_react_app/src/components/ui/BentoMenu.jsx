@@ -53,9 +53,9 @@ export default function BentoMenu({ items = [], className = "" }) {
     </div>
   );
 
-  // Stronger brand gradient class (applied directly to tile background)
-  // Uses the exact brand gradient and slightly increases intensity by adding a subtle brightness on hover via filter.
-  const tileBg = "bg-brand-gradient";
+  // Slightly lighter brand gradient specifically for tiles to reduce intensity while keeping solid gradient look.
+  // This avoids conflicting bg-* utilities inside the content by applying on the wrapper only.
+  const tileBg = "bg-brand-gradient-soft";
 
   return (
     <div
