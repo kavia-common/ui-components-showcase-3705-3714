@@ -99,4 +99,18 @@
   .shadow-floating {
     @apply shadow-[0_12px_24px_-8px_rgba(2,6,23,0.15)];
   }
+
+  /* Optional helper: darker contrast on dark backgrounds for small icon wrappers */
+  .icon-wrapper-contrast {
+    @apply bg-black/5 hover:bg-black/10;
+  }
+  @media (prefers-color-scheme: dark) {
+    .icon-wrapper-contrast {
+      background-color: rgba(255,255,255,0.08);
+    }
+    .icon-wrapper-contrast:hover,
+    .icon-wrapper-contrast:focus-visible {
+      background-color: rgba(255,255,255,0.14);
+    }
+  }
 }
