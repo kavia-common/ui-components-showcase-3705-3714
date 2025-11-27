@@ -35,23 +35,29 @@ export default function ChatbotDemoPage() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close chatbot" : "Open chatbot"}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-primary text-white shadow-floating hover:bg-blue-600 transition grid place-items-center"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-primary text-white shadow-floating hover:bg-blue-600 transition grid place-items-center z-49"
       >
         {open ? "✕" : "💬"}
       </button>
 
       {/* Floating Chatbot Panel */}
       <div
-        className={`fixed bottom-24 right-6 w-[min(92vw,380px)] transition-all ${open ? "opacity-100 translate-y-0" : "opacity-0 pointer-events-none translate-y-2"}`}
+        className={`fixed bottom-24 right-6 w-[min(92vw,380px)] max-h-[70vh] transition-all z-49 ${
+          open
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 pointer-events-none translate-y-2 hidden"
+        }`}
         role="dialog"
         aria-modal="false"
         aria-label="Floating chatbot panel"
       >
-        <Chatbot
-          title="Assistant"
-          systemPrompt="Floating panel"
-          onSend={(msg) => console.log("Floating chat:", msg)}
-        />
+        <div className="ocean-surface overflow-hidden">
+          <Chatbot
+            title="Assistant"
+            systemPrompt="Floating panel"
+            onSend={(msg) => console.log("Floating chat:", msg)}
+          />
+        </div>
       </div>
     </section>
   );
