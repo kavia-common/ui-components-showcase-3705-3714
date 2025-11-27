@@ -20,38 +20,42 @@ export default function BentoMenu({ items = [], className = "" }) {
     "sm:col-span-2 row-span-1",
   ];
 
-  // Wrapper styles: preserve focus and hover elevation; keep wrapper background neutral
-  // so the gradient is applied to the inner content only (per requirement).
+  // Wrapper styles: preserve focus and hover elevation.
+  // The gradient will be applied to the tile background element (the wrapper itself).
   const wrapperBase =
     "group rounded-2xl transition hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
 
-  // Inner content now adopts the same soft-strong brand gradient as Accordion answer panels.
-  // Remove bg-surface from inner container to prevent overriding the gradient.
+  // Content: use solid foregrounds for high contrast on top of the gradient tile.
+  // Remove any bg-* that could conflict with the gradient background on the wrapper.
   const Content = ({ item }) => (
-    <div className="brand-panel-soft-strong p-5 h-full flex flex-col justify-between rounded-2xl">
+    <div className="p-5 h-full flex flex-col justify-between rounded-2xl">
       <div className="flex items-start gap-3">
         {item.icon ? (
-          <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0">
+          <div className="h-10 w-10 rounded-xl bg-white/15 text-white grid place-items-center shrink-0 ring-1 ring-white/25">
             {item.icon}
           </div>
         ) : (
-          <div className="h-10 w-10 rounded-xl bg-primary text-white grid place-items-center shrink-0">
+          <div className="h-10 w-10 rounded-xl bg-white text-text grid place-items-center shrink-0 shadow-[0_1px_2px_rgba(0,0,0,0.08)]">
             {item.title?.[0] ?? "•"}
           </div>
         )}
         <div>
-          <div className="text-base font-semibold text-text">{item.title}</div>
+          <div className="text-base font-semibold text-white">{item.title}</div>
           {item.description && (
-            <div className="text-sm text-text/70 mt-0.5">{item.description}</div>
+            <div className="text-sm text-white/85 mt-0.5">{item.description}</div>
           )}
         </div>
       </div>
-      <div className="mt-4 flex items-center justify-between text-sm text-primary">
+      <div className="mt-4 flex items-center justify-between text-sm text-white/90">
         <span>Open</span>
         <span aria-hidden="true" className="transition group-hover:translate-x-0.5">→</span>
       </div>
     </div>
   );
+
+  // Stronger brand gradient class (applied directly to tile background)
+  // Uses the exact brand gradient and slightly increases intensity by adding a subtle brightness on hover via filter.
+  const tileBg = "bg-brand-gradient";
 
   return (
     <div
@@ -66,7 +70,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           return (
             <a
               key={idx}
-              className={`${wrapperBase} ${spanCls}`}
+              className={`${wrapperBase} ${spanCls} ${tileBg} hover:brightness-[1.06]`}
               href={item.href}
               aria-label={item.ariaLabel || `Open ${item.title}`}
             >
@@ -79,7 +83,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           <button
             key={idx}
             type="button"
-            className={`${wrapperBase} ${spanCls} text-left`}
+            className={`${wrapperBase} ${spanCls} ${tileBg} text-left hover:brightness-[1.06]`}
             onClick={item.onClick}
             aria-label={item.ariaLabel || `Open ${item.title}`}
           >
