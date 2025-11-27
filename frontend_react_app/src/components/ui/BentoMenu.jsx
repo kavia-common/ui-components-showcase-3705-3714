@@ -26,7 +26,7 @@ export default function BentoMenu({ items = [], className = "" }) {
   // - Ensure accessible focus with visible ring and hover elevation.
   const wrapperBase =
     "group rounded-2xl transition hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
-  const wrapperBg = "brand-panel-soft-strong"; // gradient + soft border
+  const wrapperBg = "brand-panel-strong"; // slightly stronger gradient + soft border
 
   const Content = ({ item }) => (
     <div className="ocean-surface p-5 h-full flex flex-col justify-between">

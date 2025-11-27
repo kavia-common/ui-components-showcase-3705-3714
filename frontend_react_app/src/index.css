@@ -153,4 +153,21 @@
       border-color: rgba(255,255,255,0.10);
     }
   }
+
+  /* One notch stronger than brand-panel-soft-strong for tiles.
+     - Increases overlay opacity while the inner content remains solid white.
+     - Ensures accessible contrast for text/icons by keeping content containers (ocean-surface) opaque.
+     - Avoid using transparency overlays inside content. */
+  .brand-panel-strong {
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.16) 10%, rgba(144, 45, 154, 0.16) 20%, rgba(24, 64, 160, 0.16) 100%);
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    .brand-panel-strong {
+      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.26) 10%, rgba(144, 45, 154, 0.26) 20%, rgba(24, 64, 160, 0.26) 100%);
+      background-color: #0b0b0c;
+      border-color: rgba(255,255,255,0.12);
+    }
+  }
 }
