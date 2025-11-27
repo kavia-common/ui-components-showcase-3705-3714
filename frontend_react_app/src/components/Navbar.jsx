@@ -4,14 +4,15 @@ import ThemeToggle from "./ThemeToggle";
 
 /**
  * Gradient Navbar with primary brand, navigation links and theme toggle.
+ * Active state is clearly indicated with background, text, and underline accent.
  */
 export default function Navbar({ theme, onToggle }) {
   const baseLink =
-    "px-3 py-2 rounded-lg text-sm font-medium transition";
+    "px-3 py-2 rounded-lg text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
   const activeLink =
-    "bg-white/70 text-text shadow-soft";
+    "bg-white/80 text-text shadow-soft underline underline-offset-4 decoration-primary";
   const inactiveLink =
-    "text-text/80 hover:text-text hover:bg-white/50";
+    "text-text/80 hover:text-text hover:bg-white/60";
 
   const linkClass = ({ isActive }) =>
     [baseLink, isActive ? activeLink : inactiveLink].join(" ");
@@ -20,14 +21,14 @@ export default function Navbar({ theme, onToggle }) {
     <nav className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="w-full bg-ocean-gradient">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-          <NavLink to="/" className="flex items-center gap-2">
+          <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
             <div className="h-8 w-8 rounded-xl bg-primary text-white grid place-items-center font-bold shadow-soft">
               UI
             </div>
             <span className="text-lg font-semibold text-text">Components Showcase</span>
           </NavLink>
 
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2" role="navigation" aria-label="Primary">
             <NavLink to="/" className={linkClass} end>
               Home
             </NavLink>
@@ -35,7 +36,7 @@ export default function Navbar({ theme, onToggle }) {
               Accordion
             </NavLink>
             <NavLink to="/bentomenu" className={linkClass}>
-              Bento Menu
+              Bento
             </NavLink>
             <NavLink to="/breadcrumbs" className={linkClass}>
               Breadcrumbs
@@ -64,7 +65,7 @@ export default function Navbar({ theme, onToggle }) {
       </div>
 
       {/* Mobile quick links */}
-      <div className="md:hidden border-t border-black/5 bg-white/70">
+      <div className="md:hidden border-t border-black/5 bg-white/80" role="navigation" aria-label="Mobile">
         <div className="mx-auto max-w-6xl px-4 py-2 flex flex-wrap gap-2">
           {[
             { to: "/", label: "Home", end: true },
@@ -73,7 +74,7 @@ export default function Navbar({ theme, onToggle }) {
             { to: "/breadcrumbs", label: "Breadcrumbs" },
             { to: "/carousel", label: "Carousel" },
             { to: "/chatbot", label: "Chatbot" },
-            { to: "/form-wizard", label: "Wizard" },
+            { to: "/form-wizard", label: "Form Wizard" },
             { to: "/testimonial", label: "Testimonial" },
             { to: "/toast", label: "Toast" },
           ].map((item) => (
