@@ -17,33 +17,44 @@ export default function Card({
   footer,
   ...rest
 }) {
+  // Normalize legacy brand variants to non-intrusive gradient accents
+  const normalized = (() => {
+    if (variant === "brandGlow") return "surface";
+    return variant;
+  })();
+
   const styles = {
     surface: "bg-surface shadow-soft border border-black/5",
     outline: "bg-white border border-black/10",
     ghost: "bg-transparent border border-transparent",
-    // Brand variants: prefer gradient borders/headers for readability
-    brand: "bg-white border-brand-gradient",
-    brandOutline: "bg-white border-brand-gradient",
-    brandGlow: "bg-white border border-transparent glow-brand",
+    // Brand variants: use thin gradient top border or subtle header band only
+    brand: "bg-white border border-black/10",
+    brandOutline: "bg-white border border-black/10",
   };
+
+  const headerBand =
+    normalized === "brand" || normalized === "brandOutline" ? (
+      <div className="h-1 w-full bg-brand-gradient" aria-hidden="true" />
+    ) : null;
 
   return (
     <section
       className={[
         "rounded-2xl overflow-hidden",
-        styles[variant],
+        styles[normalized] || styles.surface,
         className,
       ]
         .filter(Boolean)
         .join(" ")}
       {...rest}
     >
+      {headerBand}
       {header && (
         <div className="px-5 py-4 border-b border-black/5 bg-white">
           {header}
         </div>
       )}
-      <div className="p-5">{children}</div>
+      <div className="p-5 bg-white">{children}</div>
       {footer && (
         <div className="px-5 py-4 border-t border-black/5 bg-white">
           {footer}

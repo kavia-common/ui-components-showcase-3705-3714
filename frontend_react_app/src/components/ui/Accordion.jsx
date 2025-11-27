@@ -20,7 +20,7 @@ export default function Accordion({ items = [], variant = "soft" }) {
 
   const containerStyle =
     "divide-y divide-black/5 rounded-2xl overflow-hidden " +
-    (variant === "outline" ? "border border-black/10" : "shadow-soft bg-surface");
+    (variant === "outline" ? "border border-black/10 bg-surface" : "shadow-soft bg-surface");
 
   return (
     <div className={containerStyle} role="region" aria-label="Accordion">
@@ -44,39 +44,41 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // Gradient-accented header with accessible focus states. Uses subtle gradient border when open.
+  // Solid surface with a bold gradient header strip on the left; no gradient overlays on content.
   return (
     <div className="bg-white">
       <h3 className="m-0">
-        <div className={["group relative", isOpen ? "mx-4 mt-4" : "mx-0 mt-0"].join(" ")}>
-          <div className={isOpen ? "p-[1px] rounded-xl border-brand-gradient" : ""}>
-            <button
-              id={buttonId}
-              className={[
-                "w-full px-5 py-4 flex items-center justify-between text-left rounded-xl transition",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#af2497]",
-                "bg-white border border-black/5",
-                "hover:bg-gray-50",
-                isOpen ? "shadow-soft" : "",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-              aria-expanded={isOpen}
-              aria-controls={panelId}
-              onClick={() => onToggle(idProp)}
-            >
-              <span className="font-medium text-text">{title}</span>
-              <span
-                className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-white transition-transform ${
-                  isOpen ? "rotate-90 bg-brand-gradient" : "bg-primary"
-                }`}
-                aria-hidden="true"
-              >
-                ▸
-              </span>
-            </button>
-          </div>
-        </div>
+        <button
+          id={buttonId}
+          className={[
+            "relative w-full px-5 py-4 pl-6 flex items-center justify-between text-left transition",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#af2497]",
+            "bg-white hover:bg-gray-50",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          onClick={() => onToggle(idProp)}
+        >
+          {/* Gradient left border/strip */}
+          <span
+            aria-hidden="true"
+            className={[
+              "absolute left-0 top-0 h-full w-1.5 rounded-r",
+              isOpen ? "bg-brand-gradient" : "bg-black/10 group-hover:bg-black/20",
+            ].join(" ")}
+          />
+          <span className="font-medium text-text">{title}</span>
+          <span
+            className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-white transition-transform ${
+              isOpen ? "rotate-90 bg-brand-gradient" : "bg-primary"
+            }`}
+            aria-hidden="true"
+          >
+            ▸
+          </span>
+        </button>
       </h3>
       <div
         id={panelId}

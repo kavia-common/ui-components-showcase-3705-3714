@@ -4,7 +4,7 @@ import React from "react";
 / PUBLIC_INTERFACE
  * Button: Ocean Professional button primitive with variants and sizes.
  * Props:
- * - variant: "primary" | "secondary" | "ghost" | "outline" | "danger" | "brand" | "brandOutline" | "brandGlow"
+ * - variant: "primary" | "secondary" | "ghost" | "outline" | "danger" | "brandSolid" | "brandOutline" | "brandGhost"
  * - size: "sm" | "md" | "lg"
  * - as: element type to render (default "button")
  * - loading: boolean (adds spinner and aria-busy)
@@ -27,27 +27,30 @@ export default function Button({
   const base =
     "inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-60 disabled:cursor-not-allowed";
 
+  // Map legacy variant names to new ones so existing usage keeps working
+  const normalizedVariant = (() => {
+    if (variant === "brand") return "brandSolid";
+    if (variant === "brandGlow") return "brandSolid"; // closest visual intent
+    return variant;
+  })();
+
   const variants = {
     primary: "bg-primary text-white hover:bg-blue-600 shadow-soft",
-    secondary:
-      "bg-secondary text-white hover:bg-amber-600 shadow-soft",
-    ghost:
-      "bg-transparent text-text hover:bg-black/5 border border-transparent",
-    outline:
-      "bg-transparent text-text hover:bg-white/60 border border-black/10",
-    danger:
-      "bg-red-600 text-white hover:bg-red-700 shadow-soft",
+    secondary: "bg-secondary text-white hover:bg-amber-600 shadow-soft",
+    ghost: "bg-transparent text-text hover:bg-black/5 border border-transparent",
+    outline: "bg-transparent text-text hover:bg-white/60 border border-black/10",
+    danger: "bg-red-600 text-white hover:bg-red-700 shadow-soft",
 
-    // Brand variants
-    // - brand: gradient background, white text, strong focus ring
-    // - brandOutline: gradient border with white surface; good for text-heavy contexts
-    // - brandGlow: solid with subtle glow shadow
-    brand:
+    // New brand variants per guidelines
+    // - brandSolid: full gradient fill, white text
+    // - brandOutline: solid white surface with gradient border, transparent background otherwise
+    // - brandGhost: transparent background, solid text with gradient underline on hover
+    brandSolid:
       "bg-brand-gradient text-white shadow-soft hover:brightness-110 focus-visible:ring-white",
     brandOutline:
-      "border-brand-gradient bg-white text-text hover:bg-gray-50 focus-visible:ring-[#1840a0]",
-    brandGlow:
-      "bg-primary text-white glow-brand hover:bg-blue-600 focus-visible:ring-white",
+      "border-brand-gradient bg-transparent text-text hover:bg-white/60 focus-visible:ring-[#1840a0]",
+    brandGhost:
+      "bg-transparent text-text border border-transparent hover:[text-decoration:underline] hover:[text-decoration-color:transparent] hover:underline decoration-2 decoration-transparent relative after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:bg-brand-gradient after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left",
   };
 
   const sizes = {
@@ -60,7 +63,7 @@ export default function Button({
 
   return (
     <As
-      className={[base, variants[variant], sizes[size], className]
+      className={[base, variants[normalizedVariant], sizes[size], className]
         .filter(Boolean)
         .join(" ")}
       disabled={As === "button" ? isDisabled : undefined}
@@ -68,9 +71,7 @@ export default function Button({
       {...rest}
     >
       {leftIcon && <span className="shrink-0">{leftIcon}</span>}
-      <span className={loading ? "opacity-80" : undefined}>
-        {children}
-      </span>
+      <span className={loading ? "opacity-80" : undefined}>{children}</span>
       {rightIcon && <span className="shrink-0">{rightIcon}</span>}
       {loading && (
         <span
