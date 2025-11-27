@@ -21,6 +21,7 @@ export default function ToastDemoPage() {
 
   return (
     <section className="space-y-6">
+      {/* Header band adopts the brand gradient; content remains solid for readability */}
       <header className="rounded-2xl overflow-hidden border border-black/5">
         <div className="bg-brand-gradient">
           <div className="px-6 py-6">
@@ -32,6 +33,7 @@ export default function ToastDemoPage() {
         </div>
       </header>
 
+      {/* Solid surface for interactive content to preserve contrast */}
       <div className="ocean-surface p-6 flex flex-wrap gap-3">
         {["default", "success", "info", "warning", "error"].map((t) => (
           <button

@@ -90,6 +90,7 @@ export default function TestimonialDemoPage() {
 
   return (
     <section className="space-y-6">
+      {/* Header uses brand gradient; solid body for content readability */}
       <header className="rounded-2xl overflow-hidden border border-black/5">
         <div className="bg-brand-gradient">
           <div className="px-6 py-6">
@@ -101,6 +102,7 @@ export default function TestimonialDemoPage() {
         </div>
       </header>
 
+      {/* Keep slider area solid to maintain contrast and focus visibility */}
       <div className="ocean-surface p-4 relative overflow-hidden">
         <div
           ref={trackRef}
