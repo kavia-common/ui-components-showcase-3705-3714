@@ -5,6 +5,9 @@ import env from "../../config/env";
 /**
 / PUBLIC_INTERFACE
  * Chatbot demo page using mock responses.
+ * Renders only a floating action button (FAB) by default. The chat panel is
+ * mounted and displayed only when the FAB is toggled open. When closed, the
+ * panel is unmounted to ensure no presence in the DOM.
  */
 export default function ChatbotDemoPage() {
   const [open, setOpen] = React.useState(false);
@@ -17,20 +20,19 @@ export default function ChatbotDemoPage() {
           Conversational UI with typing indicator and mock responses.
         </p>
         <div className="mt-3 text-xs text-text/60">
-          <div>API Base: <span className="font-mono">{env.apiBase}</span></div>
-          <div>WS URL: <span className="font-mono">{env.wsUrl}</span></div>
-          <div>Mode: <span className="font-mono">{env.nodeEnv}</span></div>
+          <div>
+            API Base: <span className="font-mono">{env.apiBase}</span>
+          </div>
+          <div>
+            WS URL: <span className="font-mono">{env.wsUrl}</span>
+          </div>
+          <div>
+            Mode: <span className="font-mono">{env.nodeEnv}</span>
+          </div>
         </div>
       </header>
 
-      {/* Inline chatbot for page demo */}
-      <Chatbot
-        title="Ocean Assistant"
-        systemPrompt="Helpful UI demo assistant"
-        onSend={(msg) => console.log("User sent:", msg)}
-      />
-
-      {/* Floating Action Button (FAB) */}
+      {/* Floating Action Button (FAB) — always visible */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -40,25 +42,23 @@ export default function ChatbotDemoPage() {
         {open ? "✕" : "💬"}
       </button>
 
-      {/* Floating Chatbot Panel */}
-      <div
-        className={`fixed bottom-24 right-6 w-[min(92vw,380px)] max-h-[70vh] transition-all z-49 ${
-          open
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 pointer-events-none translate-y-2 hidden"
-        }`}
-        role="dialog"
-        aria-modal="false"
-        aria-label="Floating chatbot panel"
-      >
-        <div className="ocean-surface overflow-hidden">
-          <Chatbot
-            title="Assistant"
-            systemPrompt="Floating panel"
-            onSend={(msg) => console.log("Floating chat:", msg)}
-          />
+      {/* Floating Chatbot Panel — render only when open */}
+      {open && (
+        <div
+          className="fixed bottom-24 right-6 w-[min(92vw,380px)] max-h-[70vh] transition-all z-49 opacity-100 translate-y-0"
+          role="dialog"
+          aria-modal="false"
+          aria-label="Floating chatbot panel"
+        >
+          <div className="ocean-surface overflow-hidden">
+            <Chatbot
+              title="Assistant"
+              systemPrompt="Floating panel"
+              onSend={(msg) => console.log("Floating chat:", msg)}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
