@@ -44,16 +44,23 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // Solid surface with a bold gradient header strip on the left; no gradient overlays on content.
+  // Header: solid brand gradient background with strong contrast (white text/icons).
+  // Content panel: stays solid surface for readability.
+  // Expanded state shows a subtle inner ring; hover/focus use brighter ring/shadow.
   return (
     <div className="bg-white">
       <h3 className="m-0">
         <button
           id={buttonId}
           className={[
-            "relative w-full px-5 py-4 pl-6 flex items-center justify-between text-left transition",
-            "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#af2497]",
-            "bg-white hover:bg-gray-50",
+            // Layout
+            "relative w-full px-5 py-4 flex items-center justify-between text-left transition",
+            // Background & text for header
+            "bg-brand-gradient text-white",
+            // Focus-visible: stronger, high-contrast ring; hover adds subtle lift
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 hover:brightness-[1.06]",
+            // Expanded subtle inner ring/border using inset shadow for differentiation
+            isOpen ? "shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.65)]" : "shadow-none",
           ]
             .filter(Boolean)
             .join(" ")}
@@ -61,30 +68,33 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
           aria-controls={panelId}
           onClick={() => onToggle(idProp)}
         >
-          {/* Gradient left border/strip */}
+          <span className="font-medium">{title}</span>
           <span
-            aria-hidden="true"
-            className={[
-              "absolute left-0 top-0 h-full w-1.5 rounded-r",
-              isOpen ? "bg-brand-gradient" : "bg-black/10 group-hover:bg-black/20",
-            ].join(" ")}
-          />
-          <span className="font-medium text-text">{title}</span>
-          <span
-            className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-white transition-transform ${
-              isOpen ? "rotate-90 bg-brand-gradient" : "bg-primary"
+            className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-white transition-transform bg-white/20 ${
+              isOpen ? "rotate-90" : ""
             }`}
             aria-hidden="true"
           >
             ▸
           </span>
+
+          {/* Gradient border halo on hover/focus (visual only, not interactive) */}
+          <span
+            aria-hidden="true"
+            className={[
+              "pointer-events-none absolute inset-0 rounded-none",
+              "ring-0 focus-within:ring-0",
+              "transition",
+              "focus-visible:shadow-[0_0_0_2px_rgba(255,255,255,0.85)]",
+            ].join(" ")}
+          />
         </button>
       </h3>
       <div
         id={panelId}
         role="region"
         aria-labelledby={buttonId}
-        className={`px-5 pb-5 text-sm text-text/80 transition-all origin-top ${
+        className={`px-5 pb-5 text-sm text-text/90 transition-all origin-top bg-white ${
           isOpen ? "block animate-slideUp" : "hidden"
         }`}
       >

@@ -80,14 +80,20 @@
     @apply bg-white/70 backdrop-blur;
   }
 
-  /* Dark mode balances: on dark, use near-black surface to improve contrast */
+  /* Optional: gradient ring helper for elements that need a subtle inner gradient accent */
+  .ring-brand-inner {
+    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.65);
+  }
+
+  /* Dark mode balances: on dark, ensure gradient borders maintain contrast */
   @media (prefers-color-scheme: dark) {
     .border-brand-gradient {
       background:
         linear-gradient(#0b0b0c, #0b0b0c) padding-box,
         linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%) border-box;
     }
-
+    /* On dark, brighten gradient-backed header focus rings slightly */
+    /* Removed invalid escaped utility selector to avoid build error. */
   }
 
   .shadow-floating {
