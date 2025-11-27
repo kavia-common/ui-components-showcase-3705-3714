@@ -90,11 +90,13 @@ export default function TestimonialDemoPage() {
 
   return (
     <section className="space-y-6">
-      <header className="ocean-surface p-6">
-        <h1 className="text-2xl font-bold">Testimonial</h1>
-        <p className="text-text/70 mt-1">
-          Customer quotes with avatars and details. Now with a slider and drag.
-        </p>
+      <header className="rounded-2xl overflow-hidden border border-black/5">
+        <div className="bg-brand-gradient px-6 py-6">
+          <h1 className="text-2xl font-bold text-white">Testimonial</h1>
+          <p className="text-white/90 mt-1">
+            Customer quotes with avatars and details. Now with a slider and drag.
+          </p>
+        </div>
       </header>
 
       <div className="ocean-surface p-4 relative overflow-hidden">

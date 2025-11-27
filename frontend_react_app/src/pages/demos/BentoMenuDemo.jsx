@@ -17,11 +17,13 @@ export default function BentoMenuDemoPage() {
 
   return (
     <section className="space-y-6">
-      <header className="ocean-surface p-6">
-        <h1 className="text-2xl font-bold">Bento Menu</h1>
-        <p className="text-text/70 mt-1">
-          A modern grid-based navigation menu. Fully responsive and keyboard accessible.
-        </p>
+      <header className="rounded-2xl overflow-hidden border border-black/5">
+        <div className="bg-brand-gradient px-6 py-6">
+          <h1 className="text-2xl font-bold text-white">Bento Menu</h1>
+          <p className="text-white/90 mt-1">
+            A modern grid-based navigation menu. Fully responsive and keyboard accessible.
+          </p>
+        </div>
       </header>
 
       <BentoMenu items={items} />

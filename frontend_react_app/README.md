@@ -74,7 +74,9 @@ Tokens are defined in tailwind.config.js and surfaced as Tailwind classes:
 - Shadows: hairline, soft, card, floating
 - Radii: sm, md, lg, xl, 2xl, pill
 - Animations: fadeIn, slideUp, slideDown, pop, shimmer, spin-slow
-- Gradient: bg-ocean-gradient via backgroundImage
+- Gradients:
+  - bg-ocean-gradient (legacy soft gradient)
+  - bg-brand-gradient (new primary gradient: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%))
 
 ## Environment variables
 

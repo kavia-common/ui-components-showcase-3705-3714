@@ -19,6 +19,8 @@ module.exports = {
       },
       backgroundImage: {
         "ocean-gradient": "linear-gradient(to right, rgba(59,130,246,0.1), #f9fafb)",
+        // New brand gradient per request
+        "brand-gradient": "linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)",
       },
       boxShadow: {
         hairline: "0 0 0 1px rgba(0,0,0,0.04)",
