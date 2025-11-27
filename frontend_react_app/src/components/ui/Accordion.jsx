@@ -73,43 +73,40 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
           <span className="font-medium">{title}</span>
 
           {/* Gradient chevron icon wrapper:
-              - uses mask + bg-brand-gradient for a solid gradient icon
-              - bg-black/5 circle behind for contrast on light; subtle change on hover/focus
-              - rotates when open for state indication
+              - Solid brand gradient on the chevron path (no transparency or overlays on the icon itself)
+              - White outline underlay kept only for contrast on complex backgrounds
+              - Rotates when open for state indication
           */}
           <span
             className={[
-              // Slightly larger icon wrapper for more gradient area
               "ml-3 inline-flex h-7 w-7 items-center justify-center rounded-lg transition-transform",
               isOpen ? "rotate-90" : "",
-              // Maintain subtle background for light/dark with better contrast
-              "icon-wrapper-contrast",
-              // Hover/focus brightness boost without affecting layout
-              "hover:brightness-110 focus-visible:brightness-110",
-              // Subtle drop shadow for extra separation from background
+              // Remove any background overlay on the icon to keep gradient solid/vivid across states
+              "bg-transparent",
+              // Subtle outer shadow for separation when needed (keeps layout intact)
               "shadow-[0_1px_2px_rgba(0,0,0,0.08)]",
             ].join(" ")}
             aria-hidden="true"
           >
             <svg
-              className="h-4.5 w-4.5" /* slightly thicker footprint than 4 */
+              className="h-4.5 w-4.5"
               viewBox="0 0 24 24"
               role="presentation"
               aria-hidden="true"
             >
-              {/* Masked chevron path with thicker stroke and white outline via duplicate stroke */}
+              {/* Solid brand gradient chevron using mask; white outline for contrast only */}
               <g>
-                {/* Outer thin white outline for contrast across backgrounds */}
+                {/* Thin white outline underlay for contrast on both light/dark surfaces */}
                 <path
                   d="M9 6l6 6-6 6"
                   fill="none"
                   stroke="white"
-                  strokeOpacity="0.9"
-                  strokeWidth="3.2" /* outline underlay */
+                  strokeOpacity="0.95"
+                  strokeWidth="3.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                {/* Gradient fill using mask technique to keep brand colors vivid */}
+                {/* Gradient fill via mask with exact brand gradient stops */}
                 <defs>
                   <mask id={`chev-only-${buttonId}`}>
                     <rect x="0" y="0" width="24" height="24" fill="black" />
@@ -117,7 +114,7 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
                       d="M9 6l6 6-6 6"
                       fill="none"
                       stroke="white"
-                      strokeWidth="2.8" /* slightly thicker than before for bolder look */
+                      strokeWidth="2.8"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
@@ -133,13 +130,11 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
                 />
               </g>
 
-              {/* Define a per-icon gradient id to avoid id collisions when multiple accordions render */}
+              {/* Define exact solid brand gradient (no altered stops), per icon to avoid id collisions */}
               <defs>
                 <linearGradient id={`brand-grad-${buttonId}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                  {/* Increase contrast by adjusting stops and spacing */}
-                  <stop offset="0%" stopColor="#bf1fa3" />     {/* brighter magenta */}
-                  <stop offset="22%" stopColor="#a533a8" />
-                  <stop offset="55%" stopColor="#5a3bb0" />
+                  <stop offset="10%" stopColor="#af2497" />
+                  <stop offset="20%" stopColor="#902d9a" />
                   <stop offset="100%" stopColor="#1840a0" />
                 </linearGradient>
               </defs>

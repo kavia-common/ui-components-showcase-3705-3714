@@ -104,7 +104,9 @@
   .h-4\.5 { height: 1.125rem; } /* 18px */
   .w-4\.5 { width: 1.125rem; }
 
-  /* Optional helper: darker contrast on dark backgrounds for small icon wrappers */
+  /* Optional helper: darker contrast on dark backgrounds for small icon wrappers
+     Note: The accordion chevron uses a solid gradient and manages contrast with a white outline,
+     so do not force a background overlay on that icon. Keep this utility available for other icons. */
   .icon-wrapper-contrast {
     @apply bg-black/5 hover:bg-black/10;
   }
