@@ -27,21 +27,36 @@ Launches the test runner in interactive watch mode.
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
+## Tailwind CSS
+
+This project is configured with Tailwind CSS using the "Ocean Professional" theme.
+
+- Config files:
+  - `tailwind.config.js` includes theme tokens:
+    - primary `#2563EB`, secondary/success `#F59E0B`, error `#EF4444`
+    - background `#f9fafb`, surface `#ffffff`, text `#111827`
+    - gradient utility: `bg-gradient-to-r from-blue-500/10 to-gray-50`
+  - `postcss.config.js` enables Tailwind and Autoprefixer.
+- Styles:
+  - `src/index.css` includes `@tailwind base; @tailwind components; @tailwind utilities;`
+  - Base styles apply `bg-background` and `text-text` to the body.
+
+Use Tailwind classes directly in components, e.g.:
+
+```jsx
+<div className="p-6 rounded-xl shadow-soft bg-surface">
+  <h1 className="text-2xl font-semibold text-text">Ocean Professional</h1>
+  <button className="mt-4 px-4 py-2 bg-primary text-white rounded-xl hover:bg-blue-600 transition">
+    Action
+  </button>
+</div>
+```
+
 ## Customization
 
 ### Colors
 
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
+You can also reference CSS variables in `src/index.css` under the `:root` selector if needed.
 
 ### Components
 
