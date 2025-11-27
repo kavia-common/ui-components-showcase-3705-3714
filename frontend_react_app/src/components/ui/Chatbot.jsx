@@ -7,6 +7,10 @@ import React, { useEffect, useRef, useState } from "react";
  * - title: string
  * - systemPrompt: string (ignored for mock but displayed in aria-description)
  * - onSend?: (message) => void
+ *
+ * Layout behavior:
+ * - The container is flex-col so the header and input can remain visible using sticky positioning.
+ * - Messages region is flex-1 with overflow-y-auto so the panel can be height-constrained by parent.
  */
 export default function Chatbot({ title = "Assistant", systemPrompt = "You are a helpful assistant.", onSend }) {
   const [messages, setMessages] = useState([
@@ -46,12 +50,13 @@ export default function Chatbot({ title = "Assistant", systemPrompt = "You are a
 
   return (
     <div
-      className="ocean-surface p-0 overflow-hidden"
+      className="bg-white rounded-none flex flex-col"
       role="region"
       aria-label="Chatbot"
       aria-description={systemPrompt}
     >
-      <div className="px-5 py-3 border-b border-black/5 bg-white/70 flex items-center justify-between">
+      {/* Sticky header stays visible when content scrolls */}
+      <div className="sticky top-0 z-10 px-5 py-3 border-b border-black/5 bg-white/80 backdrop-blur flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-xl bg-primary text-white grid place-items-center">🤖</div>
           <div className="font-semibold text-text">{title}</div>
@@ -59,9 +64,10 @@ export default function Chatbot({ title = "Assistant", systemPrompt = "You are a
         <span className="text-xs text-text/60">Mock mode</span>
       </div>
 
+      {/* Messages region grows and scrolls; min-h-0 ensures proper flexbox scrolling */}
       <div
         ref={scrollerRef}
-        className="h-72 sm:h-96 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50"
+        className="flex-1 min-h-0 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50"
       >
         {messages.map((m, i) => (
           <MessageBubble key={i} role={m.role} text={m.content} />
@@ -69,13 +75,15 @@ export default function Chatbot({ title = "Assistant", systemPrompt = "You are a
         {typing && <TypingIndicator />}
       </div>
 
+      {/* Sticky input at bottom */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
           send();
         }}
-        className="p-3 border-t border-black/5 bg-white flex items-end gap-2"
+        className="sticky bottom-0 z-10 p-3 border-t border-black/5 bg-white flex items-end gap-2"
         aria-label="Message composer"
+        style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.75rem)" }}
       >
         <textarea
           value={input}
