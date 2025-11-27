@@ -14,7 +14,8 @@ import React from "react";
  */
 export default function Button({
   children,
-  variant = "primary",
+  // Default usage favors brand outline (gradient border) per guidelines
+  variant = "brandOutline",
   size = "md",
   as: As = "button",
   loading = false,
@@ -29,28 +30,29 @@ export default function Button({
 
   // Map legacy variant names to new ones so existing usage keeps working
   const normalizedVariant = (() => {
-    if (variant === "brand") return "brandSolid";
-    if (variant === "brandGlow") return "brandSolid"; // closest visual intent
+    if (variant === "brand") return "brandSolid"; // keep solid available but not default
+    if (variant === "brandGlow") return "brandSolid";
     return variant;
   })();
 
   const variants = {
+    // System variants unchanged
     primary: "bg-primary text-white hover:bg-blue-600 shadow-soft",
     secondary: "bg-secondary text-white hover:bg-amber-600 shadow-soft",
     ghost: "bg-transparent text-text hover:bg-black/5 border border-transparent",
     outline: "bg-transparent text-text hover:bg-white/60 border border-black/10",
     danger: "bg-red-600 text-white hover:bg-red-700 shadow-soft",
 
-    // New brand variants per guidelines
-    // - brandSolid: full gradient fill, white text
-    // - brandOutline: solid white surface with gradient border, transparent background otherwise
-    // - brandGhost: transparent background, solid text with gradient underline on hover
+    // Brand-focused: outline/ghost emphasized; solid remains opt-in
+    // - brandSolid: full gradient fill (not default)
+    // - brandOutline: gradient border ring; interior remains solid/transparent
+    // - brandGhost: transparent with brand gradient underline on hover
     brandSolid:
       "bg-brand-gradient text-white shadow-soft hover:brightness-110 focus-visible:ring-white",
     brandOutline:
       "border-brand-gradient bg-transparent text-text hover:bg-white/60 focus-visible:ring-[#1840a0]",
     brandGhost:
-      "bg-transparent text-text border border-transparent hover:[text-decoration:underline] hover:[text-decoration-color:transparent] hover:underline decoration-2 decoration-transparent relative after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:bg-brand-gradient after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left",
+      "bg-transparent text-text border border-transparent relative after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:bg-brand-gradient after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left",
   };
 
   const sizes = {

@@ -18,6 +18,7 @@ export default function Accordion({ items = [], variant = "soft" }) {
     );
   };
 
+  // Keep solid surfaces; use a subtle container treatment
   const containerStyle =
     "divide-y divide-black/5 rounded-2xl overflow-hidden " +
     (variant === "outline" ? "border border-black/10 bg-surface" : "shadow-soft bg-surface");
@@ -44,17 +45,15 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // Reverted header styling:
-  // - Solid white/surface header with subtle border and hover background for readability.
-  // - Text uses standard content color to ensure contrast in both light/dark modes.
-  // - Chevron retains rotation animation; focus-visible ring uses primary color for accessibility.
+  // Solid header with a thin brand-gradient left strip for accent.
+  // Maintain clear hover/focus states and strong contrast, avoiding gradient fills.
   return (
     <div className="bg-white">
       <h3 className="m-0">
         <button
           id={buttonId}
           className={[
-            "relative w-full px-5 py-4 flex items-center justify-between text-left transition",
+            "relative w-full pl-5 pr-5 py-4 flex items-center justify-between text-left transition",
             "bg-white text-text",
             "hover:bg-gray-50",
             "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
@@ -66,6 +65,11 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
           aria-controls={panelId}
           onClick={() => onToggle(idProp)}
         >
+          {/* Thin brand gradient strip on the left */}
+          <span
+            aria-hidden="true"
+            className="absolute left-0 top-0 h-full w-1 bg-brand-gradient rounded-tr-sm rounded-br-sm"
+          />
           <span className="font-medium">{title}</span>
           <span
             className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-text/70 transition-transform bg-black/5 ${

@@ -17,7 +17,7 @@ export default function Card({
   footer,
   ...rest
 }) {
-  // Normalize legacy brand variants to non-intrusive gradient accents
+  // Normalize legacy brand variants to non-intrusive gradient accents only
   const normalized = (() => {
     if (variant === "brandGlow") return "surface";
     return variant;
@@ -27,7 +27,7 @@ export default function Card({
     surface: "bg-surface shadow-soft border border-black/5",
     outline: "bg-white border border-black/10",
     ghost: "bg-transparent border border-transparent",
-    // Brand variants: use thin gradient top border or subtle header band only
+    // Brand variants: keep solid body; add only a thin top brand-gradient band
     brand: "bg-white border border-black/10",
     brandOutline: "bg-white border border-black/10",
   };
@@ -54,6 +54,7 @@ export default function Card({
           {header}
         </div>
       )}
+      {/* Ensure body has no gradient fills */}
       <div className="p-5 bg-white">{children}</div>
       {footer && (
         <div className="px-5 py-4 border-t border-black/5 bg-white">
