@@ -1,37 +1,18 @@
 import React from "react";
 import Chatbot from "../../components/ui/Chatbot";
-import env from "../../config/env";
 
 /**
 / PUBLIC_INTERFACE
  * Chatbot demo page using mock responses.
- * Renders only a floating action button (FAB) by default. The chat panel is
- * mounted and displayed only when the FAB is toggled open. When closed, the
- * panel is unmounted to ensure no presence in the DOM.
+ * This demo renders only a floating action button (FAB) by default. The chat panel
+ * mounts when the FAB is clicked and fully unmounts when closed, ensuring no on-page
+ * headings or informational text are shown by default.
  */
 export default function ChatbotDemoPage() {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <section className="space-y-6">
-      <header className="ocean-surface p-6">
-        <h1 className="text-2xl font-bold">Chatbot</h1>
-        <p className="text-text/70 mt-1">
-          Conversational UI with typing indicator and mock responses.
-        </p>
-        <div className="mt-3 text-xs text-text/60">
-          <div>
-            API Base: <span className="font-mono">{env.apiBase}</span>
-          </div>
-          <div>
-            WS URL: <span className="font-mono">{env.wsUrl}</span>
-          </div>
-          <div>
-            Mode: <span className="font-mono">{env.nodeEnv}</span>
-          </div>
-        </div>
-      </header>
-
+    <>
       {/* Floating Action Button (FAB) — always visible */}
       <button
         type="button"
@@ -59,6 +40,6 @@ export default function ChatbotDemoPage() {
           </div>
         </div>
       )}
-    </section>
+    </>
   );
 }
