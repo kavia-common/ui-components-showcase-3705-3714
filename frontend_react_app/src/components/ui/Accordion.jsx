@@ -45,8 +45,7 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // Solid header with a thin brand-gradient left strip for accent.
-  // Chevron indicator uses brand gradient via SVG mask, ensuring strong contrast and hover/focus affordances.
+  // Header: maintain thin left brand strip. Icon: full gradient background with white chevron.
   return (
     <div className="bg-white">
       <h3 className="m-0">
@@ -72,18 +71,12 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
           />
           <span className="font-medium">{title}</span>
 
-          {/* Gradient chevron icon wrapper:
-              - Solid brand gradient on the chevron path (no transparency or overlays on the icon itself)
-              - White outline underlay kept only for contrast on complex backgrounds
-              - Rotates when open for state indication
-          */}
+          {/* New icon: circular gradient background with white chevron; rotates on open */}
           <span
             className={[
-              "ml-3 inline-flex h-7 w-7 items-center justify-center rounded-lg transition-transform",
+              "ml-3 inline-flex h-7 w-7 items-center justify-center rounded-full transition-transform",
               isOpen ? "rotate-90" : "",
-              // Remove any background overlay on the icon to keep gradient solid/vivid across states
-              "bg-transparent",
-              // Subtle outer shadow for separation when needed (keeps layout intact)
+              "bg-brand-gradient",
               "shadow-[0_1px_2px_rgba(0,0,0,0.08)]",
             ].join(" ")}
             aria-hidden="true"
@@ -94,50 +87,14 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
               role="presentation"
               aria-hidden="true"
             >
-              {/* Solid brand gradient chevron using mask; white outline for contrast only */}
-              <g>
-                {/* Thin white outline underlay for contrast on both light/dark surfaces */}
-                <path
-                  d="M9 6l6 6-6 6"
-                  fill="none"
-                  stroke="white"
-                  strokeOpacity="0.95"
-                  strokeWidth="3.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Gradient fill via mask with exact brand gradient stops */}
-                <defs>
-                  <mask id={`chev-only-${buttonId}`}>
-                    <rect x="0" y="0" width="24" height="24" fill="black" />
-                    <path
-                      d="M9 6l6 6-6 6"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="2.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </mask>
-                </defs>
-                <rect
-                  x="0"
-                  y="0"
-                  width="24"
-                  height="24"
-                  mask={`url(#chev-only-${buttonId})`}
-                  fill={`url(#brand-grad-${buttonId})`}
-                />
-              </g>
-
-              {/* Define exact solid brand gradient (no altered stops), per icon to avoid id collisions */}
-              <defs>
-                <linearGradient id={`brand-grad-${buttonId}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="10%" stopColor="#af2497" />
-                  <stop offset="20%" stopColor="#902d9a" />
-                  <stop offset="100%" stopColor="#1840a0" />
-                </linearGradient>
-              </defs>
+              <path
+                d="M9 6l6 6-6 6"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </span>
         </button>
