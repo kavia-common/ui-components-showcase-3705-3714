@@ -9,11 +9,11 @@ import Chatbot from "../../components/ui/Chatbot";
  * headings or informational text are shown by default.
  *
  * Panel behavior:
- * - Fixed at bottom-right on desktop, nearly full width on small screens
- * - Constrained height within viewport with internal scroll for messages
+ * - Fixed at bottom-right on desktop, responsive width clamps within viewport
+ * - Strict constant max-height with h-auto; only messages scroll internally
  * - Header and input remain visible using sticky positioning
  * - Safe-area insets respected for modern mobile devices
- * - z-index sits under toasts (which use z-50) and above navbar (z-40)
+ * - z-index sits under toasts (z-50) and above navbar (z-40)
  */
 export default function ChatbotDemoPage() {
   const [open, setOpen] = React.useState(false);
@@ -34,30 +34,33 @@ export default function ChatbotDemoPage() {
       {/* Floating Chatbot Panel — render only when open */}
       {open && (
         <div
-          // Positioning: fixed bottom-right, responsive width, viewport-constrained height
+          // Positioning: fixed bottom-right, responsive width, viewport-constrained size
           className={[
             "fixed z-40 transition-all opacity-100 translate-y-0",
             "right-[max(1rem,env(safe-area-inset-right))]",
             "bottom-[calc(max(1rem,env(safe-area-inset-bottom))+4.5rem)]", // sit above FAB on phones
-            // Width: small screens ~full minus 1rem, md+ clamp to 26rem
-            "w-[min(calc(100vw-1rem),22rem)]",
-            "sm:w-[min(calc(100vw-1rem),22rem)]",
-            "md:w-[min(calc(100vw-1rem),26rem)]",
-            // Height: use viewport units with a cap
-            "max-h-[85vh]",
+            // Width clamps:
+            // - base/sm: min(100vw - 1rem, 22rem)
+            // - md+:    min(100vw - 1rem, 26rem)
+            "w-[min(100vw-1rem,22rem)]",
+            "sm:w-[min(100vw-1rem,22rem)]",
+            "md:w-[min(100vw-1rem,26rem)]",
+            // Fixed height behavior for panel container:
+            "h-auto max-h-[80vh]",
           ].join(" ")}
           role="dialog"
           aria-modal="false"
           aria-label="Floating chatbot panel"
         >
-          {/* Panel container with internal layout for sticky header and input */}
-          <div className="ocean-surface overflow-hidden flex flex-col"
-               style={{
-                 // Ensure panel respects safe-area inset on the inside too
-                 paddingBottom: "env(safe-area-inset-bottom)",
-               }}
+          {/* Panel container: flex column; do not let content drive outer height */}
+          <div
+            className="ocean-surface overflow-hidden flex flex-col h-auto max-h-[80vh]"
+            style={{
+              // Respect safe-area inset on the inside too
+              paddingBottom: "env(safe-area-inset-bottom)",
+            }}
           >
-            {/* Sticky header to remain visible */}
+            {/* Header remains visible */}
             <div className="sticky top-0 z-10">
               <div className="px-5 py-3 border-b border-black/5 bg-white/80 backdrop-blur">
                 <div className="flex items-center justify-between">
@@ -76,9 +79,8 @@ export default function ChatbotDemoPage() {
               </div>
             </div>
 
-            {/* Messages region: grows and scrolls */}
+            {/* Messages region will scroll inside Chatbot; ensure the wrapper allows flex growth without expanding outer container */}
             <div className="flex-1 min-h-0">
-              {/* Mount Chatbot with header/footer hidden; we only use its body */}
               <Chatbot
                 title="Assistant"
                 systemPrompt="Floating panel"

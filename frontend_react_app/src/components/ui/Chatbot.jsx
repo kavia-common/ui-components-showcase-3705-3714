@@ -9,8 +9,9 @@ import React, { useEffect, useRef, useState } from "react";
  * - onSend?: (message) => void
  *
  * Layout behavior:
- * - The container is flex-col so the header and input can remain visible using sticky positioning.
- * - Messages region is flex-1 with overflow-y-auto so the panel can be height-constrained by parent.
+ * - The container is flex-col with h-auto and a strict max-h so outer size is fixed by parent.
+ * - Messages region is flex-1 with overflow-y-auto so only messages scroll when content grows.
+ * - Header and input use sticky positioning to remain visible.
  */
 export default function Chatbot({ title = "Assistant", systemPrompt = "You are a helpful assistant.", onSend }) {
   const [messages, setMessages] = useState([
@@ -50,7 +51,8 @@ export default function Chatbot({ title = "Assistant", systemPrompt = "You are a
 
   return (
     <div
-      className="bg-white rounded-none flex flex-col"
+      // h-auto with a max-h ensures the outer container doesn't keep growing with content
+      className="bg-white rounded-none flex flex-col h-auto max-h-[80vh]"
       role="region"
       aria-label="Chatbot"
       aria-description={systemPrompt}
