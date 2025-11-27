@@ -7,12 +7,12 @@ import BentoMenu from "../../components/ui/BentoMenu";
  */
 export default function BentoMenuDemoPage() {
   const items = [
-    { title: "Accordion", description: "Collapsible content", href: "/accordion", icon: "🧩" },
-    { title: "Breadcrumbs", description: "Navigation trail", href: "/breadcrumbs", icon: "🧭" },
-    { title: "Carousel", description: "Sliding content", href: "/carousel", icon: "🎞️" },
-    { title: "Chatbot", description: "Conversational UI", href: "/chatbot", icon: "🤖" },
-    { title: "Form Wizard", description: "Multi-step forms", href: "/form-wizard", icon: "🪄" },
-    { title: "Testimonial", description: "Customer quotes", href: "/testimonial", icon: "💬" },
+    { title: "Accordion", description: "Collapsible content", href: "/accordion", icon: "🧩", span: "sm:col-span-2 row-span-2" },
+    { title: "Breadcrumbs", description: "Navigation trail", href: "/breadcrumbs", icon: "🧭", span: "row-span-1" },
+    { title: "Carousel", description: "Sliding content", href: "/carousel", icon: "🎞️", span: "row-span-2" },
+    { title: "Chatbot", description: "Conversational UI", href: "/chatbot", icon: "🤖", span: "row-span-1" },
+    { title: "Form Wizard", description: "Multi-step forms", href: "/form-wizard", icon: "🪄", span: "row-span-1" },
+    { title: "Testimonial", description: "Customer quotes", href: "/testimonial", icon: "💬", span: "sm:col-span-2 row-span-1" },
   ];
 
   return (

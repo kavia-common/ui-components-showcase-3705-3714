@@ -32,6 +32,30 @@ export default function AccordionDemoPage() {
         </p>
       ),
     },
+    {
+      title: "Can multiple panels be open at the same time?",
+      content: (
+        <p>
+          Yes. This accordion allows multiple sections to be expanded simultaneously for quick comparisons.
+        </p>
+      ),
+    },
+    {
+      title: "How do I set a section to be open by default?",
+      content: (
+        <p>
+          Provide <code>defaultOpen: true</code> on the item you want initially expanded.
+        </p>
+      ),
+    },
+    {
+      title: "Does it support keyboard interactions?",
+      content: (
+        <p>
+          Absolutely. Focus headers with Tab and toggle using Enter or Space. Screen readers announce states via ARIA.
+        </p>
+      ),
+    },
   ];
   return (
     <section className="space-y-6">

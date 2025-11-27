@@ -12,6 +12,7 @@ export default function FormWizard({ steps = [], onFinish, initialData = {} }) {
   const [data, setData] = useState(initialData);
   const [stepIdx, setStepIdx] = useState(0);
   const [errors, setErrors] = useState([]);
+  const [canFinish, setCanFinish] = useState(true); // step-level control
 
   const isFirst = stepIdx === 0;
   const isLast = stepIdx === steps.length - 1;
@@ -21,6 +22,7 @@ export default function FormWizard({ steps = [], onFinish, initialData = {} }) {
     if (next < 0 || next >= steps.length) return;
     setStepIdx(next);
     setErrors([]);
+    setCanFinish(true);
   };
 
   const onNext = () => {
@@ -40,6 +42,9 @@ export default function FormWizard({ steps = [], onFinish, initialData = {} }) {
   const onPrev = () => go(-1);
 
   const update = (patch) => setData((prev) => ({ ...prev, ...patch }));
+
+  // Allow a step render to provide a setter to control finishing ability (e.g., consent checkbox).
+  const renderCtx = { data, update, setCanFinish };
 
   return (
     <div className="ocean-surface p-6">
@@ -61,7 +66,7 @@ export default function FormWizard({ steps = [], onFinish, initialData = {} }) {
       </ol>
 
       <div className="rounded-xl border border-black/5 bg-white p-5">
-        {steps[stepIdx]?.render?.({ data, update })}
+        {steps[stepIdx]?.render?.(renderCtx)}
       </div>
 
       {errors?.length > 0 && (
@@ -89,7 +94,8 @@ export default function FormWizard({ steps = [], onFinish, initialData = {} }) {
         <button
           type="button"
           onClick={onNext}
-          className="px-4 py-2 rounded-xl bg-primary text-white hover:bg-blue-600 transition"
+          disabled={isLast && !canFinish}
+          className="px-4 py-2 rounded-xl bg-primary text-white hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLast ? "Finish" : "Next"}
         </button>

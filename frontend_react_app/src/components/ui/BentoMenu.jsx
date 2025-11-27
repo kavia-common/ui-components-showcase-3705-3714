@@ -9,13 +9,25 @@ import React from "react";
  * - className: additional classes for container
  */
 export default function BentoMenu({ items = [], className = "" }) {
+  // Define a repeating mosaic pattern for uneven grid spans
+  // Each item can override with item.span e.g. "md:col-span-2 row-span-2"
+  const defaultPattern = [
+    "sm:col-span-2 row-span-2", // Hero tile
+    "sm:col-span-1 row-span-1",
+    "sm:col-span-1 row-span-1",
+    "sm:col-span-1 row-span-2",
+    "sm:col-span-1 row-span-1",
+    "sm:col-span-2 row-span-1",
+  ];
+
   return (
     <div
-      className={`grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${className}`}
+      className={`grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[minmax(120px,auto)] ${className}`}
       role="list"
       aria-label="Bento Menu"
     >
       {items.map((item, idx) => {
+        const spanCls = item.span || defaultPattern[idx % defaultPattern.length];
         const CardContent = () => (
           <div className="ocean-surface p-5 h-full flex flex-col justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
             <div className="flex items-start gap-3">
@@ -46,7 +58,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           return (
             <a
               key={idx}
-              className="group rounded-2xl border border-black/5 hover:shadow-card transition"
+              className={`group rounded-2xl border border-black/5 hover:shadow-card transition ${spanCls}`}
               href={item.href}
               aria-label={item.ariaLabel || `Open ${item.title}`}
             >
@@ -59,7 +71,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           <button
             key={idx}
             type="button"
-            className="text-left group rounded-2xl border border-black/5 hover:shadow-card transition"
+            className={`text-left group rounded-2xl border border-black/5 hover:shadow-card transition ${spanCls}`}
             onClick={item.onClick}
             aria-label={item.ariaLabel || `Open ${item.title}`}
           >

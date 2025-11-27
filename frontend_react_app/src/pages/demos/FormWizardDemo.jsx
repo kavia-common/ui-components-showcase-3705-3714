@@ -3,7 +3,7 @@ import FormWizard from "../../components/ui/FormWizard";
 
 /**
 / PUBLIC_INTERFACE
- * Form Wizard demo page with three steps and validation.
+ * Form Wizard demo page with four steps and consent-gated submission.
  */
 export default function FormWizardDemoPage() {
   const [submitted, setSubmitted] = useState(null);
@@ -50,7 +50,7 @@ export default function FormWizardDemoPage() {
       },
     },
     {
-      title: "Profile",
+      title: "Personal Info",
       render: ({ data, update }) => (
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-1">
@@ -100,25 +100,80 @@ export default function FormWizardDemoPage() {
       },
     },
     {
+      title: "Preferences",
+      render: ({ data, update }) => (
+        <div className="grid gap-4">
+          <div className="flex items-center gap-2">
+            <input
+              id="news"
+              type="checkbox"
+              checked={!!data.newsletter}
+              onChange={(e) => update({ newsletter: e.target.checked })}
+              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary/40"
+            />
+            <label htmlFor="news" className="text-sm text-text">
+              Subscribe to newsletter
+            </label>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-text mb-1" htmlFor="theme">
+              Theme
+            </label>
+            <select
+              id="theme"
+              value={data.prefTheme || "system"}
+              onChange={(e) => update({ prefTheme: e.target.value })}
+              className="w-full rounded-xl border border-black/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            >
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        </div>
+      ),
+    },
+    {
       title: "Review",
-      render: ({ data }) => (
-        <div className="space-y-3">
+      render: ({ data, setCanFinish, update }) => (
+        <div className="space-y-4">
           <div className="text-text/70">Confirm your details before submitting.</div>
           <div className="grid grid-cols-2 gap-3 text-sm">
             <Field label="Email" value={data.email} />
             <Field label="Password" value={"•".repeat((data.password || "").length)} />
             <Field label="First name" value={data.firstName} />
             <Field label="Last name" value={data.lastName} />
+            <Field label="Newsletter" value={data.newsletter ? "Subscribed" : "No"} />
+            <Field label="Theme" value={data.prefTheme || "system"} />
             <div className="col-span-2">
               <div className="text-xs uppercase text-text/50 mb-1">Bio</div>
               <div className="rounded-xl border border-black/10 bg-gray-50 p-3">{data.bio || "—"}</div>
             </div>
           </div>
-          <div className="text-xs text-text/60">
-            Click Finish to submit. You can go back to make changes.
+
+          <div className="flex items-start gap-2 rounded-xl border border-black/10 bg-white p-3">
+            <input
+              id="consent"
+              type="checkbox"
+              checked={!!data.consent}
+              onChange={(e) => {
+                update({ consent: e.target.checked });
+                setCanFinish(!!e.target.checked);
+              }}
+              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary/40"
+            />
+            <label htmlFor="consent" className="text-sm text-text">
+              I agree to the Terms and Privacy Policy.
+            </label>
           </div>
+          <div className="text-xs text-text/60">You must provide consent to enable submission.</div>
         </div>
       ),
+      validate: (d) => {
+        const errs = [];
+        if (!d.consent) errs.push("Consent is required to submit.");
+        return errs;
+      },
     },
   ];
 
