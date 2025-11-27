@@ -44,23 +44,21 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
   const buttonId = `${reactId}-button-${idProp}`;
   const panelId = `${reactId}-panel-${idProp}`;
 
-  // Header: solid brand gradient background with strong contrast (white text/icons).
-  // Content panel: stays solid surface for readability.
-  // Expanded state shows a subtle inner ring; hover/focus use brighter ring/shadow.
+  // Reverted header styling:
+  // - Solid white/surface header with subtle border and hover background for readability.
+  // - Text uses standard content color to ensure contrast in both light/dark modes.
+  // - Chevron retains rotation animation; focus-visible ring uses primary color for accessibility.
   return (
     <div className="bg-white">
       <h3 className="m-0">
         <button
           id={buttonId}
           className={[
-            // Layout
             "relative w-full px-5 py-4 flex items-center justify-between text-left transition",
-            // Background & text for header
-            "bg-brand-gradient text-white",
-            // Focus-visible: stronger, high-contrast ring; hover adds subtle lift
-            "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 hover:brightness-[1.06]",
-            // Expanded subtle inner ring/border using inset shadow for differentiation
-            isOpen ? "shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.65)]" : "shadow-none",
+            "bg-white text-text",
+            "hover:bg-gray-50",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+            isOpen ? "border-b border-black/5" : "",
           ]
             .filter(Boolean)
             .join(" ")}
@@ -70,24 +68,13 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children }) {
         >
           <span className="font-medium">{title}</span>
           <span
-            className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-white transition-transform bg-white/20 ${
+            className={`ml-3 inline-flex h-6 w-6 items-center justify-center rounded-lg text-text/70 transition-transform bg-black/5 ${
               isOpen ? "rotate-90" : ""
             }`}
             aria-hidden="true"
           >
             ▸
           </span>
-
-          {/* Gradient border halo on hover/focus (visual only, not interactive) */}
-          <span
-            aria-hidden="true"
-            className={[
-              "pointer-events-none absolute inset-0 rounded-none",
-              "ring-0 focus-within:ring-0",
-              "transition",
-              "focus-visible:shadow-[0_0_0_2px_rgba(255,255,255,0.85)]",
-            ].join(" ")}
-          />
         </button>
       </h3>
       <div
