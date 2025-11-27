@@ -7,7 +7,7 @@
 :root {
   --color-primary: #2563EB;
   --color-secondary: #F59E0B;
-  --color-success: #F59E0B;
+  --color-success: #22C55E;
   --color-error: #EF4444;
   --color-background: #f9fafb;
   --color-surface: #ffffff;
@@ -40,5 +40,8 @@
   }
   .ocean-gradient {
     @apply bg-gradient-to-r from-blue-500/10 to-gray-50;
+  }
+  .shadow-floating {
+    @apply shadow-[0_12px_24px_-8px_rgba(2,6,23,0.15)];
   }
 }

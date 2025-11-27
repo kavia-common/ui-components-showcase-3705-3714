@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from "../components/ui/primitives/Button";
+import Card from "../components/ui/primitives/Card";
+import Badge from "../components/ui/primitives/Badge";
 
 /**
 / PUBLIC_INTERFACE
- * Home page listing quick links to all demo routes.
+ * Home page listing quick links to all demo routes, plus a primitives showcase.
  */
 export default function Home() {
   const demos = [
@@ -36,6 +39,50 @@ export default function Home() {
             <p className="mt-1 text-sm text-text/70">{demo.desc}</p>
           </Link>
         ))}
+      </section>
+
+      <section className="grid lg:grid-cols-2 gap-4">
+        <Card
+          header={
+            <div className="flex items-center justify-between">
+              <div className="font-semibold">Design Primitives</div>
+              <Badge tone="primary" variant="soft">New</Badge>
+            </div>
+          }
+          footer={
+            <div className="flex flex-wrap gap-2">
+              <Button size="sm" variant="primary">Primary</Button>
+              <Button size="sm" variant="secondary">Secondary</Button>
+              <Button size="sm" variant="outline">Outline</Button>
+              <Button size="sm" variant="ghost">Ghost</Button>
+              <Button size="sm" variant="danger">Danger</Button>
+            </div>
+          }
+        >
+          <p className="text-sm text-text/70">
+            Use Button, Card, and Badge primitives for consistent look and feel across demos.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <Badge tone="neutral">Neutral</Badge>
+            <Badge tone="primary">Primary</Badge>
+            <Badge tone="success">Success</Badge>
+            <Badge tone="info">Info</Badge>
+            <Badge tone="warning">Warning</Badge>
+            <Badge tone="error">Error</Badge>
+          </div>
+        </Card>
+
+        <Card variant="outline" header={<div className="font-semibold">States & Loading</div>}>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button loading>Loading</Button>
+            <Button variant="outline" disabled>Disabled</Button>
+            <Button variant="ghost" size="lg" rightIcon={<span>→</span>}>Large Ghost</Button>
+            <Button size="sm" leftIcon={<span>★</span>}>Small w/ Icon</Button>
+          </div>
+          <div className="mt-4 text-sm text-text/60">
+            Subtle shadows, rounded corners, and smooth transitions align with the Ocean Professional theme.
+          </div>
+        </Card>
       </section>
     </div>
   );

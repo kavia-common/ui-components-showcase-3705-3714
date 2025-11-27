@@ -52,6 +52,26 @@ Use Tailwind classes directly in components, e.g.:
 </div>
 ```
 
+## Design primitives
+
+Reusable primitives are provided for consistent styling:
+
+- Button: `src/components/ui/primitives/Button.jsx`
+- Card: `src/components/ui/primitives/Card.jsx`
+- Badge: `src/components/ui/primitives/Badge.jsx`
+
+Example:
+
+```jsx
+import Button from "./components/ui/primitives/Button";
+import Card from "./components/ui/primitives/Card";
+import Badge from "./components/ui/primitives/Badge";
+
+<Card header={<div>Header <Badge tone="primary">New</Badge></div>} footer={<Button>Action</Button>}>
+  Content
+</Card>
+```
+
 ## Customization
 
 ### Colors
