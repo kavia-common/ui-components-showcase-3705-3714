@@ -424,6 +424,42 @@
   }
 
   /* PUBLIC_INTERFACE
+     hover-bg-subtle: very light background highlight on hover and focus-visible.
+     - Uses the same "answer" palette as accordion content (soft gradient tint)
+     - Keeps base state transparent (no background by default)
+     - Works over translucent dropdown panels
+  */
+  .hover-bg-subtle {
+    /* At rest: no background to preserve base state */
+    background-color: transparent;
+    transition: background-color 140ms ease;
+  }
+  .hover-bg-subtle:hover,
+  .hover-bg-subtle:focus-visible {
+    /* Soft white overlay with a whisper of brand-tinted gradient for depth */
+    background-image: linear-gradient(
+      45deg,
+      rgba(175, 36, 151, 0.045) 10%,
+      rgba(144, 45, 154, 0.045) 20%,
+      rgba(24, 64, 160, 0.045) 100%
+    );
+    background-color: rgba(255, 255, 255, 0.55); /* soft, readable over translucent panel */
+  }
+  @media (prefers-color-scheme: dark) {
+    .hover-bg-subtle:hover,
+    .hover-bg-subtle:focus-visible {
+      /* Slightly stronger in dark mode to maintain visibility */
+      background-image: linear-gradient(
+        45deg,
+        rgba(175, 36, 151, 0.09) 10%,
+        rgba(144, 45, 154, 0.09) 20%,
+        rgba(24, 64, 160, 0.09) 100%
+      );
+      background-color: rgba(255, 255, 255, 0.10); /* soft white veil on dark */
+    }
+  }
+
+  /* PUBLIC_INTERFACE
      tile-hover-elevate: apply smooth elevation + scale on hover and focus-visible.
      - Uses transform scale to avoid layout shift
      - Includes soft floating shadow

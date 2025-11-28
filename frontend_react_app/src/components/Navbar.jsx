@@ -370,10 +370,12 @@ export default function Navbar({ theme, onToggle }) {
                                       [
                                         "block w-full text-left px-4 py-2.5 text-sm",
                                         "rounded-md",
-                                        // Base: no static borders; only hover/focus-visible should reveal gradient ring
+                                        // Base: no static borders; keep background transparent at rest
                                         isActive
                                           ? "bg-gray-50 text-slate-900"
-                                          : "text-slate-900 hover:bg-gray-50",
+                                          : "text-slate-900",
+                                        // Subtle highlight on hover/focus, separate from gradient border
+                                        "hover-bg-subtle",
                                         // Apply gradient border only on hover/focus-visible
                                         "hover-gradient-border",
                                         // Maintain keyboard accessibility ring
@@ -492,7 +494,9 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                       "block w-full text-left px-3 py-2 text-sm rounded-md",
                       isActive
                         ? "bg-white text-slate-900 shadow-soft"
-                        : "text-slate-900 hover:bg-white",
+                        : "text-slate-900",
+                      // Subtle background highlight on hover/focus-visible
+                      "hover-bg-subtle",
                       // Apply gradient border ONLY on hover/focus-visible (no default border)
                       "hover-gradient-border",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
