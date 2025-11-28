@@ -278,9 +278,29 @@
       rgba(144, 45, 154, 0.045) 20%,
       rgba(24, 64, 160, 0.045) 100%
     );
-    background-color: rgba(255, 255, 255, 0.94); /* slightly higher opacity for better tile readability */
+    background-color: rgba(255, 255, 255, 0.96); /* slightly higher opacity for better tile readability */
+    /* Keep slight glass only for surface blocks (not dropdown); dropdown uses translucent variant below without blur */
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
+  }
+
+  /* PUBLIC_INTERFACE
+     answer-gradient-translucent: semi-transparent overlay using the same light "answer" gradient palette.
+     Intended for floating overlays like dropdowns; avoids backdrop blur for sharper content behind.
+     Includes a subtle border and floating shadow for readability. */
+  .answer-gradient-translucent {
+    background-image: linear-gradient(
+      45deg,
+      rgba(175, 36, 151, 0.08) 10%,
+      rgba(144, 45, 154, 0.08) 20%,
+      rgba(24, 64, 160, 0.08) 100%
+    );
+    background-color: rgba(255, 255, 255, 0.86); /* semi-transparent white base */
+    /* No backdrop-blur here per requirement */
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 10px 24px -10px rgba(2, 6, 23, 0.18),
+      0 6px 12px -8px rgba(2, 6, 23, 0.12);
   }
 
   /* PUBLIC_INTERFACE

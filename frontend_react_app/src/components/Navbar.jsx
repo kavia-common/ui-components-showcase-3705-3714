@@ -336,7 +336,7 @@ export default function Navbar({ theme, onToggle }) {
                               "z-[1000]",
                               "min-w-[16rem] max-w-[90vw]",
                               "max-h-[min(70vh,28rem)] overflow-y-auto",
-                              "rounded-xl shadow-card bg-white border border-black/10",
+                              "rounded-xl answer-gradient-translucent",
                               "animate-slideDown",
                               "text-slate-900",
                             ].join(" ")}
