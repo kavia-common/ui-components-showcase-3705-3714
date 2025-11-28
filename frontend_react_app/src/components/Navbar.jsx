@@ -221,20 +221,19 @@ export default function Navbar({ theme, onToggle }) {
                       ref={triggerRef}
                       type="button"
                       className={[
-                        "px-3 py-2 rounded-md text-sm font-medium transition",
-                        "text-white/90 hover:text-white",
-                        "bg-white/10 hover:bg-white/15",
-                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
-                        "border-brand-gradient",
+                        // Match desktop link styling for consistency with Home/Accordion/etc.
+                        baseLink,
+                        open ? activeLink : inactiveLink,
                       ].join(" ")}
                       aria-haspopup="menu"
                       aria-expanded={open ? "true" : "false"}
                       aria-controls="nav-more-menu"
                       onClick={() => setOpen((v) => !v)}
                     >
+                      {/* Keep an unobtrusive ellipsis as a decorative icon without changing label */}
                       <span className="inline-flex items-center gap-2">
                         <span
-                          className="h-5 w-5 rounded-full border-brand-gradient-thin bg-transparent grid place-items-center"
+                          className="h-4 w-4 rounded-full border-brand-gradient-thin bg-transparent grid place-items-center"
                           aria-hidden="true"
                         >
                           ⋯
