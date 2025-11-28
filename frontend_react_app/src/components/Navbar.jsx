@@ -370,14 +370,13 @@ export default function Navbar({ theme, onToggle }) {
                                       [
                                         "block w-full text-left px-4 py-2.5 text-sm",
                                         "rounded-md",
-                                        // Keep readable text and soft hover background for interior
+                                        // Base state: no static borders; keep readable text and soft hover background only
                                         isActive
                                           ? "bg-gray-50 text-slate-900"
                                           : "text-slate-900 hover:bg-gray-50",
-                                        // Gradient border on hover/focus for each item
+                                        // Gradient border should be applied only on hover and focus-visible
                                         "hover-gradient-border",
-                                        // Keep subtle separators between items
-                                        idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
+                                        // Remove static item separators to avoid default borders
                                         // Maintain keyboard accessibility
                                         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                                       ]
@@ -497,9 +496,9 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                       isActive
                         ? "bg-white text-slate-900 shadow-soft"
                         : "text-slate-900 hover:bg-white",
-                      // Gradient border on hover/focus for mobile items as well
+                      // Apply gradient border ONLY on hover/focus-visible
                       "hover-gradient-border",
-                      idx !== arr.length - 1 ? "border-b border-black/5" : "",
+                      // Remove static separators and any default borders
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                     ].join(" ")
                   }
