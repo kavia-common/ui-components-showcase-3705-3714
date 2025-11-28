@@ -1,6 +1,5 @@
 import React from "react";
 import Breadcrumbs from "../../components/ui/Breadcrumbs";
-import { Link } from "react-router-dom";
 import Header from "../../components/Header";
 
 /**
@@ -42,16 +41,6 @@ export default function BreadcrumbsDemoPage() {
         <div className="text-sm app-answer-subtle">
           Works with any number of segments. Responsive and wraps on small screens. Hover or tab through links to see the subtle brand-gradient underline/border.
         </div>
-      </div>
-
-      {/* Back link block */}
-      <div className="app-answer-surface app-answer-border p-5 rounded-2xl">
-        <Link
-          className="inline-flex px-4 py-2 rounded-xl bg-primary text-white hover:bg-blue-600 transition"
-          to="/"
-        >
-          Back to Home
-        </Link>
       </div>
     </section>
   );
