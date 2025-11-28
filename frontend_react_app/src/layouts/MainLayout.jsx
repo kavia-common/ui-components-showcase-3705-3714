@@ -20,8 +20,9 @@ export default function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-app-gradient text-text">
       <Navbar theme={theme} onToggle={toggleTheme} />
+      {/* Let content appear under the navbar like the screenshot; keep a small top margin so header text remains readable */}
       <main className="flex-1">
-        <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8 mt-4">
           <Outlet />
         </div>
       </main>

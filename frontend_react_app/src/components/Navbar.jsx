@@ -242,12 +242,13 @@ export default function Navbar({ theme, onToggle }) {
                   {/* Dropdown panel: fixed, viewport-constrained, pointer-events managed */}
                   {open && (
                     <>
-                      {/* Click-away backdrop; keep pointer-events to enable outside click, avoid affecting layout */}
+                      {/* Backdrop to reinforce overlay behavior and enable click-away */}
                       <div
-                        className="fixed inset-0 z-[99] pointer-events-auto"
+                        className="fixed inset-0 z-[98] bg-black/20 backdrop-blur-[1px] pointer-events-auto"
                         aria-hidden="true"
                         onClick={() => setOpen(false)}
                       />
+                      {/* Dropdown panel: fixed at body level, anchored under trigger with computed coords */}
                       <div
                         id="nav-more-menu"
                         ref={menuRef}
@@ -255,13 +256,12 @@ export default function Navbar({ theme, onToggle }) {
                         aria-label="More components"
                         className={[
                           "fixed z-[100] pointer-events-auto",
-                          // Responsive width constraints
+                          // Width constraints and internal width
                           "min-w-[16rem] max-w-[90vw]",
-                          // Internal width matched to computed width for visual balance
                           "w-auto",
-                          // Viewport-aware height with internal scroll
+                          // Internal scrolling; panel itself scrolls if long
                           "max-h-[min(70vh,28rem)] overflow-y-auto",
-                          // Clean panel styling
+                          // Panel styling
                           "rounded-xl shadow-card bg-white border border-black/10",
                           "animate-slideDown",
                           "text-slate-900",
