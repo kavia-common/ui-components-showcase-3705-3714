@@ -339,9 +339,10 @@ export default function Navbar({ theme, onToggle }) {
                             className={[
                               "fixed pointer-events-auto",
                               "z-[1000]",
-                              // Wider desktop dropdown width with safe responsive clamp
-                              "min-w-[16rem] w-64 max-w-[90vw]",
-                              "max-h-[min(70vh,28rem)] overflow-y-auto",
+                              // Narrower desktop dropdown width with safe responsive clamp (keep 90vw max)
+                              "min-w-[12rem] w-48 max-w-[90vw]",
+                              // Prevent horizontal scroll; allow vertical-only with sensible max height
+                              "max-h-[min(70vh,28rem)] overflow-y-auto overflow-x-hidden",
                               "rounded-xl",
                               // Use exact requested brand gradient with slight transparency; no blur
                               "dropdown-bg-major-translucent",
