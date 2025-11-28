@@ -100,8 +100,11 @@
     overflow: visible;
     /* Avoid inner content pushing beyond viewport width */
     max-width: 100%;
-    /* Give the inner row a touch more vertical room by default */
-    min-height: 4.25rem; /* ~68px (slightly taller navbar) */
+    /* Increased navbar height for improved vertical rhythm */
+    min-height: 5rem; /* ~80px */
+    /* Add slight internal vertical padding to keep contents vertically centered */
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
   }
   .app-header-title {
     color: #ffffff;

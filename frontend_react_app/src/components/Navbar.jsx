@@ -16,7 +16,7 @@ export default function Navbar({ theme, onToggle }) {
   // Typography for all navbar links (desktop items, dropdown trigger, dropdown items, and mobile items)
   // Ensures consistent font size, weight, and spacing across all nav text.
   const baseLink =
-    "px-3 py-2.5 rounded-md text-sm font-medium tracking-normal uppercase transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-0";
+    "px-3 py-3 rounded-md text-sm font-medium tracking-normal uppercase transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-0";
   const activeLink =
     "bg-white/90 text-text shadow-soft underline underline-offset-4 decoration-white";
   const inactiveLink = "text-white/95 hover:text-white hover:bg-white/10";
@@ -190,21 +190,21 @@ export default function Navbar({ theme, onToggle }) {
       <div
         className="app-header-major rounded-none w-full max-w-screen"
         // Ensure the navbar shell never clips overlays; avoid overflow:hidden that could clip body-level overlays.
-        style={{ overflow: "visible" }}
+        style={{ overflow: "visible", maxWidth: "100vw" }}
       >
         {/* Keep inner overlay-friendly */}
         <div className="app-header-inner" style={{ overflow: "visible" }}>
           {/* Respect gutters at all breakpoints; clamp to content container */}
           <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
             {/* Internal row: brand on the left, everything else aligned right */}
-            <div className="min-h-[4.25rem] py-2 flex items-center justify-between gap-3 w-full">
+            <div className="min-h-[5rem] py-2.5 flex items-center justify-between gap-3 w-full">
               {/* Brand on the left, never overflows */}
               <div className="min-w-0 shrink overflow-visible">
                 <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
                   <div className="h-9 w-9 rounded-lg bg-white text-text grid place-items-center font-bold shadow-soft">
                     UI
                   </div>
-                  <span className="text-base sm:text-lg font-semibold text-white truncate max-w-[50vw] sm:max-w-none">
+                  <span className="text-base sm:text-lg font-semibold text-white truncate max-w-[50vw] sm:max-w-none leading-[1.35]">
                     Components Showcase
                   </span>
                 </NavLink>
@@ -218,7 +218,7 @@ export default function Navbar({ theme, onToggle }) {
                   role="navigation"
                   aria-label="Primary"
                 >
-                  <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                  <div className="flex items-center gap-1.5 flex-wrap justify-end py-0.5">
                     {primaryNav.map((item) => (
                       <NavLink
                         key={item.to}
@@ -272,7 +272,7 @@ export default function Navbar({ theme, onToggle }) {
                         // Match desktop link styling for consistency with Home/Accordion/etc.
                         baseLink,
                         open ? activeLink : inactiveLink,
-                        "inline-flex items-center gap-2"
+                        "inline-flex items-center gap-2 py-3"
                       ].join(" ")}
                       aria-haspopup="menu"
                       aria-expanded={open ? "true" : "false"}
@@ -339,15 +339,15 @@ export default function Navbar({ theme, onToggle }) {
                             className={[
                               "fixed pointer-events-auto",
                               "z-[1000]",
-                              // Narrower desktop dropdown width with safe responsive clamp (keep 90vw max)
-                              "min-w-[12rem] w-48 max-w-[90vw]",
-                              // Prevent horizontal scroll; allow vertical-only with sensible max height
+                              // Responsive width clamp; keep items readable and avoid horizontal scrollbars
+                              "min-w-[14rem] w-[18rem] max-w-[92vw]",
+                              // Vertical-only scroll; never allow horizontal scrolling
                               "max-h-[min(70vh,28rem)] overflow-y-auto overflow-x-hidden",
                               "rounded-xl",
                               // Use exact requested brand gradient with slight transparency; no blur
                               "dropdown-bg-major-translucent",
                               "animate-slideDown",
-                              // Higher contrast body text over translucent gradient: use white text for maximum contrast
+                              // High contrast text per requirement
                               "text-white",
                             ].join(" ")}
                             style={{
@@ -378,8 +378,8 @@ export default function Navbar({ theme, onToggle }) {
                                     to={item.to}
                                     className={({ isActive }) =>
                                       [
-                                        // Match navbar link typography and spacing
-                                        "block w-full text-left px-3 py-2",
+                                        // Match navbar link typography and spacing (slightly taller for rhythm)
+                                        "block w-full text-left px-3 py-2.5",
                                         "text-sm font-medium tracking-normal uppercase",
                                         "rounded-md",
                                         // Base: no static borders; keep background transparent at rest
@@ -473,7 +473,7 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
       <button
         ref={btnRef}
         type="button"
-        className="inline-flex items-center gap-2 px-3 py-2.5 text-sm font-medium tracking-normal uppercase rounded-md bg-white/10 text-white/90 hover:text-white hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+        className="inline-flex items-center gap-2 px-3 py-3 text-sm font-medium tracking-normal uppercase rounded-md bg-white/10 text-white/90 hover:text-white hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
         aria-haspopup="menu"
         aria-expanded={open ? "true" : "false"}
         onClick={() => setOpen((v) => !v)}
@@ -509,7 +509,7 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                   className={({ isActive }) =>
                     [
                       // Match navbar link typography and spacing
-                      "block w-full text-left px-3 py-2",
+                      "block w-full text-left px-3 py-2.5",
                       "text-sm font-medium tracking-normal uppercase",
                       "rounded-md",
                       isActive
