@@ -340,8 +340,8 @@ export default function Navbar({ theme, onToggle }) {
                               // Use exact requested gradient on the dropdown panel; no blur
                               "nav-dropdown-panel-gradient",
                               "animate-slideDown",
-                              // Keep text readable over the new gradient
-                              "text-white",
+                              // Higher contrast body text over translucent gradient
+                              "text-slate-900",
                             ].join(" ")}
                             style={{
                               left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,
@@ -379,7 +379,7 @@ export default function Navbar({ theme, onToggle }) {
                                           : "text-slate-900",
                                         // Subtle highlight on hover/focus, separate from gradient border
                                         "hover-bg-subtle",
-                                        // Apply gradient border only on hover/focus-visible
+                                        // Apply ~2px brand gradient border only on hover/focus-visible
                                         "hover-gradient-border",
                                         // Maintain keyboard accessibility ring
                                         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
@@ -480,7 +480,8 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
             "max-h-[80vh] overflow-y-auto",
             "rounded-xl shadow-card app-answer-surface app-answer-border",
             "animate-slideDown",
-            "text-slate-800",
+            // Higher contrast text in mobile panel
+            "text-slate-900",
           ].join(" ")}
           style={{
             maxWidth: "95vw",
@@ -500,7 +501,7 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                         : "text-slate-900",
                       // Subtle background highlight on hover/focus-visible
                       "hover-bg-subtle",
-                      // Apply gradient border ONLY on hover/focus-visible (no default border)
+                      // Apply ~2px brand gradient border ONLY on hover/focus-visible (no default border)
                       "hover-gradient-border",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                     ].join(" ")
