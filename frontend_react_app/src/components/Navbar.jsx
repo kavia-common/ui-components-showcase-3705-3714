@@ -48,29 +48,36 @@ export default function Navbar({ theme, onToggle }) {
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   // Track viewport-relative position of trigger to place a fixed dropdown panel.
-  const [menuPos, setMenuPos] = useState({ left: 8, right: "auto", top: 0 });
+  const [menuPos, setMenuPos] = useState({ left: 8, right: "auto", top: 0, width: 0 });
 
-  // Compute dropdown position relative to viewport and handle right-edge alignment
-  const updateMenuPosition = () => {
+  // PUBLIC_INTERFACE
+  function computeAndSetMenuPosition() {
+    /**
+     * Compute dropdown viewport-aligned coordinates from the trigger (getBoundingClientRect)
+     * and set fixed overlay coordinates with an 8–12px offset and side alignment.
+     */
     const btn = triggerRef.current;
     if (!btn) return;
     const rect = btn.getBoundingClientRect();
     const vw = window.innerWidth || document.documentElement.clientWidth;
     const vh = window.innerHeight || document.documentElement.clientHeight;
 
-    const idealWidth = 240; // ~sm:w-56
-    const nearRightEdge = rect.left + idealWidth > vw - 8;
-    const top = Math.min(vh - 8, rect.bottom + 8); // 8px gap below trigger
+    const gap = 10; // keep between 8–12px
+    const idealMin = 256; // 16rem
+    const maxPanelWidth = Math.min(vw - 16, 420); // keep margins, max ~26rem
+    const panelWidth = Math.max(idealMin, Math.min(maxPanelWidth, rect.width + 40)); // match trigger-ish width
+
+    const nearRightEdge = rect.left + panelWidth > vw - 8;
+    const top = Math.min(vh - 8, rect.bottom + gap);
 
     if (nearRightEdge) {
-      // Align right: compute 'right' from viewport edge
       const right = Math.max(8, vw - rect.right);
-      setMenuPos({ left: "auto", right, top });
+      setMenuPos({ left: "auto", right, top, width: panelWidth });
     } else {
       const left = Math.max(8, rect.left);
-      setMenuPos({ left, right: "auto", top });
+      setMenuPos({ left, right: "auto", top, width: panelWidth });
     }
-  };
+  }
 
   // Close on outside click
   useEffect(() => {
@@ -127,7 +134,7 @@ export default function Navbar({ theme, onToggle }) {
   // On open, compute initial position and move focus to first item
   useEffect(() => {
     if (!open) return;
-    updateMenuPosition();
+    computeAndSetMenuPosition();
 
     const tm = setTimeout(() => {
       const menuEl = menuRef.current;
@@ -146,7 +153,7 @@ export default function Navbar({ theme, onToggle }) {
   // Recompute position on resize/scroll while open to keep panel anchored to trigger.
   useEffect(() => {
     if (!open) return;
-    const onResizeScroll = () => updateMenuPosition();
+    const onResizeScroll = () => computeAndSetMenuPosition();
     window.addEventListener("resize", onResizeScroll);
     window.addEventListener("scroll", onResizeScroll, true);
     return () => {
@@ -233,61 +240,72 @@ export default function Navbar({ theme, onToggle }) {
 
                   {/* Dropdown panel: fixed, viewport-constrained, pointer-events managed */}
                   {open && (
-                    <div
-                      id="nav-more-menu"
-                      ref={menuRef}
-                      role="menu"
-                      aria-label="More components"
-                      className={[
-                        "fixed z-[100] pointer-events-auto",
-                        // Responsive width constraints
-                        "min-w-[14rem] w-auto sm:w-56 max-w-[90vw]",
-                        // Viewport-aware height with internal scroll
-                        "max-h-[min(70vh,28rem)] overflow-y-auto",
-                        "rounded-xl shadow-card app-answer-surface app-answer-border",
-                        "animate-slideDown",
-                        // Ensure readable text on light surface
-                        "text-slate-800",
-                      ].join(" ")}
-                      style={{
-                        left:
-                          typeof menuPos.left === "number"
-                            ? `${menuPos.left}px`
-                            : menuPos.left,
-                        right:
-                          typeof menuPos.right === "number"
-                            ? `${menuPos.right}px`
-                            : menuPos.right,
-                        top: `${menuPos.top}px`,
-                      }}
-                    >
-                      <ul className="py-1" role="none">
-                        {moreItems.map((item, idx) => (
-                          <li key={item.to} role="none">
-                            <NavLink
-                              to={item.to}
-                              className={({ isActive }) =>
-                                [
-                                  "block w-full text-left px-3 py-2 text-sm",
-                                  "rounded-md",
-                                  isActive
-                                    ? "bg-white text-slate-900 shadow-soft"
-                                    : "text-slate-900 hover:bg-white",
-                                  idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
-                                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
-                                ]
-                                  .filter(Boolean)
-                                  .join(" ")
-                              }
-                              role="menuitem"
-                              onClick={() => setOpen(false)}
-                            >
-                              {item.label}
-                            </NavLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <>
+                      {/* Click-away backdrop solely to simplify outside-click on mobile without blocking navbar visuals */}
+                      <div
+                        className="fixed inset-0 z-[99]"
+                        aria-hidden="true"
+                        onClick={() => setOpen(false)}
+                      />
+                      <div
+                        id="nav-more-menu"
+                        ref={menuRef}
+                        role="menu"
+                        aria-label="More components"
+                        className={[
+                          "fixed z-[100] pointer-events-auto",
+                          // Responsive width constraints
+                          "min-w-[16rem] max-w-[90vw]",
+                          // Internal width matched to computed width for visual balance
+                          "w-auto",
+                          // Viewport-aware height with internal scroll
+                          "max-h-[min(70vh,28rem)] overflow-y-auto",
+                          // Clean panel styling
+                          "rounded-xl shadow-card bg-white border border-black/10",
+                          "animate-slideDown",
+                          "text-slate-900",
+                        ].join(" ")}
+                        style={{
+                          left:
+                            typeof menuPos.left === "number"
+                              ? `${menuPos.left}px`
+                              : menuPos.left,
+                          right:
+                            typeof menuPos.right === "number"
+                              ? `${menuPos.right}px`
+                              : menuPos.right,
+                          top: `${menuPos.top}px`,
+                          width: menuPos.width ? `${menuPos.width}px` : undefined,
+                        }}
+                      >
+                        <ul className="py-1" role="none">
+                          {moreItems.map((item, idx) => (
+                            <li key={item.to} role="none">
+                              <NavLink
+                                to={item.to}
+                                className={({ isActive }) =>
+                                  [
+                                    "block w-full text-left px-4 py-2.5 text-sm",
+                                    "rounded-md",
+                                    isActive
+                                      ? "bg-gray-50 text-slate-900"
+                                      : "text-slate-900 hover:bg-gray-50",
+                                    idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
+                                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
+                                  ]
+                                    .filter(Boolean)
+                                    .join(" ")
+                                }
+                                role="menuitem"
+                                onClick={() => setOpen(false)}
+                              >
+                                {item.label}
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
