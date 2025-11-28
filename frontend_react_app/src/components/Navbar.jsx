@@ -3,12 +3,17 @@ import { NavLink } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 /**
- * Gradient Navbar with primary brand, navigation links and theme toggle.
- * Active state is clearly indicated with background, text, and underline accent.
+ * Gradient Navbar with brand (left), primary navigation (center), and actions (right).
+ * - Responsive: links collapse into a stacked mobile row below the bar on small screens.
+ * - Consistent height and spacing with accessible focus states and strong text/icon contrast.
+ * - Uses major gradient for the outer bar and glassy inner overlay.
+ *
+ * Note: Routing/behavior unchanged; this is strictly layout/styling and semantics.
  */
 export default function Navbar({ theme, onToggle }) {
+  // Common link styles for both desktop and mobile link lists
   const baseLink =
-    "px-3 py-2 rounded-lg text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40";
+    "px-3 py-2 rounded-lg text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50";
   const activeLink =
     "bg-white/90 text-text shadow-soft underline underline-offset-4 decoration-white";
   const inactiveLink = "text-white/90 hover:text-white hover:bg-white/10";
@@ -30,48 +35,55 @@ export default function Navbar({ theme, onToggle }) {
   ];
 
   return (
-    <nav className="sticky top-0 z-40">
-      {/* Major section gradient bar with solid foregrounds for contrast */}
+    <nav className="sticky top-0 z-40" aria-label="Site">
+      {/* Major gradient bar with translucent inner surface for glassy look */}
       <div className="w-full app-header-major">
         <div className="app-header-inner">
-          <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-          <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
-            <div className="h-8 w-8 rounded-xl bg-white text-text grid place-items-center font-bold shadow-soft">
-              UI
-            </div>
-            <span className="text-lg font-semibold text-white">
-              Components Showcase
-            </span>
-          </NavLink>
+          {/* Shell row: left (brand) — center (primary nav) — right (actions) */}
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="h-14 flex items-center justify-between gap-3">
+              {/* Left: Brand */}
+              <div className="min-w-0">
+                <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
+                  <div className="h-8 w-8 rounded-xl bg-white text-text grid place-items-center font-bold shadow-soft">
+                    UI
+                  </div>
+                  <span className="text-base sm:text-lg font-semibold text-white truncate">
+                    Components Showcase
+                  </span>
+                </NavLink>
+              </div>
 
-          {/* Desktop nav */}
-          <div
-            className="hidden md:flex items-center gap-2"
-            role="navigation"
-            aria-label="Primary"
-          >
-            {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={linkClass}
+              {/* Middle: Primary navigation (desktop) */}
+              <div
+                className="hidden md:flex items-center justify-center gap-1.5"
+                role="navigation"
+                aria-label="Primary"
               >
-                {item.label}
-              </NavLink>
-            ))}
-          </div>
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.end}
+                    className={linkClass}
+                  >
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
 
-          <div className="flex items-center gap-3">
-            <ThemeToggle theme={theme} onToggle={onToggle} />
-          </div>
+              {/* Right: Actions */}
+              <div className="flex items-center justify-end gap-2">
+                <ThemeToggle theme={theme} onToggle={onToggle} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile quick links */}
+      {/* Mobile stacked links under the bar */}
       <div
-        className="md:hidden border-t border-white/10 bg-white"
+        className="md:hidden border-t border-white/15 bg-white"
         role="navigation"
         aria-label="Mobile"
       >
@@ -81,7 +93,14 @@ export default function Navbar({ theme, onToggle }) {
               key={item.to}
               to={item.to}
               end={item.end}
-              className={linkClass}
+              className={({ isActive }) =>
+                [
+                  "px-3 py-2 rounded-lg text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]",
+                  isActive
+                    ? "bg-primary text-white shadow-soft"
+                    : "text-text hover:bg-black/5",
+                ].join(" ")
+              }
             >
               {item.label}
             </NavLink>
