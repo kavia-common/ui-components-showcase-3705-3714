@@ -13,7 +13,7 @@ export default function Navbar({ theme, onToggle }) {
     "px-3 py-2 rounded-md text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-0";
   const activeLink =
     "bg-white/90 text-text shadow-soft underline underline-offset-4 decoration-white";
-  const inactiveLink = "text-white/90 hover:text-white hover:bg-white/10";
+  const inactiveLink = "text-white/95 hover:text-white hover:bg-white/10";
 
   const linkClass = ({ isActive }) =>
     [baseLink, isActive ? activeLink : inactiveLink].join(" ");
@@ -96,7 +96,7 @@ export default function Navbar({ theme, onToggle }) {
   }, [open]);
 
   return (
-    <nav className="sticky top-0 z-40" aria-label="Site">
+    <nav className="sticky top-0 z-[55]" aria-label="Site">
       {/* Keep the Navbar container square */}
       <div className="w-full app-header-major rounded-none">
         <div className="app-header-inner">
@@ -168,11 +168,15 @@ export default function Navbar({ theme, onToggle }) {
                       role="menu"
                       aria-label="More components"
                       className={[
-                        // Position directly under trigger and ensure it overlays content
-                        "absolute left-0 mt-2 z-50",
-                        // Size: sensible min-width and clamp height for long lists
-                        "min-w-[14rem] w-56 max-h-80 overflow-y-auto",
-                        // Visual: surface and border with subtle padding
+                        // Ensure overlay above content
+                        "absolute left-0 mt-2 z-[60]",
+                        // Responsive width: sensible min, allow auto growth but cap by viewport
+                        "min-w-[14rem] w-auto max-w-[90vw] sm:w-56",
+                        // Viewport-aware height with scroll for long lists
+                        "max-h-[min(70vh,28rem)] overflow-y-auto",
+                        // Keep panel within viewport visually (primary is top-full behavior)
+                        "top-full translate-y-0",
+                        // Visual surface and border
                         "rounded-xl shadow-card app-answer-surface app-answer-border",
                         // Animation
                         "animate-slideDown",
@@ -185,18 +189,15 @@ export default function Navbar({ theme, onToggle }) {
                               to={item.to}
                               className={({ isActive }) =>
                                 [
-                                  // Full-width, legible spacing
                                   "block w-full text-left px-3 py-2 text-sm",
-                                  // Maintain inner rounding tasteful; shell stays square
                                   "rounded-md",
-                                  // Text/readability on light surface
+                                  // Improve default text contrast on light surface
                                   isActive
-                                    ? "bg-white text-slate-800 shadow-soft"
-                                    : "text-slate-800 hover:bg-white",
-                                  // Divider between items except last
+                                    ? "bg-white text-slate-900 shadow-soft"
+                                    : "text-slate-900 hover:bg-white",
                                   idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
-                                  // Accessibility focus
-                                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]",
+                                  // Stronger focus visibility
+                                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                                 ]
                                   .filter(Boolean)
                                   .join(" ")
@@ -287,9 +288,12 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
           role="menu"
           aria-label="Navigation"
           className={[
-            "absolute right-0 mt-2 z-50",
-            // Size constraints for small screens
-            "min-w-[14rem] w-64 max-h-80 overflow-y-auto",
+            // Position at edge; on mobile use full width; on sm+ keep to content width
+            "absolute right-0 mt-2 z-[60]",
+            "w-[min(100vw-1rem,24rem)] sm:w-64 min-w-[14rem] max-w-[95vw]",
+            // Viewport-aware height and internal scroll
+            "max-h-[70vh] overflow-y-auto",
+            // Surface and border
             "rounded-xl shadow-card app-answer-surface app-answer-border",
             "animate-slideDown",
           ].join(" ")}
@@ -304,10 +308,10 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                     [
                       "block w-full text-left px-3 py-2 text-sm rounded-md",
                       isActive
-                        ? "bg-white text-slate-800 shadow-soft"
-                        : "text-slate-800 hover:bg-white",
+                        ? "bg-white text-slate-900 shadow-soft"
+                        : "text-slate-900 hover:bg-white",
                       idx !== arr.length - 1 ? "border-b border-black/5" : "",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                     ].join(" ")
                   }
                   role="menuitem"
