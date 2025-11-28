@@ -340,8 +340,8 @@ export default function Navbar({ theme, onToggle }) {
                               // Use exact requested gradient on the dropdown panel; no blur
                               "nav-dropdown-panel-gradient",
                               "animate-slideDown",
-                              // Higher contrast body text over translucent gradient
-                              "text-slate-900",
+                              // Higher contrast body text over translucent gradient: use white text for maximum contrast
+                              "text-white",
                             ].join(" ")}
                             style={{
                               left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,
@@ -376,7 +376,7 @@ export default function Navbar({ theme, onToggle }) {
                                         // Base: no static borders; keep background transparent at rest
                                         isActive
                                           ? "bg-gray-50 text-slate-900"
-                                          : "text-slate-900",
+                                          : "text-white",
                                         // Subtle highlight on hover/focus, separate from gradient border
                                         "hover-bg-subtle",
                                         // Apply ~2px brand gradient border only on hover/focus-visible
@@ -480,8 +480,8 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
             "max-h-[80vh] overflow-y-auto",
             "rounded-xl shadow-card app-answer-surface app-answer-border",
             "animate-slideDown",
-            // Higher contrast text in mobile panel
-            "text-slate-900",
+            // Higher contrast text in mobile panel - white for stronger contrast on gradient/glass
+            "text-white",
           ].join(" ")}
           style={{
             maxWidth: "95vw",
@@ -498,7 +498,7 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                       "block w-full text-left px-3 py-2 text-sm rounded-md",
                       isActive
                         ? "bg-white text-slate-900 shadow-soft"
-                        : "text-slate-900",
+                        : "text-white",
                       // Subtle background highlight on hover/focus-visible
                       "hover-bg-subtle",
                       // Apply ~2px brand gradient border ONLY on hover/focus-visible (no default border)
