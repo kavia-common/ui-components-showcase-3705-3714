@@ -15,7 +15,8 @@ export default function BreadcrumbsDemoPage() {
         subtitle="Hierarchical navigation trail to indicate the current location."
       />
 
-      <div className="ocean-surface p-5 space-y-4">
+      {/* Demo 1 */}
+      <div className="app-answer-surface app-answer-border p-5 space-y-3 rounded-2xl">
         <Breadcrumbs
           items={[
             { label: "Hero Section", to: "/" },
@@ -28,7 +29,8 @@ export default function BreadcrumbsDemoPage() {
         </div>
       </div>
 
-      <div className="ocean-surface p-5 space-y-4">
+      {/* Demo 2 */}
+      <div className="app-answer-surface app-answer-border p-5 space-y-3 rounded-2xl">
         <Breadcrumbs
           items={[
             { label: "Hero Section", to: "/" },
@@ -37,12 +39,13 @@ export default function BreadcrumbsDemoPage() {
             { label: "Summary" },
           ]}
         />
-        <div className="text-sm text-text/70">
-          Works with any number of segments. Responsive and wraps on small screens.
+        <div className="text-sm app-answer-subtle">
+          Works with any number of segments. Responsive and wraps on small screens. Hover or tab through links to see the subtle brand-gradient underline/border.
         </div>
       </div>
 
-      <div className="ocean-surface p-5">
+      {/* Back link block */}
+      <div className="app-answer-surface app-answer-border p-5 rounded-2xl">
         <Link
           className="inline-flex px-4 py-2 rounded-xl bg-primary text-white hover:bg-blue-600 transition"
           to="/"
