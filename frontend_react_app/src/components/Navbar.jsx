@@ -13,8 +13,10 @@ import Portal from "./ui/primitives/Portal";
  */
 export default function Navbar({ theme, onToggle }) {
   // Small-to-medium rounding with accessible focus states for links
+  // Typography for all navbar links (desktop items, dropdown trigger, dropdown items, and mobile items)
+  // Ensures consistent font size, weight, and spacing across all nav text.
   const baseLink =
-    "px-3 py-2 rounded-md text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-0";
+    "px-3 py-2 rounded-md text-sm font-medium tracking-normal uppercase transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-0";
   const activeLink =
     "bg-white/90 text-text shadow-soft underline underline-offset-4 decoration-white";
   const inactiveLink = "text-white/95 hover:text-white hover:bg-white/10";
@@ -281,7 +283,7 @@ export default function Navbar({ theme, onToggle }) {
                         });
                       }}
                     >
-                      <span className="select-none">More</span>
+                      <span className="select-none uppercase">More</span>
                       {/* Chevron arrow that rotates when open */}
                       <span
                         className={[
@@ -371,7 +373,9 @@ export default function Navbar({ theme, onToggle }) {
                                     to={item.to}
                                     className={({ isActive }) =>
                                       [
-                                        "block w-full text-left px-4 py-2.5 text-sm",
+                                        // Match navbar link typography and spacing
+                                        "block w-full text-left px-3 py-2",
+                                        "text-sm font-medium tracking-normal uppercase",
                                         "rounded-md",
                                         // Base: no static borders; keep background transparent at rest
                                         isActive
@@ -460,7 +464,7 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
       <button
         ref={btnRef}
         type="button"
-        className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-md bg-white/10 text-white/90 hover:text-white hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+        className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium tracking-normal uppercase rounded-md bg-white/10 text-white/90 hover:text-white hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
         aria-haspopup="menu"
         aria-expanded={open ? "true" : "false"}
         onClick={() => setOpen((v) => !v)}
@@ -495,7 +499,10 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                   end={item.end}
                   className={({ isActive }) =>
                     [
-                      "block w-full text-left px-3 py-2 text-sm rounded-md",
+                      // Match navbar link typography and spacing
+                      "block w-full text-left px-3 py-2",
+                      "text-sm font-medium tracking-normal uppercase",
+                      "rounded-md",
                       isActive
                         ? "bg-white text-slate-900 shadow-soft"
                         : "text-white",
