@@ -13,7 +13,7 @@ A lightweight React application styled with Tailwind CSS that showcases reusable
 
 The app includes the following navigable demo pages:
 
-- / — Home
+- / — Hero Section
 - /accordion — Accordion demo
 - /bentomenu — Bento menu demo
 - /breadcrumbs — Breadcrumbs demo

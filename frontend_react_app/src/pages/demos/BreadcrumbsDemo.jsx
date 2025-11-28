@@ -18,7 +18,7 @@ export default function BreadcrumbsDemoPage() {
       <div className="ocean-surface p-5 space-y-4">
         <Breadcrumbs
           items={[
-            { label: "Home", to: "/" },
+            { label: "Hero Section", to: "/" },
             { label: "Components", to: "/accordion" },
             { label: "Breadcrumbs" },
           ]}
@@ -31,7 +31,7 @@ export default function BreadcrumbsDemoPage() {
       <div className="ocean-surface p-5 space-y-4">
         <Breadcrumbs
           items={[
-            { label: "Home", to: "/" },
+            { label: "Hero Section", to: "/" },
             { label: "Demos", to: "/toast" },
             { label: "Form Wizard", to: "/form-wizard" },
             { label: "Summary" },

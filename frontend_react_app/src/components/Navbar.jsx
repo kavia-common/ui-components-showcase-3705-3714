@@ -26,7 +26,7 @@ export default function Navbar({ theme, onToggle }) {
 
   // Primary links to keep visible
   const primaryNav = [
-    { to: "/", label: "Home", end: true },
+    { to: "/", label: "Hero Section", end: true },
     { to: "/accordion", label: "Accordion" },
     { to: "/bentomenu", label: "Bento" },
     { to: "/breadcrumbs", label: "Breadcrumbs" },

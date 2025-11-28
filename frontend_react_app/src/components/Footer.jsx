@@ -49,7 +49,7 @@ export default function Footer() {
                     Quick links
                   </div>
                   <ul className="space-y-1 text-sm">
-                    <FooterLink href="/" label="Home" />
+                    <FooterLink href="/" label="Hero Section" />
                     <FooterLink href="/accordion" label="Accordion" />
                     <FooterLink href="/bentomenu" label="Bento Menu" />
                     <FooterLink href="/carousel" label="Carousel" />
