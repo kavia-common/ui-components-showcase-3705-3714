@@ -4,7 +4,7 @@ import React from "react";
  * Footer reverted to its prior compact arrangement:
  * - Gradient shell with a glassy inner overlay.
  * - Three-column content on sm+ and stacked on mobile.
- * - Only change: consistent rounded-xl applied to panels.
+ * - Update: remove rounded corners entirely for a square-corner footer.
  */
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -13,19 +13,22 @@ export default function Footer() {
     <footer className="mt-12" aria-labelledby="site-footer-heading">
       <div className="border-t border-black/10" aria-hidden="true"></div>
 
-      <div className="app-header-major rounded-xl">
+      {/* Remove any rounded corners from the outer footer shell */}
+      <div className="app-header-major rounded-none">
         <div className="app-header-inner">
           <div className="mx-auto max-w-6xl px-4 py-8">
             <h2 id="site-footer-heading" className="sr-only">
               Footer
             </h2>
 
-            <div className="app-answer-surface app-answer-border px-6 py-6 rounded-xl">
+            {/* Inner panel surface with no rounded corners */}
+            <div className="app-answer-surface app-answer-border px-6 py-6 rounded-none">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {/* Brand */}
                 <div>
                   <div className="flex items-center gap-2">
-                    <div className="h-9 w-9 rounded-xl bg-primary text-white grid place-items-center font-bold shadow-soft">
+                    {/* Keep the small logo square too */}
+                    <div className="h-9 w-9 rounded-none bg-primary text-white grid place-items-center font-bold shadow-soft">
                       UI
                     </div>
                     <div className="text-lg font-semibold text-text">
@@ -66,7 +69,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="mailto:hello@example.com"
-                        className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
+                        className="inline-flex items-center gap-2 rounded-none px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
                         aria-label="Email us"
                       >
                         ✉ Email
@@ -77,19 +80,19 @@ export default function Footer() {
                         href="https://github.com/"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
+                        className="inline-flex items-center gap-2 rounded-none px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
                         aria-label="Visit our GitHub"
                       >
                         ⎇ GitHub
                       </a>
                     </li>
                     <li>
-                      <span className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle">
+                      <span className="inline-flex items-center gap-2 rounded-none px-2 py-1 app-answer-subtle">
                         Theme: Ocean Professional
                       </span>
                     </li>
                     <li>
-                      <span className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle">
+                      <span className="inline-flex items-center gap-2 rounded-none px-2 py-1 app-answer-subtle">
                         Built with React + Tailwind
                       </span>
                     </li>
@@ -114,14 +117,14 @@ export default function Footer() {
 }
 
 /**
- * Footer link item with consistent hover/focus behavior.
+ * Footer link item with consistent hover/focus behavior, no rounding.
  */
 function FooterLink({ href, label }) {
   return (
     <li>
       <a
         href={href}
-        className="inline-flex items-center gap-2 rounded-xl px-2 py-1 text-text/70 hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
+        className="inline-flex items-center gap-2 rounded-none px-2 py-1 text-text/70 hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
         aria-label={`Go to ${label}`}
       >
         <span aria-hidden="true" className="text-text/40">→</span>

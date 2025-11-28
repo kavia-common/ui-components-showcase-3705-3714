@@ -76,7 +76,7 @@
   */
   .app-header-major {
     position: relative;
-    border-radius: 0.875rem; /* rounded-xl for consistent radius */
+    border-radius: 0rem; /* force square corners for Navbar/Footer shells */
     overflow: hidden;
     /* Base: keep major gradient as-is per requirement */
     background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
@@ -100,7 +100,7 @@
   }
   .app-header-major :is(a, button, [role="button"]):focus-visible {
     box-shadow: 0 0 0 2px rgba(255,255,255,0.7);
-    border-radius: 0.5rem;
+    border-radius: 0; /* square focus outline inside header/footer */
   }
   /* Slightly lighter brand gradient for surfaces like Bento tiles where a softer intensity is desired.
      Keeps the same hue stops but reduces visual intensity by lowering color opacity atop a subtle base.
