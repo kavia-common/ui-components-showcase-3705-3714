@@ -8,12 +8,54 @@ import Header from "../../components/Header";
  */
 export default function BentoMenuDemoPage() {
   const items = [
-    { title: "Accordion", description: "Collapsible content", href: "/accordion", icon: "🧩", span: "sm:col-span-2 row-span-2" },
-    { title: "Breadcrumbs", description: "Navigation trail", href: "/breadcrumbs", icon: "🧭", span: "row-span-1" },
-    { title: "Carousel", description: "Sliding content", href: "/carousel", icon: "🎞️", span: "row-span-2" },
-    { title: "Chatbot", description: "Conversational UI", href: "/chatbot", icon: "🤖", span: "row-span-1" },
-    { title: "Form Wizard", description: "Multi-step forms", href: "/form-wizard", icon: "🪄", span: "row-span-1" },
-    { title: "Testimonial", description: "Customer quotes", href: "/testimonial", icon: "💬", span: "sm:col-span-2 row-span-1" },
+    {
+      title: "Accordion",
+      description: "Collapsible content",
+      bodyText: "Expand and collapse panels with accessible semantics.",
+      href: "/accordion",
+      icon: "🧩",
+      span: "sm:col-span-2 row-span-2",
+    },
+    {
+      title: "Breadcrumbs",
+      description: "Navigation trail",
+      bodyText: "Show users where they are and how to navigate back.",
+      href: "/breadcrumbs",
+      icon: "🧭",
+      span: "row-span-1",
+    },
+    {
+      title: "Carousel",
+      description: "Sliding content",
+      bodyText: "Cycle through images or content with swipe and keys.",
+      href: "/carousel",
+      icon: "🎞️",
+      span: "row-span-2",
+    },
+    {
+      title: "Chatbot",
+      description: "Conversational UI",
+      bodyText: "Chat panel with mock replies and a floating trigger.",
+      href: "/chatbot",
+      icon: "🤖",
+      span: "row-span-1",
+    },
+    {
+      title: "Form Wizard",
+      description: "Multi-step forms",
+      bodyText: "Guide users through steps with validation and progress.",
+      href: "/form-wizard",
+      icon: "🪄",
+      span: "row-span-1",
+    },
+    {
+      title: "Testimonial",
+      description: "Customer quotes",
+      bodyText: "Highlight quotes with avatars and company details.",
+      href: "/testimonial",
+      icon: "💬",
+      span: "sm:col-span-2 row-span-1",
+    },
   ];
 
   return (

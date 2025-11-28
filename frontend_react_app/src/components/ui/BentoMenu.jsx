@@ -4,8 +4,16 @@ import React from "react";
 / PUBLIC_INTERFACE
  * BentoMenu: a responsive grid-based menu with accessible cards.
  * Props:
- * - items: Array<{ title: string, description?: string, icon?: ReactNode, onClick?: () => void, href?: string, ariaLabel?: string }>
- * - cols: number (1-4), default 2 on small, 3 on md, customizable via className
+ * - items: Array<{
+ *     title: string,
+ *     description?: string,     // short subtitle in header (kept on gradient)
+ *     bodyText?: string,        // 1–2 line concise description in the lighter body area
+ *     icon?: ReactNode,
+ *     onClick?: () => void,
+ *     href?: string,
+ *     ariaLabel?: string,
+ *     span?: string
+ *   }>
  * - className: additional classes for container
  */
 export default function BentoMenu({ items = [], className = "" }) {
@@ -50,20 +58,22 @@ export default function BentoMenu({ items = [], className = "" }) {
     </div>
   );
 
-  // Body now shows short descriptive text in place of the chevron icon.
-  // Keep layout and behavior intact; ensure accessible contrast on text.
+  // Body shows the concise 1–2 line description in the lighter answer surface.
+  // Keep layout and behavior intact; ensure accessible contrast and consistent placement.
   const Body = ({ item }) => (
     <div className="px-5 py-4">
-      <div className="mt-1 flex items-center justify-between text-sm">
-        {/* Left-aligned concise description for the tile body */}
-        <p className="text-text/80">
-          {item.bodyText || "Learn more"}
+      {item.bodyText ? (
+        <p className="text-sm leading-5 text-text/80">
+          {item.bodyText}
         </p>
-        {/* Optional 'Learn more' hint when the entire card is interactive. Hidden from SRs since the card already has an aria-label. */}
-        <span className="text-text/50 text-xs" aria-hidden="true">
-          {item.href || item.onClick ? "Open" : ""}
-        </span>
-      </div>
+      ) : (
+        <div className="flex items-center justify-between text-sm">
+          <p className="text-text/80">Learn more</p>
+          <span className="text-text/50 text-xs" aria-hidden="true">
+            {item.href || item.onClick ? "Open" : ""}
+          </span>
+        </div>
+      )}
     </div>
   );
 
