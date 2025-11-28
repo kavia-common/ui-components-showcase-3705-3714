@@ -40,6 +40,11 @@ export default function Navbar({ theme, onToggle }) {
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
 
+  // Focusable selector constant to avoid any templating/escaping mistakes.
+  // Uses single quotes for the JS string; attribute selector uses double quotes inside which are valid CSS.
+  const FOCUSABLE_SELECTOR =
+    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
   // Track viewport-relative position of trigger to place a fixed dropdown panel.
   const [menuPos, setMenuPos] = useState({ left: 8, right: "auto", top: 0 });
 
@@ -69,11 +74,10 @@ export default function Navbar({ theme, onToggle }) {
   useEffect(() => {
     if (!open) return;
     const onClick = (e) => {
-      if (!menuRef.current || !triggerRef.current) return;
-      if (
-        !menuRef.current.contains(e.target) &&
-        !triggerRef.current.contains(e.target)
-      ) {
+      const menuEl = menuRef.current;
+      const triggerEl = triggerRef.current;
+      if (!menuEl || !triggerEl) return;
+      if (!menuEl.contains(e.target) && !triggerEl.contains(e.target)) {
         setOpen(false);
       }
     };
@@ -85,15 +89,24 @@ export default function Navbar({ theme, onToggle }) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => {
+      const menuEl = menuRef.current;
       if (e.key === "Escape") {
         setOpen(false);
         triggerRef.current?.focus();
+        return;
       }
+      if (!menuEl) return;
+
       // optional arrow navigation
-      const focusable = menuRef.current?.querySelectorAll(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1")]'
-      );
+      let focusable = null;
+      try {
+        focusable = menuEl.querySelectorAll(FOCUSABLE_SELECTOR);
+      } catch (err) {
+        // In case of any unexpected selector issue, fallback to a simpler, safe selector
+        focusable = menuEl.querySelectorAll("a[href], button");
+      }
       if (!focusable || focusable.length === 0) return;
+
       const list = Array.from(focusable);
       const idx = list.indexOf(document.activeElement);
       if (e.key === "ArrowDown") {
@@ -112,13 +125,22 @@ export default function Navbar({ theme, onToggle }) {
 
   // On open, compute initial position and move focus to first item
   useEffect(() => {
-    if (open) {
-      updateMenuPosition();
-      const first = menuRef.current?.querySelector(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1")]'
-      );
+    if (!open) return;
+    updateMenuPosition();
+
+    // Delay focus until after the menu is painted to avoid nulls
+    const tm = setTimeout(() => {
+      const menuEl = menuRef.current;
+      if (!menuEl) return;
+      let first = null;
+      try {
+        first = menuEl.querySelector(FOCUSABLE_SELECTOR);
+      } catch {
+        first = menuEl.querySelector("a[href], button");
+      }
       first?.focus();
-    }
+    }, 0);
+    return () => clearTimeout(tm);
   }, [open]);
 
   // Recompute position on resize/scroll while open to keep panel anchored to trigger.
@@ -294,10 +316,10 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
   useEffect(() => {
     if (!open) return;
     const clickAway = (e) => {
-      if (
-        !panelRef.current?.contains(e.target) &&
-        !btnRef.current?.contains(e.target)
-      ) {
+      const panelEl = panelRef.current;
+      const btnEl = btnRef.current;
+      if (!panelEl || !btnEl) return;
+      if (!panelEl.contains(e.target) && !btnEl.contains(e.target)) {
         setOpen(false);
       }
     };
