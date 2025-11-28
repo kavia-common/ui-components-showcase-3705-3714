@@ -48,13 +48,13 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children, variant = "s
   // Per-item wrapper surface with either shadow or outline
   const itemWrapperClass =
     variant === "outline"
-      ? "bg-surface border border-black/10 rounded-2xl overflow-hidden"
-      : "bg-surface shadow-soft rounded-2xl overflow-hidden";
+      ? "bg-surface border border-black/10 rounded-2xl overflow-hidden transform-gpu accordion-hover-elevate"
+      : "bg-surface shadow-soft rounded-2xl overflow-hidden transform-gpu accordion-hover-elevate";
 
   // Header style: subtle glass/blur surface, gradient accent bar on the left, improved spacing,
   // hover/active states, and clear affordance with an icon that rotates on open.
   const headerBase =
-    "relative w-full text-left flex items-center justify-between gap-3 px-5 py-4 transition";
+    "relative w-full text-left flex items-center justify-between gap-3 px-5 py-4 transition duration-200 ease-out";
   const headerLook =
     "bg-white/70 backdrop-blur-sm text-text hover:bg-white/85 active:bg-white focus:outline-none";
   const headerFocus =
@@ -91,7 +91,7 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children, variant = "s
               "ml-auto inline-flex h-8 w-8 items-center justify-center rounded-full",
               "bg-white/80 backdrop-blur-sm",
               "border-brand-gradient ring-brand-inner",
-              "transition-transform shadow-[0_1px_2px_rgba(0,0,0,0.08)]",
+              "transition-transform duration-200 ease-out shadow-[0_1px_2px_rgba(0,0,0,0.08)]",
               isOpen ? "rotate-90" : "",
             ].join(" ")}
             aria-hidden="true"
@@ -121,7 +121,7 @@ function AccordionItem({ idProp, title, isOpen, onToggle, children, variant = "s
         role="region"
         aria-labelledby={buttonId}
         className={[
-          "px-5 pb-5 text-sm text-text/90 transition-all origin-top",
+          "px-5 pb-5 text-sm text-text/90 transition-all duration-200 ease-out origin-top",
           isOpen ? "block animate-slideUp brand-panel-soft-strong" : "hidden bg-white",
         ]
           .filter(Boolean)

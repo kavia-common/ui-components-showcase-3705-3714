@@ -363,6 +363,24 @@
     filter: brightness(1.02);
   }
 
+  /* PUBLIC_INTERFACE
+     accordion-hover-elevate: subtle elevate/scale for accordion items on hover and focus-visible.
+     - Transform-based scaling to avoid layout shift
+     - Soft shadow that matches lighter answer palette
+     - GPU-accelerated for smoothness
+  */
+  .accordion-hover-elevate {
+    transform: translateZ(0);
+    transition: transform 200ms ease-out, box-shadow 200ms ease-out, filter 200ms ease-out;
+    will-change: transform;
+  }
+  .accordion-hover-elevate:hover,
+  .accordion-hover-elevate:focus-within {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px -10px rgba(2, 6, 23, 0.16), 0 6px 12px -8px rgba(2, 6, 23, 0.10);
+    filter: brightness(1.01);
+  }
+
   /* Size helpers for small icons */
   .icon-18 { width: 18px; height: 18px; }
   .icon-20 { width: 20px; height: 20px; }
