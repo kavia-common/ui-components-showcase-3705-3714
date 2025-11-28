@@ -318,6 +318,13 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    /* Improve cross-browser behavior for inline SVG currentColor clipping */
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Optional subtle outline utility for tiny gradient icons against light surfaces */
+  .icon-gradient-outline {
+    filter: drop-shadow(0 0 0.5px rgba(0,0,0,0.25));
   }
 
   /* Optional: mask-based gradient for monochrome SVGs using mask-image; apply to a wrapper if needed.

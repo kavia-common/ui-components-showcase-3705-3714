@@ -61,22 +61,27 @@ export default function BentoMenu({ items = [], className = "" }) {
   // Body shows the concise 1–2 line description in the lighter answer surface.
   // Keep layout and behavior intact; ensure accessible contrast and consistent placement.
   const ExploreIcon = ({ decorative = true, label = "Explore" }) => {
-    // Chevron-in-circle built with currentColor so gradient text utility applies.
+    /**
+     * Chevron-in-circle built with currentColor so gradient text utility applies.
+     * Uses gradient text fill via bg-clip-text + text-transparent on a wrapper span.
+     * Adds a subtle outline for visibility against light surfaces.
+     */
     const svg = (
       <svg
-        className="icon-18"
+        className="w-5 h-5 inline-block"
         viewBox="0 0 24 24"
         role="img"
         aria-label={decorative ? undefined : label}
         aria-hidden={decorative ? "true" : undefined}
         focusable={decorative ? "false" : "true"}
       >
-        <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.12" />
+        {/* Use currentColor so the gradient text fill from the wrapper applies */}
+        <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.16" />
         <path
           d="M10 8l4 4-4 4"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -85,11 +90,24 @@ export default function BentoMenu({ items = [], className = "" }) {
 
     return (
       <span
-        className="inline-flex items-center icon-subtle-spacing"
-        // text transparent via clipping to show gradient
+        className="mt-1 inline-flex items-center"
       >
-        <span className="icon-gradient-major icon-gradient-text inline-flex">
-          {svg}
+        {/* Gradient text fill for the icon; include a subtle text-shadow-like outline via dual-layer for visibility */}
+        <span className="relative inline-flex">
+          {/* Outline/fallback layer to ensure contrast on very light backgrounds */}
+          <span
+            className="absolute inset-0"
+            aria-hidden="true"
+            style={{
+              // soft outline using shadow; works across browsers without extra filters
+              filter: "drop-shadow(0 0 0.5px rgba(0,0,0,0.25))",
+            }}
+          >
+            {svg}
+          </span>
+          <span className="icon-gradient-major icon-gradient-text inline-flex relative">
+            {svg}
+          </span>
         </span>
       </span>
     );
@@ -108,7 +126,10 @@ export default function BentoMenu({ items = [], className = "" }) {
             <p className="text-sm leading-5 text-text/80">
               {item.bodyText}
             </p>
-            <ExploreIcon decorative={decorative} />
+            {/* Add slight separation and ensure icon is on top of any backgrounds */}
+            <div className="mt-1.5 relative z-10">
+              <ExploreIcon decorative={decorative} />
+            </div>
           </>
         ) : (
           <div className="flex items-center justify-between text-sm">
