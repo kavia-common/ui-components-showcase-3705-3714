@@ -255,11 +255,16 @@
 
   /* PUBLIC_INTERFACE
      app-answer-surface: reusable utility that mirrors the accordion answer/content palette.
-     Use for hero sections and demo page headers to provide a soft, readable, light surface. */
+     Use for hero sections, headers, and cards to provide a soft, readable, light surface. */
   .app-answer-surface {
     @apply rounded-2xl;
-    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.045) 10%, rgba(144, 45, 154, 0.045) 20%, rgba(24, 64, 160, 0.045) 100%);
-    background-color: rgba(255,255,255,0.92); /* subtle translucency */
+    background-image: linear-gradient(
+      45deg,
+      rgba(175, 36, 151, 0.045) 10%,
+      rgba(144, 45, 154, 0.045) 20%,
+      rgba(24, 64, 160, 0.045) 100%
+    );
+    background-color: rgba(255, 255, 255, 0.94); /* slightly higher opacity for better tile readability */
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
   }
@@ -267,7 +272,7 @@
   /* PUBLIC_INTERFACE
      app-answer-border: soft separator border matching the answer palette. */
   .app-answer-border {
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   /* PUBLIC_INTERFACE

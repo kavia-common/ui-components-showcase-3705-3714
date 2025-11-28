@@ -53,9 +53,9 @@ export default function BentoMenu({ items = [], className = "" }) {
     </div>
   );
 
-  // Slightly lighter brand gradient specifically for tiles to reduce intensity while keeping solid gradient look.
-  // This avoids conflicting bg-* utilities inside the content by applying on the wrapper only.
-  const tileBg = "bg-brand-gradient-soft";
+  // Switch to a lighter answer-aligned surface for tiles to harmonize with accordion/header palette.
+  // Use a soft brand-tinted light surface and subtle border for readability on varied content.
+  const tileBg = "app-answer-surface app-answer-border";
 
   return (
     <div
