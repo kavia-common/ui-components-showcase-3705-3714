@@ -5,6 +5,10 @@ import ThemeToggle from "./ThemeToggle";
 /**
  * Navbar: outer shell remains square; inner interactive elements are rounded for better tactility.
  * Overflow-safe across all breakpoints with safe gutters and viewport-aware menus.
+ * Requirements enforced:
+ * - Navbar itself never scrolls horizontally
+ * - Dropdown uses fixed overlay, constrained to viewport with its own scroll
+ * - Mobile menu is an overlay that scrolls internally; navbar never scrolls
  */
 export default function Navbar({ theme, onToggle }) {
   // Small-to-medium rounding with accessible focus states for links
@@ -152,9 +156,16 @@ export default function Navbar({ theme, onToggle }) {
   }, [open]);
 
   return (
-    <nav className="sticky inset-x-0 top-0 z-[55]" aria-label="Site">
+    <nav
+      className="sticky inset-x-0 top-0 z-[55]"
+      aria-label="Site"
+    >
       {/* Outer wrapper spans full viewport width, never overflows horizontally */}
-      <div className="app-header-major rounded-none w-full max-w-screen overflow-x-hidden">
+      <div
+        className="app-header-major rounded-none w-full max-w-screen overflow-x-hidden"
+        // Ensure the navbar wrapper itself never scrolls horizontally or vertically
+        style={{ overflowY: "visible" }}
+      >
         <div className="app-header-inner">
           {/* Respect gutters at all breakpoints; clamp to content container */}
           <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
@@ -229,7 +240,9 @@ export default function Navbar({ theme, onToggle }) {
                       aria-label="More components"
                       className={[
                         "fixed z-[100] pointer-events-auto",
+                        // Responsive width constraints
                         "min-w-[14rem] w-auto sm:w-56 max-w-[90vw]",
+                        // Viewport-aware height with internal scroll
                         "max-h-[min(70vh,28rem)] overflow-y-auto",
                         "rounded-xl shadow-card app-answer-surface app-answer-border",
                         "animate-slideDown",
@@ -300,6 +313,7 @@ export default function Navbar({ theme, onToggle }) {
 / PUBLIC_INTERFACE
  * MobileMenu: compact dropdown for small screens keeping primary links + "More".
  * - Uses a single button to open a panel with all links for simplicity and accessibility.
+ * - Panel scrolls internally; navbar itself remains non-scrollable.
  */
 function MobileMenu({ primary, more, onAfterNavigate }) {
   const [open, setOpen] = useState(false);
@@ -351,15 +365,15 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
           aria-label="Navigation"
           className={[
             "absolute right-0 mt-2 z-[100]",
-            // Constrain strictly to viewport width; prefer viewport calc over fixed widths
+            // Full-width on very narrow viewports while keeping gutter
             "w-[min(100vw-1rem,24rem)] min-w-[14rem] max-w-[95vw]",
-            "max-h-[70vh] overflow-y-auto",
+            // Internal scrolling; navbar doesn't scroll
+            "max-h-[80vh] overflow-y-auto",
             "rounded-xl shadow-card app-answer-surface app-answer-border",
             "animate-slideDown",
             "text-slate-800",
           ].join(" ")}
           style={{
-            // Ensure no accidental horizontal overflow if parent mis-measures
             maxWidth: "95vw",
           }}
         >
