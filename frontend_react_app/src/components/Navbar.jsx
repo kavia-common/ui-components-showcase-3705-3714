@@ -370,18 +370,15 @@ export default function Navbar({ theme, onToggle }) {
                                       [
                                         "block w-full text-left px-4 py-2.5 text-sm",
                                         "rounded-md",
-                                        // Base state: no static borders; keep readable text and soft hover background only
+                                        // Base: no static borders; only hover/focus-visible should reveal gradient ring
                                         isActive
                                           ? "bg-gray-50 text-slate-900"
                                           : "text-slate-900 hover:bg-gray-50",
-                                        // Gradient border should be applied only on hover and focus-visible
+                                        // Apply gradient border only on hover/focus-visible
                                         "hover-gradient-border",
-                                        // Remove static item separators to avoid default borders
-                                        // Maintain keyboard accessibility
+                                        // Maintain keyboard accessibility ring
                                         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
-                                      ]
-                                        .filter(Boolean)
-                                        .join(" ")
+                                      ].join(" ")
                                     }
                                     role="menuitem"
                                     onClick={() => setOpen(false)}
@@ -496,9 +493,8 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                       isActive
                         ? "bg-white text-slate-900 shadow-soft"
                         : "text-slate-900 hover:bg-white",
-                      // Apply gradient border ONLY on hover/focus-visible
+                      // Apply gradient border ONLY on hover/focus-visible (no default border)
                       "hover-gradient-border",
-                      // Remove static separators and any default borders
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                     ].join(" ")
                   }
