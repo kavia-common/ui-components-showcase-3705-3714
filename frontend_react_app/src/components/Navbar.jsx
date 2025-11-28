@@ -180,10 +180,10 @@ export default function Navbar({ theme, onToggle }) {
         <div className="app-header-inner" style={{ overflow: "visible" }}>
           {/* Respect gutters at all breakpoints; clamp to content container */}
           <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
-            {/* Internal row must never force width > 100%; allow wrapping on narrow widths */}
-            <div className="h-14 flex items-center justify-end gap-3 flex-wrap w-full">
-              {/* Right-aligned stack: brand, primary links, dropdown, theme toggle, mobile menu */}
-              <div className="min-w-0 shrink overflow-visible order-5 md:order-1">
+            {/* Internal row: brand on the left, everything else aligned right */}
+            <div className="h-14 flex items-center justify-between gap-3 w-full">
+              {/* Brand on the left, never overflows */}
+              <div className="min-w-0 shrink overflow-visible">
                 <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
                   <div className="h-8 w-8 rounded-lg bg-white text-text grid place-items-center font-bold shadow-soft">
                     UI
@@ -194,124 +194,127 @@ export default function Navbar({ theme, onToggle }) {
                 </NavLink>
               </div>
 
-              {/* Primary links + More (all right-aligned on md+) */}
-              <div
-                className="hidden md:flex items-center justify-end gap-1.5 flex-shrink min-w-0 order-2"
-                role="navigation"
-                aria-label="Primary"
-              >
-                <div className="flex items-center gap-1.5 flex-wrap justify-end">
-                  {primaryNav.map((item) => (
-                    <NavLink
-                      key={item.to}
-                      to={item.to}
-                      end={item.end}
-                      className={linkClass}
-                    >
-                      {item.label}
-                    </NavLink>
-                  ))}
-                </div>
-
-                {/* Dropdown trigger (right side) */}
-                <div className="relative">
-                  <button
-                    ref={triggerRef}
-                    type="button"
-                    className={[
-                      "px-3 py-2 rounded-md text-sm font-medium transition",
-                      "text-white/90 hover:text-white",
-                      "bg-white/10 hover:bg-white/15",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
-                      "border-brand-gradient",
-                    ].join(" ")}
-                    aria-haspopup="menu"
-                    aria-expanded={open ? "true" : "false"}
-                    aria-controls="nav-more-menu"
-                    onClick={() => setOpen((v) => !v)}
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      <span
-                        className="h-5 w-5 rounded-full border-brand-gradient-thin bg-transparent grid place-items-center"
-                        aria-hidden="true"
+              {/* Right-aligned cluster: desktop links + more + theme + mobile menu */}
+              <div className="flex items-center gap-2 min-w-0">
+                {/* Primary links + More (desktop) */}
+                <div
+                  className="hidden md:flex items-center justify-end gap-1.5 flex-shrink min-w-0"
+                  role="navigation"
+                  aria-label="Primary"
+                >
+                  <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                    {primaryNav.map((item) => (
+                      <NavLink
+                        key={item.to}
+                        to={item.to}
+                        end={item.end}
+                        className={linkClass}
                       >
-                        ⋯
-                      </span>
-                      More
-                    </span>
-                  </button>
+                        {item.label}
+                      </NavLink>
+                    ))}
+                  </div>
 
-                  {/* Dropdown panel: fixed portal; compute position relative to right-aligned trigger */}
-                  {open && (
-                    <Portal>
-                      <>
-                        <div
-                          className="fixed inset-0 z-[998] bg-black/15 backdrop-blur-[1px] pointer-events-auto"
+                  {/* Dropdown trigger (right side) */}
+                  <div className="relative">
+                    <button
+                      ref={triggerRef}
+                      type="button"
+                      className={[
+                        "px-3 py-2 rounded-md text-sm font-medium transition",
+                        "text-white/90 hover:text-white",
+                        "bg-white/10 hover:bg-white/15",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+                        "border-brand-gradient",
+                      ].join(" ")}
+                      aria-haspopup="menu"
+                      aria-expanded={open ? "true" : "false"}
+                      aria-controls="nav-more-menu"
+                      onClick={() => setOpen((v) => !v)}
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        <span
+                          className="h-5 w-5 rounded-full border-brand-gradient-thin bg-transparent grid place-items-center"
                           aria-hidden="true"
-                          onClick={() => setOpen(false)}
-                        />
-                        <div
-                          id="nav-more-menu"
-                          ref={menuRef}
-                          role="menu"
-                          aria-label="More components"
-                          className={[
-                            "fixed pointer-events-auto",
-                            "z-[1000]",
-                            "min-w-[16rem] max-w-[90vw]",
-                            "max-h-[min(70vh,28rem)] overflow-y-auto",
-                            "rounded-xl shadow-card bg-white border border-black/10",
-                            "animate-slideDown",
-                            "text-slate-900",
-                          ].join(" ")}
-                          style={{
-                            left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,
-                            right: typeof menuPos.right === "number" ? `${menuPos.right}px` : menuPos.right,
-                            top: `${menuPos.top}px`,
-                            width: menuPos.width ? `${menuPos.width}px` : undefined,
-                          }}
                         >
-                          <ul className="py-1" role="none">
-                            {moreItems.map((item, idx) => (
-                              <li key={item.to} role="none">
-                                <NavLink
-                                  to={item.to}
-                                  className={({ isActive }) =>
-                                    [
-                                      "block w-full text-left px-4 py-2.5 text-sm",
-                                      "rounded-md",
-                                      isActive
-                                        ? "bg-gray-50 text-slate-900"
-                                        : "text-slate-900 hover:bg-gray-50",
-                                      idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
-                                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
-                                    ]
-                                      .filter(Boolean)
-                                      .join(" ")
-                                  }
-                                  role="menuitem"
-                                  onClick={() => setOpen(false)}
-                                >
-                                  {item.label}
-                                </NavLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </>
-                    </Portal>
-                  )}
-                </div>
-              </div>
+                          ⋯
+                        </span>
+                        More
+                      </span>
+                    </button>
 
-              {/* Actions cluster on the far right: theme and mobile menu */}
-              <div className="flex items-center justify-end gap-2 shrink-0 order-3">
-                <ThemeToggle theme={theme} onToggle={onToggle} />
-                <MobileMenu
-                  primary={primaryNav}
-                  more={moreItems}
-                  onAfterNavigate={() => setOpen(false)}
-                />
+                    {/* Dropdown panel: fixed portal; compute position relative to right-aligned trigger */}
+                    {open && (
+                      <Portal>
+                        <>
+                          <div
+                            className="fixed inset-0 z-[998] bg-black/15 backdrop-blur-[1px] pointer-events-auto"
+                            aria-hidden="true"
+                            onClick={() => setOpen(false)}
+                          />
+                          <div
+                            id="nav-more-menu"
+                            ref={menuRef}
+                            role="menu"
+                            aria-label="More components"
+                            className={[
+                              "fixed pointer-events-auto",
+                              "z-[1000]",
+                              "min-w-[16rem] max-w-[90vw]",
+                              "max-h-[min(70vh,28rem)] overflow-y-auto",
+                              "rounded-xl shadow-card bg-white border border-black/10",
+                              "animate-slideDown",
+                              "text-slate-900",
+                            ].join(" ")}
+                            style={{
+                              left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,
+                              right: typeof menuPos.right === "number" ? `${menuPos.right}px` : menuPos.right,
+                              top: `${menuPos.top}px`,
+                              width: menuPos.width ? `${menuPos.width}px` : undefined,
+                            }}
+                          >
+                            <ul className="py-1" role="none">
+                              {moreItems.map((item, idx) => (
+                                <li key={item.to} role="none">
+                                  <NavLink
+                                    to={item.to}
+                                    className={({ isActive }) =>
+                                      [
+                                        "block w-full text-left px-4 py-2.5 text-sm",
+                                        "rounded-md",
+                                        isActive
+                                          ? "bg-gray-50 text-slate-900"
+                                          : "text-slate-900 hover:bg-gray-50",
+                                        idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
+                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
+                                      ]
+                                        .filter(Boolean)
+                                        .join(" ")
+                                    }
+                                    role="menuitem"
+                                    onClick={() => setOpen(false)}
+                                  >
+                                    {item.label}
+                                  </NavLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </>
+                      </Portal>
+                    )}
+                  </div>
+                </div>
+
+                {/* Actions cluster on the far right: theme and mobile menu */}
+                <div className="flex items-center justify-end gap-2 shrink-0">
+                  <ThemeToggle theme={theme} onToggle={onToggle} />
+                  <MobileMenu
+                    primary={primaryNav}
+                    more={moreItems}
+                    onAfterNavigate={() => setOpen(false)}
+                  />
+                </div>
               </div>
             </div>
           </div>
