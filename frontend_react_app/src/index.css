@@ -94,13 +94,19 @@
   .app-header-subtitle {
     color: rgba(255,255,255,0.92);
   }
-  /* Accessible focus within header */
+  /* Accessible focus within header:
+     - Keep shell square, but allow inner interactive elements to retain their own rounding.
+     - Do not force border-radius:0 on focus styles here; individual elements define rounding. */
   .app-header-major :is(a, button, [role="button"]) {
     outline: none;
   }
   .app-header-major :is(a, button, [role="button"]):focus-visible {
     box-shadow: 0 0 0 2px rgba(255,255,255,0.7);
-    border-radius: 0; /* square focus outline inside header/footer */
+  }
+
+  /* Optional helper for rounding common inner elements inside square shells */
+  .header-inner-rounded {
+    border-radius: 0.5rem; /* ~rounded-md */
   }
   /* Slightly lighter brand gradient for surfaces like Bento tiles where a softer intensity is desired.
      Keeps the same hue stops but reduces visual intensity by lowering color opacity atop a subtle base.

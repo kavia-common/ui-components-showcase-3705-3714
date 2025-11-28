@@ -3,11 +3,12 @@ import { NavLink } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 /**
- * Navbar: keep layout and gradients, remove all rounded corners.
+ * Navbar: outer shell remains square; inner interactive elements are rounded for better tactility.
  */
 export default function Navbar({ theme, onToggle }) {
+  // Small-to-medium rounding with accessible focus states for links
   const baseLink =
-    "px-3 py-2 rounded-none text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50";
+    "px-3 py-2 rounded-md text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-0";
   const activeLink =
     "bg-white/90 text-text shadow-soft underline underline-offset-4 decoration-white";
   const inactiveLink = "text-white/90 hover:text-white hover:bg-white/10";
@@ -29,7 +30,7 @@ export default function Navbar({ theme, onToggle }) {
 
   return (
     <nav className="sticky top-0 z-40" aria-label="Site">
-      {/* Remove rounding from the header shell */}
+      {/* Keep the Navbar container square */}
       <div className="w-full app-header-major rounded-none">
         <div className="app-header-inner">
           <div className="mx-auto max-w-6xl px-4">
@@ -37,7 +38,8 @@ export default function Navbar({ theme, onToggle }) {
               {/* Brand (left) */}
               <div className="min-w-0">
                 <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
-                  <div className="h-8 w-8 rounded-none bg-white text-text grid place-items-center font-bold shadow-soft">
+                  {/* Brand mark rounded for inner element only */}
+                  <div className="h-8 w-8 rounded-lg bg-white text-text grid place-items-center font-bold shadow-soft">
                     UI
                   </div>
                   <span className="text-base sm:text-lg font-semibold text-white truncate">
@@ -66,6 +68,7 @@ export default function Navbar({ theme, onToggle }) {
 
               {/* Actions (right) */}
               <div className="flex items-center justify-end gap-2">
+                {/* Theme toggle already rounded; ensure accessible focus */}
                 <ThemeToggle theme={theme} onToggle={onToggle} />
               </div>
             </div>
