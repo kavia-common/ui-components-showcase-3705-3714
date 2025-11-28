@@ -197,7 +197,7 @@ export default function Navbar({ theme, onToggle }) {
           {/* Respect gutters at all breakpoints; clamp to content container */}
           <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
             {/* Internal row: brand on the left, everything else aligned right */}
-            <div className="min-h-[3.75rem] py-1 flex items-center justify-between gap-3 w-full">
+            <div className="min-h-[4.25rem] py-2 flex items-center justify-between gap-3 w-full">
               {/* Brand on the left, never overflows */}
               <div className="min-w-0 shrink overflow-visible">
                 <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
