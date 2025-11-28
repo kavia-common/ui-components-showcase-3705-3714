@@ -170,9 +170,10 @@ export default function Navbar({ theme, onToggle }) {
       {/* Outer wrapper spans full viewport width, never overflows horizontally */}
       <div
         className="app-header-major rounded-none w-full max-w-screen overflow-x-hidden"
-        // Ensure the navbar wrapper itself never scrolls horizontally or vertically
-        style={{ overflowY: "visible" }}
+        // Ensure the navbar wrapper itself never scrolls vertically. Keep horizontal hidden and allow overlays to be visible.
+        style={{ overflowY: "hidden" }}
       >
+        {/* Keep inner overlay-friendly */}
         <div className="app-header-inner" style={{ overflow: "visible" }}>
           {/* Respect gutters at all breakpoints; clamp to content container */}
           <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
@@ -241,9 +242,9 @@ export default function Navbar({ theme, onToggle }) {
                   {/* Dropdown panel: fixed, viewport-constrained, pointer-events managed */}
                   {open && (
                     <>
-                      {/* Click-away backdrop solely to simplify outside-click on mobile without blocking navbar visuals */}
+                      {/* Click-away backdrop; keep pointer-events to enable outside click, avoid affecting layout */}
                       <div
-                        className="fixed inset-0 z-[99]"
+                        className="fixed inset-0 z-[99] pointer-events-auto"
                         aria-hidden="true"
                         onClick={() => setOpen(false)}
                       />
