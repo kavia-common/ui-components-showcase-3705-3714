@@ -389,6 +389,10 @@ export default function Navbar({ theme, onToggle }) {
                                         "hover-bg-subtle",
                                         // ~2px brand gradient border only on hover/focus-visible
                                         "hover-gradient-border",
+                                        // New subtle elevate effect: GPU transform, small scale, soft shadow on hover/focus-visible
+                                        "transform-gpu transition duration-200 ease-out",
+                                        "hover:scale-[1.02] focus-visible:scale-[1.02]",
+                                        "hover:shadow-md focus-visible:shadow-md",
                                         // Maintain keyboard accessibility ring
                                         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                                       ].join(" ")
@@ -514,6 +518,11 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                       "hover-bg-subtle",
                       // Apply ~2px brand gradient border ONLY on hover/focus-visible (no default border)
                       "hover-gradient-border",
+                      // New subtle elevate effect: GPU transform, small scale, soft shadow on hover/focus-visible
+                      "transform-gpu transition duration-200 ease-out",
+                      "hover:scale-[1.02] focus-visible:scale-[1.02]",
+                      "hover:shadow-md focus-visible:shadow-md",
+                      // Maintain keyboard accessibility ring
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                     ].join(" ")
                   }
