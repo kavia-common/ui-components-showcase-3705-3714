@@ -20,7 +20,10 @@
     height: 100%;
   }
   body {
-    @apply bg-background text-text antialiased;
+    /* Keep text color and type settings; move background to gradient with a subtle base color fallback */
+    @apply text-text antialiased;
+    background-color: #f9fafb;
+    background-image: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%);
     font-feature-settings: "cv02","cv03","cv04","cv11";
   }
 
@@ -40,6 +43,15 @@
   }
   .ocean-gradient {
     @apply bg-gradient-to-r from-blue-500/10 to-gray-50;
+  }
+
+  /* PUBLIC_INTERFACE
+     bg-app-gradient: global application background gradient per product theme.
+     Use on app shell containers like html, body, #root, layout wrappers, and navbars.
+     Exact value: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%). */
+  .bg-app-gradient {
+    /** PUBLIC_INTERFACE: App-wide gradient utility for shell backgrounds */
+    background-image: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%);
   }
 
   /* PUBLIC_INTERFACE

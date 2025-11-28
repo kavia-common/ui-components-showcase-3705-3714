@@ -76,7 +76,10 @@ Tokens are defined in tailwind.config.js and surfaced as Tailwind classes:
 - Animations: fadeIn, slideUp, slideDown, pop, shimmer, spin-slow
 - Gradients:
   - bg-ocean-gradient (legacy soft gradient)
-  - bg-brand-gradient (new primary gradient: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%))
+  - bg-brand-gradient (primary brand gradient: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%))
+  - bg-app-gradient (APP-WIDE background: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%))
+    - Applied to: body/#root via base styles, MainLayout wrapper, and Navbar
+    - Use on shell elements only; keep content surfaces white or translucent for readability
 
 ## Environment variables
 

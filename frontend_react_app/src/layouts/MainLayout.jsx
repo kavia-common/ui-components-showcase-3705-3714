@@ -19,7 +19,8 @@ export default function MainLayout() {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-text">
+    // Apply app gradient to layout shell; content uses solid surfaces for readability
+    <div className="min-h-screen flex flex-col bg-app-gradient text-text">
       <Navbar theme={theme} onToggle={toggleTheme} />
       <main className="flex-1">
         <div className="mx-auto max-w-6xl px-4 py-8">

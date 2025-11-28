@@ -31,8 +31,8 @@ export default function Navbar({ theme, onToggle }) {
 
   return (
     <nav className="sticky top-0 z-40">
-      {/* Brand gradient bar with solid gradient and solid foregrounds for contrast */}
-      <div className="w-full bg-brand-gradient">
+      {/* App-wide gradient bar with solid foregrounds for contrast */}
+      <div className="w-full bg-app-gradient">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
             <div className="h-8 w-8 rounded-xl bg-white text-text grid place-items-center font-bold shadow-soft">
