@@ -21,14 +21,15 @@ export default function BentoMenu({ items = [], className = "" }) {
   ];
 
   // Wrapper styles: preserve focus and hover elevation.
-  // The gradient will be applied to the tile background element (the wrapper itself).
   const wrapperBase =
     "group rounded-2xl transition hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
 
-  // Content: use solid foregrounds for high contrast on top of the gradient tile.
-  // Remove any bg-* that could conflict with the gradient background on the wrapper.
-  const Content = ({ item }) => (
-    <div className="p-5 h-full flex flex-col justify-between rounded-2xl">
+  // Tile container uses the lighter answer surface
+  const tileSurface = "app-answer-surface app-answer-border";
+
+  // Header: gradient strip with white text; body remains on light surface
+  const Header = ({ item }) => (
+    <div className="bento-tile-header px-5 py-4">
       <div className="flex items-start gap-3">
         {item.icon ? (
           <div className="h-10 w-10 rounded-xl bg-white/15 text-white grid place-items-center shrink-0 ring-1 ring-white/25">
@@ -42,20 +43,29 @@ export default function BentoMenu({ items = [], className = "" }) {
         <div>
           <div className="text-base font-semibold text-white">{item.title}</div>
           {item.description && (
-            <div className="text-sm text-white/85 mt-0.5">{item.description}</div>
+            <div className="text-sm text-white/90 mt-0.5">{item.description}</div>
           )}
         </div>
       </div>
-      <div className="mt-4 flex items-center justify-between text-sm text-white/90">
+    </div>
+  );
+
+  const Body = ({ item }) => (
+    <div className="px-5 py-4">
+      <div className="mt-1 flex items-center justify-between text-sm text-text/80">
         <span>Open</span>
         <span aria-hidden="true" className="transition group-hover:translate-x-0.5">→</span>
       </div>
     </div>
   );
 
-  // Switch to a lighter answer-aligned surface for tiles to harmonize with accordion/header palette.
-  // Use a soft brand-tinted light surface and subtle border for readability on varied content.
-  const tileBg = "app-answer-surface app-answer-border";
+  // Render anchor or button preserving layout/hover behaviors
+  const TileInner = ({ item }) => (
+    <div className={`h-full w-full overflow-hidden rounded-2xl ${tileSurface}`}>
+      <Header item={item} />
+      <Body item={item} />
+    </div>
+  );
 
   return (
     <div
@@ -70,11 +80,11 @@ export default function BentoMenu({ items = [], className = "" }) {
           return (
             <a
               key={idx}
-              className={`${wrapperBase} ${spanCls} ${tileBg} hover:brightness-[1.06]`}
+              className={`${wrapperBase} ${spanCls} text-left hover:brightness-[1.03]`}
               href={item.href}
               aria-label={item.ariaLabel || `Open ${item.title}`}
             >
-              <Content item={item} />
+              <TileInner item={item} />
             </a>
           );
         }
@@ -83,11 +93,11 @@ export default function BentoMenu({ items = [], className = "" }) {
           <button
             key={idx}
             type="button"
-            className={`${wrapperBase} ${spanCls} ${tileBg} text-left hover:brightness-[1.06]`}
+            className={`${wrapperBase} ${spanCls} text-left hover:brightness-[1.03]`}
             onClick={item.onClick}
             aria-label={item.ariaLabel || `Open ${item.title}`}
           >
-            <Content item={item} />
+            <TileInner item={item} />
           </button>
         );
       })}
