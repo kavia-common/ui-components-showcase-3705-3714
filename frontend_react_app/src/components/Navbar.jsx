@@ -336,9 +336,12 @@ export default function Navbar({ theme, onToggle }) {
                               "z-[1000]",
                               "min-w-[16rem] max-w-[90vw]",
                               "max-h-[min(70vh,28rem)] overflow-y-auto",
-                              "rounded-xl answer-gradient-translucent",
+                              "rounded-xl",
+                              // Use exact requested gradient on the dropdown panel; no blur
+                              "nav-dropdown-panel-gradient",
                               "animate-slideDown",
-                              "text-slate-900",
+                              // Keep text readable over the new gradient
+                              "text-white",
                             ].join(" ")}
                             style={{
                               left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,

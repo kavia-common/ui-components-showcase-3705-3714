@@ -285,21 +285,19 @@
   }
 
   /* PUBLIC_INTERFACE
-     answer-gradient-translucent: semi-transparent overlay using the same light "answer" gradient palette.
-     Intended for floating overlays like dropdowns; avoids backdrop blur for sharper content behind.
-     Includes a subtle border and floating shadow for readability. */
-  .answer-gradient-translucent {
-    /* Slightly stronger translucent "answer" gradient for floating overlays (e.g., dropdowns) */
-    background-image: linear-gradient(
-      45deg,
-      rgba(175, 36, 151, 0.12) 10%,
-      rgba(144, 45, 154, 0.12) 20%,
-      rgba(24, 64, 160, 0.12) 100%
-    );
-    /* Increase white base opacity from ~0.86 -> ~0.9 for improved legibility */
-    background-color: rgba(255, 255, 255, 0.9);
-    /* Keep backdrop blur disabled */
-    border: 1px solid rgba(0, 0, 0, 0.09);
+     nav-dropdown-panel-gradient: exact background for Navbar dropdown panel.
+     Requirements:
+     - Exact gradient: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%)
+     - No blur; body-level fixed overlay (handled in component)
+     - Ensure internal scrolling (max-h) and readability
+  */
+  .nav-dropdown-panel-gradient {
+    background-image: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%);
+    /* Ensure no backdrop blur is applied here */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* Subtle border and floating shadow for separation over content */
+    border: 1px solid rgba(255, 255, 255, 0.22);
     box-shadow:
       0 10px 24px -10px rgba(2, 6, 23, 0.18),
       0 6px 12px -8px rgba(2, 6, 23, 0.12);
