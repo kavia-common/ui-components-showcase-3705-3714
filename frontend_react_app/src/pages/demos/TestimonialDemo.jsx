@@ -91,7 +91,7 @@ export default function TestimonialDemoPage() {
 
   return (
     <section className="space-y-6">
-      {/* Header uses brand gradient; solid body for content readability */}
+      {/* Header now uses answer palette surface for harmony across demos */}
       <Header
         title="Testimonial"
         subtitle="Customer quotes with avatars and details. Now with a slider and drag."

@@ -247,4 +247,32 @@
       border-color: rgba(255,255,255,0.12);
     }
   }
+
+  /* PUBLIC_INTERFACE
+     app-answer-surface: reusable utility that mirrors the accordion answer/content palette.
+     Use for hero sections and demo page headers to provide a soft, readable, light surface. */
+  .app-answer-surface {
+    @apply rounded-2xl;
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.06) 10%, rgba(144, 45, 154, 0.06) 20%, rgba(24, 64, 160, 0.06) 100%);
+    background-color: #ffffff;
+  }
+
+  /* PUBLIC_INTERFACE
+     app-answer-border: soft separator border matching the answer palette. */
+  .app-answer-border {
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  /* PUBLIC_INTERFACE
+     app-answer-heading: heading style that harmonizes with the answer surface while maintaining contrast. */
+  .app-answer-heading {
+    color: #0b1a3a; /* deep navy for strong contrast on light surface */
+    font-weight: 700;
+  }
+
+  /* PUBLIC_INTERFACE
+     app-answer-subtle: secondary text color for descriptions on answer surfaces. */
+  .app-answer-subtle {
+    color: rgba(17, 24, 39, 0.78); /* text-text with slight opacity */
+  }
 }

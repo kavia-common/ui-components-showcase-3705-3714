@@ -67,7 +67,7 @@ export default function AccordionDemoPage() {
 
       <Accordion items={items} variant="soft" />
 
-      <div className="text-sm text-text/70">
+      <div className="text-sm app-answer-subtle">
         Tip: Use Tab to focus headers and Enter/Space to toggle.
       </div>
     </section>

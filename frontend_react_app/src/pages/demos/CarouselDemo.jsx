@@ -23,7 +23,7 @@ export default function CarouselDemoPage() {
         <div className="h-full w-full grid place-items-center bg-gradient-to-br from-blue-50 to-amber-50">
           <div className="ocean-surface p-6 border border-black/5 text-center">
             <div className="text-2xl font-bold text-primary">Custom Slide</div>
-            <p className="text-sm text-text/70 mt-2">
+            <p className="text-sm app-answer-subtle mt-2">
               You can render any content inside the carousel.
             </p>
           </div>

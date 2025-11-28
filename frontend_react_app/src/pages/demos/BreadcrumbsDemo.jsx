@@ -23,7 +23,7 @@ export default function BreadcrumbsDemoPage() {
             { label: "Breadcrumbs" },
           ]}
         />
-        <div className="text-sm text-text/70">
+        <div className="text-sm app-answer-subtle">
           Use router Links for intermediate segments and a static label for the current page.
         </div>
       </div>

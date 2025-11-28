@@ -167,7 +167,7 @@ export default function FormWizardDemoPage() {
               I agree to the Terms and Privacy Policy.
             </label>
           </div>
-          <div className="text-xs text-text/60">You must provide consent to enable submission.</div>
+          <div className="text-xs app-answer-subtle">You must provide consent to enable submission.</div>
         </div>
       ),
       validate: (d) => {
