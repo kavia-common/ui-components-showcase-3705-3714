@@ -166,13 +166,13 @@ export default function Navbar({ theme, onToggle }) {
         // Ensure the navbar wrapper itself never scrolls horizontally or vertically
         style={{ overflowY: "visible" }}
       >
-        <div className="app-header-inner">
+        <div className="app-header-inner" style={{ overflow: "visible" }}>
           {/* Respect gutters at all breakpoints; clamp to content container */}
           <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
             {/* Internal row must never force width > 100%; allow wrapping on narrow widths */}
             <div className="h-14 flex items-center justify-between gap-3 flex-wrap w-full">
               {/* Brand (left) - allow shrink to avoid pushing others; truncate long text */}
-              <div className="min-w-0 shrink overflow-hidden">
+              <div className="min-w-0 shrink overflow-visible">
                 <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
                   {/* Inner item may be rounded */}
                   <div className="h-8 w-8 rounded-lg bg-white text-text grid place-items-center font-bold shadow-soft">
@@ -246,6 +246,7 @@ export default function Navbar({ theme, onToggle }) {
                         "max-h-[min(70vh,28rem)] overflow-y-auto",
                         "rounded-xl shadow-card app-answer-surface app-answer-border",
                         "animate-slideDown",
+                        // Ensure readable text on light surface
                         "text-slate-800",
                       ].join(" ")}
                       style={{
