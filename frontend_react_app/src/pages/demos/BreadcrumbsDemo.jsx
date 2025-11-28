@@ -24,7 +24,7 @@ export default function BreadcrumbsDemoPage() {
           ]}
         />
         <div className="text-sm app-answer-subtle">
-          Use router Links for intermediate segments and a static label for the current page.
+          Use router Links for intermediate segments and a static label for the current page. Current crumb has subtle brand emphasis.
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export default function BreadcrumbsDemoPage() {
           ]}
         />
         <div className="text-sm app-answer-subtle">
-          Works with any number of segments. Responsive and wraps on small screens. Hover or tab through links to see the simple underline on links.
+          Works with any number of segments. Responsive and wraps on small screens. Hover or tab through links to see the thin brand-gradient underline.
         </div>
       </div>
     </section>
