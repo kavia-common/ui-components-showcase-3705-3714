@@ -248,7 +248,7 @@ export default function Navbar({ theme, onToggle }) {
                       <>
                         {/* Backdrop for click-outside close, at body level */}
                         <div
-                          className="fixed inset-0 z-[998] bg-black/20 backdrop-blur-[1px] pointer-events-auto"
+                          className="fixed inset-0 z-[998] bg-black/15 backdrop-blur-[1px] pointer-events-auto"
                           aria-hidden="true"
                           onClick={() => setOpen(false)}
                         />
