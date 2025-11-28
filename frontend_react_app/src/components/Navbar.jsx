@@ -48,35 +48,37 @@ export default function Navbar({ theme, onToggle }) {
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   // Track viewport-relative position of trigger to place a fixed dropdown panel.
-  const [menuPos, setMenuPos] = useState({ left: 8, right: "auto", top: 0, width: 0 });
+  // Defaults keep it off the top until computed.
+  const [menuPos, setMenuPos] = useState({ left: "auto", right: 8, top: -9999, width: 0 });
 
   // PUBLIC_INTERFACE
   function computeAndSetMenuPosition() {
     /**
      * Compute dropdown viewport-aligned coordinates from the trigger (getBoundingClientRect)
-     * and set fixed overlay coordinates with an 8–12px offset and side alignment.
+     * and set fixed overlay coordinates with an 8–10px offset, aligned to the trigger's right edge.
+     * Desktop/laptop: right-aligned under trigger; Mobile behavior handled by MobileMenu component.
      */
     const btn = triggerRef.current;
     if (!btn) return;
+
     const rect = btn.getBoundingClientRect();
     const vw = window.innerWidth || document.documentElement.clientWidth;
     const vh = window.innerHeight || document.documentElement.clientHeight;
 
-    const gap = 10; // keep between 8–12px
+    // Small vertical gap from the trigger
+    const gap = 10; // 8–10px
+    // Responsive constraints
     const idealMin = 256; // 16rem
-    const maxPanelWidth = Math.min(vw - 16, 420); // keep margins, max ~26rem
-    const panelWidth = Math.max(idealMin, Math.min(maxPanelWidth, rect.width + 40)); // match trigger-ish width
+    const maxPanelWidth = Math.min(vw - 16, 420); // viewport margin + practical max
+    // Try to keep near trigger width but respect min/max constraints
+    const panelWidth = Math.max(idealMin, Math.min(maxPanelWidth, Math.max(rect.width, 280)));
 
-    const nearRightEdge = rect.left + panelWidth > vw - 8;
+    // Align the panel's right edge with trigger's right edge
+    const right = Math.max(8, vw - rect.right);
     const top = Math.min(vh - 8, rect.bottom + gap);
 
-    if (nearRightEdge) {
-      const right = Math.max(8, vw - rect.right);
-      setMenuPos({ left: "auto", right, top, width: panelWidth });
-    } else {
-      const left = Math.max(8, rect.left);
-      setMenuPos({ left, right: "auto", top, width: panelWidth });
-    }
+    // If left would overflow due to narrow space, relying on min/max-w clamps keeps it safe.
+    setMenuPos({ left: "auto", right, top, width: panelWidth });
   }
 
   // Close on outside click
@@ -256,26 +258,21 @@ export default function Navbar({ theme, onToggle }) {
                         aria-label="More components"
                         className={[
                           "fixed z-[100] pointer-events-auto",
-                          // Width constraints and internal width
+                          // Responsive constraints
                           "min-w-[16rem] max-w-[90vw]",
-                          "w-auto",
-                          // Internal scrolling; panel itself scrolls if long
+                          // Panel height and scroll
                           "max-h-[min(70vh,28rem)] overflow-y-auto",
-                          // Panel styling
+                          // Panel styling: readable text, border, shadow
                           "rounded-xl shadow-card bg-white border border-black/10",
                           "animate-slideDown",
                           "text-slate-900",
                         ].join(" ")}
                         style={{
-                          left:
-                            typeof menuPos.left === "number"
-                              ? `${menuPos.left}px`
-                              : menuPos.left,
-                          right:
-                            typeof menuPos.right === "number"
-                              ? `${menuPos.right}px`
-                              : menuPos.right,
+                          // Position: align right edge to trigger right, directly under it with small offset
+                          left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,
+                          right: typeof menuPos.right === "number" ? `${menuPos.right}px` : menuPos.right,
                           top: `${menuPos.top}px`,
+                          // Explicit width to avoid layout jitter and allow right-edge alignment calc
                           width: menuPos.width ? `${menuPos.width}px` : undefined,
                         }}
                       >
