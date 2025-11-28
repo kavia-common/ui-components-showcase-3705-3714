@@ -449,31 +449,27 @@
   }
   .hover-bg-subtle:hover,
   .hover-bg-subtle:focus-visible {
-    /* Stronger translucent layer that remains readable over the dropdown's app gradient:
-       - Brighter veil improves contrast on the linear-gradient(87deg, #95bff0 20%, #ac7de9 80%)
-       - Slight brand-tinted gradient maintains theme continuity without overpowering text
-    */
+    /* Subtle highlight keeping base transparent, readable over translucent brand gradient panel */
     background-image: linear-gradient(
       45deg,
-      rgba(175, 36, 151, 0.14) 10%,
-      rgba(144, 45, 154, 0.14) 20%,
-      rgba(24, 64, 160, 0.14) 100%
+      rgba(175, 36, 151, 0.10) 10%,
+      rgba(144, 45, 154, 0.10) 20%,
+      rgba(24, 64, 160, 0.10) 100%
     );
-    /* Veil increased to ~0.74 to lift legibility over the dropdown gradient */
-    background-color: rgba(255, 255, 255, 0.74);
+    /* Light veil for contrast over brand gradient shell without overpowering */
+    background-color: rgba(255, 255, 255, 0.28);
   }
   @media (prefers-color-scheme: dark) {
     .hover-bg-subtle:hover,
     .hover-bg-subtle:focus-visible {
-      /* Dark mode: bump tints for parity while keeping content readable */
+      /* Dark mode: keep slight brand tint and a soft light veil */
       background-image: linear-gradient(
         45deg,
-        rgba(175, 36, 151, 0.2) 10%,
-        rgba(144, 45, 154, 0.2) 20%,
-        rgba(24, 64, 160, 0.2) 100%
+        rgba(175, 36, 151, 0.18) 10%,
+        rgba(144, 45, 154, 0.18) 20%,
+        rgba(24, 64, 160, 0.18) 100%
       );
-      /* Slightly stronger veil on dark for clarity */
-      background-color: rgba(255, 255, 255, 0.18);
+      background-color: rgba(255, 255, 255, 0.14);
     }
   }
 

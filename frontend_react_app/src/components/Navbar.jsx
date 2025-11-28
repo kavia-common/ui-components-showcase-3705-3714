@@ -385,9 +385,9 @@ export default function Navbar({ theme, onToggle }) {
                                         isActive
                                           ? "bg-gray-50 text-slate-900"
                                           : "text-white",
-                                        // Subtle highlight on hover/focus, separate from gradient border
+                                        // Subtle highlight on hover/focus; background-only (no default border)
                                         "hover-bg-subtle",
-                                        // Apply ~2px brand gradient border only on hover/focus-visible
+                                        // ~2px brand gradient border only on hover/focus-visible
                                         "hover-gradient-border",
                                         // Maintain keyboard accessibility ring
                                         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
@@ -510,7 +510,7 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                       isActive
                         ? "bg-white text-slate-900 shadow-soft"
                         : "text-white",
-                      // Subtle background highlight on hover/focus-visible
+                      // Subtle background highlight on hover/focus-visible (base is transparent/no border)
                       "hover-bg-subtle",
                       // Apply ~2px brand gradient border ONLY on hover/focus-visible (no default border)
                       "hover-gradient-border",
