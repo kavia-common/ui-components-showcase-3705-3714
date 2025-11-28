@@ -216,7 +216,31 @@ export default function Navbar({ theme, onToggle }) {
                   </div>
 
                   {/* Dropdown trigger (right side) */}
-                  <div className="relative">
+                  <div
+                    className="relative"
+                    onMouseEnter={() => {
+                      // Enable hover-to-open only on md+ where this group is visible.
+                      if (window.matchMedia("(min-width: 768px)").matches) {
+                        computeAndSetMenuPosition();
+                        setOpen(true);
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (window.matchMedia("(min-width: 768px)").matches) {
+                        setOpen(false);
+                      }
+                    }}
+                    onFocusCapture={(e) => {
+                      // If the trigger or container receives focus on desktop, open it.
+                      if (window.matchMedia("(min-width: 768px)").matches) {
+                        // Only open when focusing within the trigger container
+                        if (e.target && (triggerRef.current?.contains(e.target) || e.currentTarget === e.target)) {
+                          computeAndSetMenuPosition();
+                          setOpen(true);
+                        }
+                      }
+                    }}
+                  >
                     <button
                       ref={triggerRef}
                       type="button"
@@ -224,21 +248,46 @@ export default function Navbar({ theme, onToggle }) {
                         // Match desktop link styling for consistency with Home/Accordion/etc.
                         baseLink,
                         open ? activeLink : inactiveLink,
+                        "inline-flex items-center gap-2"
                       ].join(" ")}
                       aria-haspopup="menu"
                       aria-expanded={open ? "true" : "false"}
                       aria-controls="nav-more-menu"
-                      onClick={() => setOpen((v) => !v)}
+                      onClick={() => {
+                        // Keep click/tap toggle for accessibility and mobile.
+                        setOpen((v) => {
+                          const next = !v;
+                          if (next) computeAndSetMenuPosition();
+                          return next;
+                        });
+                      }}
                     >
-                      {/* Keep an unobtrusive ellipsis as a decorative icon without changing label */}
-                      <span className="inline-flex items-center gap-2">
-                        <span
-                          className="h-4 w-4 rounded-full border-brand-gradient-thin bg-transparent grid place-items-center"
+                      <span className="select-none">More</span>
+                      {/* Chevron arrow that rotates when open */}
+                      <span
+                        className={[
+                          "inline-flex h-5 w-5 items-center justify-center rounded-full",
+                          "bg-white/20 text-white",
+                          "transition-transform duration-200 ease-out",
+                          open ? "rotate-180" : "rotate-0",
+                        ].join(" ")}
+                        aria-hidden="true"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-4 w-4"
+                          role="presentation"
                           aria-hidden="true"
                         >
-                          ⋯
-                        </span>
-                        More
+                          <path
+                            d="M6 9l6 6 6-6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
                       </span>
                     </button>
 
