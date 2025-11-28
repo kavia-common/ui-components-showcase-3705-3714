@@ -91,6 +91,15 @@
     border: 1px solid transparent;
     border-radius: 0.875rem; /* match rounded-xl default */
   }
+  /* Thin variant for circular/compact controls; preserves gradient ring while keeping interior translucent */
+  .border-brand-gradient-thin {
+    position: relative;
+    background:
+      linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)) padding-box,
+      linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%) border-box;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+  }
   .glow-brand {
     box-shadow:
       0 0 0 1px rgba(175, 36, 151, 0.25),
