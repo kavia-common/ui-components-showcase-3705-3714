@@ -30,7 +30,7 @@ export default function BentoMenu({ items = [], className = "" }) {
 
   // Wrapper styles: preserve focus and hover elevation.
   const wrapperBase =
-    "group rounded-2xl transition hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
+    "group rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 tile-hover-elevate";
 
   // Tile container uses the lighter answer surface
   const tileSurface = "app-answer-surface app-answer-border";
@@ -145,7 +145,9 @@ export default function BentoMenu({ items = [], className = "" }) {
 
   // Render anchor or button preserving layout/hover behaviors
   const TileInner = ({ item }) => (
-    <div className={`h-full w-full overflow-hidden rounded-2xl ${tileSurface}`}>
+    <div
+      className={`h-full w-full overflow-hidden rounded-2xl ${tileSurface}`}
+    >
       <Header item={item} />
       <Body item={item} />
     </div>
@@ -164,7 +166,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           return (
             <a
               key={idx}
-              className={`${wrapperBase} ${spanCls} text-left hover:brightness-[1.03]`}
+              className={`${wrapperBase} ${spanCls} text-left transform-gpu`}
               href={item.href}
               aria-label={item.ariaLabel || `Open ${item.title}`}
             >
@@ -177,7 +179,7 @@ export default function BentoMenu({ items = [], className = "" }) {
           <button
             key={idx}
             type="button"
-            className={`${wrapperBase} ${spanCls} text-left hover:brightness-[1.03]`}
+            className={`${wrapperBase} ${spanCls} text-left transform-gpu`}
             onClick={item.onClick}
             aria-label={item.ariaLabel || `Open ${item.title}`}
           >
