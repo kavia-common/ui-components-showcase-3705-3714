@@ -50,14 +50,74 @@ export default function BentoMenu({ items = [], className = "" }) {
     </div>
   );
 
+  // Replace "Open" label with an accessible chevron icon control aligned to the right
   const Body = ({ item }) => (
     <div className="px-5 py-4">
       <div className="mt-1 flex items-center justify-between text-sm text-text/80">
-        <span>Open</span>
-        <span aria-hidden="true" className="transition group-hover:translate-x-0.5">→</span>
+        <span className="sr-only">Open</span>
+        <ChevronAction
+          ariaLabel={item.ariaLabel || `Open ${item.title}`}
+          onClick={item.onClick}
+          isInteractive={!!item.onClick && !item.href}
+        />
       </div>
     </div>
   );
+
+  // Inline chevron icon; interactive if onClick is provided on a button tile
+  function ChevronAction({ ariaLabel, onClick, isInteractive }) {
+    const baseIcon =
+      "inline-flex h-9 w-9 items-center justify-center rounded-full transition shadow-[0_1px_2px_rgba(0,0,0,0.08)]";
+    const interactiveFocus =
+      "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
+    const nonInteractiveStyle = "cursor-default";
+    // On light surface keep contrast high; in gradient headers we used text-white, but here body is light.
+    const surfaceStyle = "bg-white hover:bg-white/90 border border-black/10 text-text";
+
+    if (isInteractive) {
+      return (
+        <button
+          type="button"
+          className={[baseIcon, interactiveFocus, surfaceStyle].join(" ")}
+          aria-label={ariaLabel}
+          onClick={(e) => {
+            // Keep behavior consistent with previous Open button; stop bubbling to avoid duplicate navigation if needed
+            e.stopPropagation?.();
+            onClick?.(e);
+          }}
+        >
+          <ChevronRightSvg ariaHidden />
+        </button>
+      );
+    }
+
+    // Non-interactive variant (when using href wrapper): keep as decorative span; a11y is handled by outer link/button
+    return (
+      <span className={[baseIcon, nonInteractiveStyle, surfaceStyle].join(" ")} aria-hidden="true">
+        <ChevronRightSvg ariaHidden />
+      </span>
+    );
+  }
+
+  function ChevronRightSvg({ ariaHidden = false }) {
+    return (
+      <svg
+        className="h-4.5 w-4.5"
+        viewBox="0 0 24 24"
+        role="presentation"
+        aria-hidden={ariaHidden ? "true" : undefined}
+      >
+        <path
+          d="M9 6l6 6-6 6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
 
   // Render anchor or button preserving layout/hover behaviors
   const TileInner = ({ item }) => (
