@@ -8,86 +8,56 @@ import { Link } from "react-router-dom";
  * - items: Array<{ label: string, to?: string }>
  * If 'to' is omitted on last item, it is rendered as current page.
  *
- * Visual/UX:
- * - Container: subtle glass/answer-surface with softer shadow and rounded-md for a premium look.
- * - Links: no default border; on hover/focus-visible show thin gradient underline and a very light background veil.
- * - Separators: slightly smaller chevrons with refined spacing.
- * - Current crumb: tasteful gradient chip/pill with aria-current="page".
- * - Typography: concise, navbar-consistent (text-sm, medium weight); maintain high contrast.
- * - Accessibility: focus-visible rings, aria-current, proper nav/ol semantics.
+ * Reverted visual/UX (pre-premium):
+ * - No glass/answer-surface container; render inline list only.
+ * - Simple text links with underline on hover.
+ * - Standard chevron separators with default spacing.
+ * - Current crumb is plain text with aria-current="page" and stronger text color.
+ * - Keep semantics and responsiveness (wrap on small screens).
  */
 export default function Breadcrumbs({ items = [] }) {
   return (
     <nav aria-label="Breadcrumb" className="w-full">
-      {/* Premium container: soft glass answer surface, subtle border, rounded-md and soft shadow */}
-      <div className="app-answer-surface app-answer-border rounded-md shadow-hairline px-3 py-2 sm:px-4 sm:py-3">
-        <ol className="flex flex-wrap items-center gap-1 sm:gap-1.5 text-sm leading-6">
-          {items.map((item, idx) => {
-            const isLast = idx === items.length - 1;
+      <ol className="flex flex-wrap items-center text-sm leading-6">
+        {items.map((item, idx) => {
+          const isLast = idx === items.length - 1;
 
-            return (
-              <li
-                key={`${item.label}-${idx}`}
-                className="flex items-center min-w-0"
-              >
-                {isLast || !item.to ? (
-                  // Current crumb: gradient chip/pill for emphasis; keep aria-current for accessibility
-                  <span
-                    className={[
-                      "truncate max-w-[24ch]",
-                      "px-2 py-1 rounded-full",
-                      "bg-white/70 backdrop-blur-[2px] border-brand-gradient-surface",
-                      "text-transparent bg-clip-text bg-brand-gradient font-semibold",
-                    ].join(" ")}
-                    aria-current={isLast ? "page" : undefined}
-                    title={item.label}
-                  >
-                    {item.label}
-                  </span>
-                ) : (
-                  // Link items: navbar-like type rhythm; gradient underline on hover/focus-visible
-                  <Link
-                    to={item.to}
-                    className={[
-                      "inline-flex items-center max-w-[22ch] truncate",
-                      "text-text/80 hover:text-text font-medium",
-                      "px-1.5 py-1 rounded-md relative",
-                      // Thin gradient underline on hover/focus-visible (no default border)
-                      "after:content-[''] after:absolute after:left-1.5 after:right-1.5 after:-bottom-[2px] after:h-[2px] after:scale-x-0",
-                      "after:bg-brand-gradient after:transition-transform after:origin-left",
-                      "hover:after:scale-x-100 focus-visible:after:scale-x-100",
-                      // Very light background veil on hover/focus-visible
-                      "hover-bg-subtle",
-                      // Keep accessible ring
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
-                      "transition",
-                    ].join(" ")}
-                    title={item.label}
-                  >
-                    {item.label}
-                  </Link>
-                )}
+          return (
+            <li key={`${item.label}-${idx}`} className="flex items-center min-w-0">
+              {isLast || !item.to ? (
+                <span
+                  className="truncate max-w-[28ch] text-text font-medium"
+                  aria-current={isLast ? "page" : undefined}
+                  title={item.label}
+                >
+                  {item.label}
+                </span>
+              ) : (
+                <Link
+                  to={item.to}
+                  className="truncate max-w-[26ch] text-text/70 hover:text-text underline-offset-2 hover:underline focus:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] rounded-sm px-0.5"
+                  title={item.label}
+                >
+                  {item.label}
+                </Link>
+              )}
 
-                {!isLast && <ChevronSeparator />}
-              </li>
-            );
-          })}
-        </ol>
-      </div>
+              {!isLast && <ChevronSeparator />}
+            </li>
+          );
+        })}
+      </ol>
     </nav>
   );
 }
 
-/** Small chevron separator with refined size and spacing to match navbar rhythm. */
+/** Chevron separator restored to prior size and spacing. */
 function ChevronSeparator() {
   return (
-    <span
-      aria-hidden="true"
-      className="mx-1 sm:mx-1.5 inline-flex items-center text-text/40"
-    >
+    <span aria-hidden="true" className="mx-2 inline-flex items-center text-text/40">
       <svg
         viewBox="0 0 24 24"
-        className="h-[14px] w-[14px]"
+        className="h-4 w-4"
         role="presentation"
         aria-hidden="true"
       >

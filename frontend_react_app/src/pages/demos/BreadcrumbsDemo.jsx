@@ -39,7 +39,7 @@ export default function BreadcrumbsDemoPage() {
           ]}
         />
         <div className="text-sm app-answer-subtle">
-          Works with any number of segments. Responsive and wraps on small screens. Hover or tab through links to see the subtle brand-gradient underline/border.
+          Works with any number of segments. Responsive and wraps on small screens. Hover or tab through links to see the simple underline on links.
         </div>
       </div>
     </section>
