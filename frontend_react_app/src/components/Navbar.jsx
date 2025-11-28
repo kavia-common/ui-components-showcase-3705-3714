@@ -40,6 +40,31 @@ export default function Navbar({ theme, onToggle }) {
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
 
+  // Track viewport-relative position of trigger to place a fixed dropdown panel.
+  const [menuPos, setMenuPos] = useState({ left: 8, right: "auto", top: 0 });
+
+  // Compute dropdown position relative to viewport and handle right-edge alignment
+  const updateMenuPosition = () => {
+    const btn = triggerRef.current;
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const vw = window.innerWidth || document.documentElement.clientWidth;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+
+    const idealWidth = 240; // ~sm:w-56
+    const nearRightEdge = rect.left + idealWidth > vw - 8;
+    const top = Math.min(vh - 8, rect.bottom + 8); // 8px gap below trigger
+
+    if (nearRightEdge) {
+      // Align right: compute 'right' from viewport edge
+      const right = Math.max(8, vw - rect.right);
+      setMenuPos({ left: "auto", right, top });
+    } else {
+      const left = Math.max(8, rect.left);
+      setMenuPos({ left, right: "auto", top });
+    }
+  };
+
   // Close on outside click
   useEffect(() => {
     if (!open) return;
@@ -66,7 +91,7 @@ export default function Navbar({ theme, onToggle }) {
       }
       // optional arrow navigation
       const focusable = menuRef.current?.querySelectorAll(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1")]'
       );
       if (!focusable || focusable.length === 0) return;
       const list = Array.from(focusable);
@@ -85,14 +110,27 @@ export default function Navbar({ theme, onToggle }) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // Open menu and move focus to first item on open
+  // On open, compute initial position and move focus to first item
   useEffect(() => {
     if (open) {
+      updateMenuPosition();
       const first = menuRef.current?.querySelector(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1")]'
       );
       first?.focus();
     }
+  }, [open]);
+
+  // Recompute position on resize/scroll while open to keep panel anchored to trigger.
+  useEffect(() => {
+    if (!open) return;
+    const onResizeScroll = () => updateMenuPosition();
+    window.addEventListener("resize", onResizeScroll);
+    window.addEventListener("scroll", onResizeScroll, true);
+    return () => {
+      window.removeEventListener("resize", onResizeScroll);
+      window.removeEventListener("scroll", onResizeScroll, true);
+    };
   }, [open]);
 
   return (
@@ -160,7 +198,7 @@ export default function Navbar({ theme, onToggle }) {
                     </span>
                   </button>
 
-                  {/* Dropdown panel: uses lighter answer-palette surface with constrained height and scrolling */}
+                  {/* Dropdown panel rendered as fixed to avoid overflow clipping and ensure visibility */}
                   {open && (
                     <div
                       id="nav-more-menu"
@@ -168,19 +206,30 @@ export default function Navbar({ theme, onToggle }) {
                       role="menu"
                       aria-label="More components"
                       className={[
-                        // Ensure overlay above content
-                        "absolute left-0 mt-2 z-[60]",
-                        // Responsive width: sensible min, allow auto growth but cap by viewport
+                        // Use fixed so it is relative to viewport; prevents clipping by overflow parents
+                        "fixed z-[100]",
+                        // Width constraints and readability
                         "min-w-[14rem] w-auto max-w-[90vw] sm:w-56",
-                        // Viewport-aware height with scroll for long lists
+                        // Height constraints with scroll
                         "max-h-[min(70vh,28rem)] overflow-y-auto",
-                        // Keep panel within viewport visually (primary is top-full behavior)
-                        "top-full translate-y-0",
-                        // Visual surface and border
+                        // Surface and border
                         "rounded-xl shadow-card app-answer-surface app-answer-border",
                         // Animation
                         "animate-slideDown",
+                        // Ensure readable text on light surface
+                        "text-slate-800",
                       ].join(" ")}
+                      style={{
+                        left:
+                          typeof menuPos.left === "number"
+                            ? `${menuPos.left}px`
+                            : menuPos.left,
+                        right:
+                          typeof menuPos.right === "number"
+                            ? `${menuPos.right}px`
+                            : menuPos.right,
+                        top: `${menuPos.top}px`,
+                      }}
                     >
                       <ul className="py-1" role="none">
                         {moreItems.map((item, idx) => (
@@ -191,12 +240,10 @@ export default function Navbar({ theme, onToggle }) {
                                 [
                                   "block w-full text-left px-3 py-2 text-sm",
                                   "rounded-md",
-                                  // Improve default text contrast on light surface
                                   isActive
                                     ? "bg-white text-slate-900 shadow-soft"
                                     : "text-slate-900 hover:bg-white",
                                   idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
-                                  // Stronger focus visibility
                                   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
                                 ]
                                   .filter(Boolean)
@@ -289,13 +336,14 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
           aria-label="Navigation"
           className={[
             // Position at edge; on mobile use full width; on sm+ keep to content width
-            "absolute right-0 mt-2 z-[60]",
+            "absolute right-0 mt-2 z-[100]",
             "w-[min(100vw-1rem,24rem)] sm:w-64 min-w-[14rem] max-w-[95vw]",
             // Viewport-aware height and internal scroll
             "max-h-[70vh] overflow-y-auto",
             // Surface and border
             "rounded-xl shadow-card app-answer-surface app-answer-border",
             "animate-slideDown",
+            "text-slate-800",
           ].join(" ")}
         >
           <ul className="py-1" role="none">

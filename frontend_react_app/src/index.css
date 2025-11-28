@@ -86,6 +86,8 @@
     background: rgba(255,255,255,0.06);
     backdrop-filter: saturate(105%) blur(5px);
     -webkit-backdrop-filter: saturate(105%) blur(5px);
+    /* Ensure dropdowns inside header aren't clipped by accidental overflow settings */
+    overflow: visible;
   }
   .app-header-title {
     color: #ffffff;
