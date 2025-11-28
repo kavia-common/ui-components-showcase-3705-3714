@@ -58,60 +58,50 @@ export default function BentoMenu({ items = [], className = "" }) {
     </div>
   );
 
-  // Body shows the concise 1–2 line description in the lighter answer surface.
-  // Keep layout and behavior intact; ensure accessible contrast and consistent placement.
-  const ExploreIcon = ({ decorative = true, label = "Explore" }) => {
-    /**
-     * Chevron-in-circle built with currentColor so gradient text utility applies.
-     * Uses gradient text fill via bg-clip-text + text-transparent on a wrapper span.
-     * Adds a subtle outline for visibility against light surfaces.
-     */
-    const svg = (
-      <svg
-        className="w-6 h-6 inline-block"
-        viewBox="0 0 24 24"
-        role="img"
-        aria-label={decorative ? undefined : label}
-        aria-hidden={decorative ? "true" : undefined}
-        focusable={decorative ? "false" : "true"}
-      >
-        {/* Use currentColor so the gradient text fill from the wrapper applies */}
-        <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.18" />
-        <path
-          d="M10 8l4 4-4 4"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-
+  /**
+   * ExploreChevronIcon replicates the exact Accordion header affordance:
+   * - Wrapper: inline-flex h-8 w-8, rounded-full, bg-white/80 + backdrop-blur-sm
+   * - Gradient border ring: border-brand-gradient and ring-brand-inner
+   * - Transition: transform duration-200 ease-out
+   * - SVG: 18px chevron using the right-pointing path with #111827 stroke, 2.4 width, round caps/joins
+   * - Rotation: static for Bento (no expand state), but keep the same classes for consistency
+   */
+  function ExploreChevronIcon({ decorative = true, label = "Explore" }) {
     return (
-      <span className="relative inline-flex">
-        {/* Outline/fallback layer to ensure contrast on very light backgrounds */}
-        <span
-          className="absolute inset-0"
+      <span
+        className={[
+          "inline-flex h-8 w-8 items-center justify-center rounded-full",
+          "bg-white/80 backdrop-blur-sm",
+          "border-brand-gradient ring-brand-inner",
+          "transition-transform duration-200 ease-out shadow-[0_1px_2px_rgba(0,0,0,0.08)]",
+        ].join(" ")}
+        role={decorative ? "presentation" : "img"}
+        aria-hidden={decorative ? "true" : undefined}
+        aria-label={decorative ? undefined : label}
+      >
+        <svg
+          className="h-4.5 w-4.5"
+          viewBox="0 0 24 24"
+          role="presentation"
           aria-hidden="true"
-          style={{
-            filter: "drop-shadow(0 0 0.75px rgba(0,0,0,0.32))",
-          }}
         >
-          {svg}
-        </span>
-        <span className="icon-gradient-major icon-gradient-text inline-flex relative">
-          {svg}
-        </span>
+          <path
+            d="M9 6l6 6-6 6"
+            fill="none"
+            stroke="#111827"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </span>
     );
-  };
+  }
 
+  // Body shows the concise 1–2 line description in the lighter answer surface and places the icon bottom-right.
   const Body = ({ item }) => {
     const hasLink = !!item.href || !!item.onClick;
-    // If the tile itself is interactive, keep the icon decorative to avoid duplicating focus stops.
-    // If the tile is non-interactive, expose the icon label for SR discoverability.
-    const decorative = hasLink;
+    const decorative = hasLink; // keep decorative if tile itself is interactive
 
     return (
       <div className="px-5 py-4 relative">
@@ -120,15 +110,12 @@ export default function BentoMenu({ items = [], className = "" }) {
             <p className="text-sm leading-5 text-text/80 pr-8">
               {item.bodyText}
             </p>
-
-            {/* Larger explore icon anchored to bottom-right of the tile body.
-                - Non-interactive (decorative) when the entire tile is the control.
-                - Provides ARIA label if tile is not interactive. */}
+            {/* Exact Accordion-like affordance, anchored bottom-right; non-interactive */}
             <span
               className="pointer-events-none absolute bottom-2 right-2 z-10"
               aria-hidden={decorative ? "true" : undefined}
             >
-              <ExploreIcon decorative={decorative} />
+              <ExploreChevronIcon decorative={decorative} />
             </span>
           </>
         ) : (
@@ -143,7 +130,7 @@ export default function BentoMenu({ items = [], className = "" }) {
               className="pointer-events-none absolute bottom-2 right-2 z-10"
               aria-hidden={decorative ? "true" : undefined}
             >
-              <ExploreIcon decorative={decorative} />
+              <ExploreChevronIcon decorative={decorative} />
             </span>
           </>
         )}
