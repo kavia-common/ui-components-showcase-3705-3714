@@ -21,7 +21,7 @@ export default function MainLayout() {
     <div className="min-h-screen flex flex-col bg-app-gradient text-text">
       <Navbar theme={theme} onToggle={toggleTheme} />
       <main className="flex-1">
-        <div className="mx-auto max-w-6xl px-4 py-8">
+        <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8 py-8">
           <Outlet />
         </div>
       </main>

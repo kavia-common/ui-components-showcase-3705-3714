@@ -4,8 +4,7 @@ import ThemeToggle from "./ThemeToggle";
 
 /**
  * Navbar: outer shell remains square; inner interactive elements are rounded for better tactility.
- * - Keeps primary links visible (Home, Accordion, Bento, Breadcrumbs).
- * - Adds an accessible "More" dropdown for remaining demos with keyboard and click-outside handling.
+ * Overflow-safe across all breakpoints with safe gutters and viewport-aware menus.
  */
 export default function Navbar({ theme, onToggle }) {
   // Small-to-medium rounding with accessible focus states for links
@@ -41,7 +40,6 @@ export default function Navbar({ theme, onToggle }) {
   const menuRef = useRef(null);
 
   // Focusable selector constant to avoid any templating/escaping mistakes.
-  // Uses single quotes for the JS string; attribute selector uses double quotes inside which are valid CSS.
   const FOCUSABLE_SELECTOR =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -102,7 +100,6 @@ export default function Navbar({ theme, onToggle }) {
       try {
         focusable = menuEl.querySelectorAll(FOCUSABLE_SELECTOR);
       } catch (err) {
-        // In case of any unexpected selector issue, fallback to a simpler, safe selector
         focusable = menuEl.querySelectorAll("a[href], button");
       }
       if (!focusable || focusable.length === 0) return;
@@ -128,7 +125,6 @@ export default function Navbar({ theme, onToggle }) {
     if (!open) return;
     updateMenuPosition();
 
-    // Delay focus until after the menu is painted to avoid nulls
     const tm = setTimeout(() => {
       const menuEl = menuRef.current;
       if (!menuEl) return;
@@ -156,14 +152,16 @@ export default function Navbar({ theme, onToggle }) {
   }, [open]);
 
   return (
-    <nav className="sticky top-0 z-[55]" aria-label="Site">
-      {/* Keep the Navbar container square */}
-      <div className="w-full app-header-major rounded-none">
+    <nav className="sticky inset-x-0 top-0 z-[55]" aria-label="Site">
+      {/* Outer navbar wrapper: full width with safe gutters, no horizontal overflow */}
+      <div className="w-full max-w-[100vw] overflow-x-hidden app-header-major rounded-none">
         <div className="app-header-inner">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="h-14 flex items-center justify-between gap-3">
+          {/* Responsive horizontal padding; center inner content */}
+          <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
+            {/* Ensure internal layout wraps and never pushes width */}
+            <div className="h-14 flex items-center justify-between gap-3 flex-wrap">
               {/* Brand (left) */}
-              <div className="min-w-0">
+              <div className="min-w-0 shrink-0 overflow-hidden">
                 <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
                   {/* Brand mark rounded for inner element only */}
                   <div className="h-8 w-8 rounded-lg bg-white text-text grid place-items-center font-bold shadow-soft">
@@ -228,17 +226,12 @@ export default function Navbar({ theme, onToggle }) {
                       role="menu"
                       aria-label="More components"
                       className={[
-                        // Use fixed so it is relative to viewport; prevents clipping by overflow parents
                         "fixed z-[100]",
-                        // Width constraints and readability
-                        "min-w-[14rem] w-auto max-w-[90vw] sm:w-56",
-                        // Height constraints with scroll
+                        // Constrain panel so it never expands layout width
+                        "min-w-[14rem] w-auto sm:w-56 max-w-[90vw]",
                         "max-h-[min(70vh,28rem)] overflow-y-auto",
-                        // Surface and border
                         "rounded-xl shadow-card app-answer-surface app-answer-border",
-                        // Animation
                         "animate-slideDown",
-                        // Ensure readable text on light surface
                         "text-slate-800",
                       ].join(" ")}
                       style={{
@@ -285,7 +278,7 @@ export default function Navbar({ theme, onToggle }) {
               </div>
 
               {/* Actions (right) */}
-              <div className="flex items-center justify-end gap-2">
+              <div className="flex items-center justify-end gap-2 shrink-0">
                 {/* On small screens, provide condensed nav including More as a single select-like menu */}
                 <MobileMenu
                   primary={primaryNav}
@@ -357,12 +350,10 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
           role="menu"
           aria-label="Navigation"
           className={[
-            // Position at edge; on mobile use full width; on sm+ keep to content width
             "absolute right-0 mt-2 z-[100]",
+            // Constrain to viewport and avoid pushing layout width
             "w-[min(100vw-1rem,24rem)] sm:w-64 min-w-[14rem] max-w-[95vw]",
-            // Viewport-aware height and internal scroll
             "max-h-[70vh] overflow-y-auto",
-            // Surface and border
             "rounded-xl shadow-card app-answer-surface app-answer-border",
             "animate-slideDown",
             "text-slate-800",

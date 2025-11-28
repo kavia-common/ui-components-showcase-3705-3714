@@ -77,7 +77,13 @@
   .app-header-major {
     position: relative;
     border-radius: 0rem; /* force square corners for Navbar/Footer shells */
-    overflow: hidden;
+    /* Prevent the shell from creating horizontal scrollbars at any zoom/breakpoint */
+    max-width: 100vw;
+    width: 100%;
+    /* Avoid accidental horizontal scroll if children mis-measure */
+    overflow-x: hidden;
+    /* Keep vertical overflow visible for shadows/dropdowns when needed */
+    overflow-y: visible;
     /* Base: keep major gradient as-is per requirement */
     background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
   }
@@ -88,6 +94,8 @@
     -webkit-backdrop-filter: saturate(105%) blur(5px);
     /* Ensure dropdowns inside header aren't clipped by accidental overflow settings */
     overflow: visible;
+    /* Avoid inner content pushing beyond viewport width */
+    max-width: 100%;
   }
   .app-header-title {
     color: #ffffff;
