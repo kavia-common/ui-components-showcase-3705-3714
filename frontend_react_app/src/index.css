@@ -382,30 +382,30 @@
   }
 
   /* PUBLIC_INTERFACE
-     hover-gradient-border: Apply a thicker ~2px brand-gradient border on hover and focus-visible.
-     Notes:
-     - No default/static border; only visible on :hover and :focus-visible.
-     - Uses background-clip layering with a CSS variable to toggle the inner padding paint when active.
-     - Works on translucent answer-palette dropdown surfaces without altering interior fill.
+     hover-gradient-border: Apply a 2px brand-gradient border ONLY on :hover and :focus-visible.
+     Requirements:
+     - Exact gradient: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)
+     - No default/static border at rest.
+     - Suitable for translucent surfaces; uses layered background to render the ring without altering interior fill.
   */
   .hover-gradient-border {
     position: relative;
-    border: 2px solid transparent; /* 2px thickness for stronger affordance when active */
-    border-radius: 0.375rem; /* rounded-md equivalent to match dropdown items */
-    /* Two-layer background: padding-box (interior) and border-box (gradient ring) */
-    background:
-      var(--hover-gradient-padding, transparent) padding-box,
-      linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%) border-box;
-    /* Default: keep padding layer fully transparent so the ring is not visible */
+    border: 2px solid transparent; /* ~2px thickness per requirement */
+    border-radius: 0.375rem; /* rounded-md to match dropdown items */
+    /* At rest: keep both layers transparent so no border is visible */
     --hover-gradient-padding: transparent;
-    /* Use filter/box-shadow for subtle lift on activation */
+    --hover-gradient-border: transparent;
+    background:
+      var(--hover-gradient-padding) padding-box,
+      var(--hover-gradient-border) border-box;
     transition: box-shadow 160ms ease, filter 160ms ease, background 160ms ease, border-color 160ms ease;
   }
   .hover-gradient-border:hover,
   .hover-gradient-border:focus-visible {
-    /* Activate layered background by painting a near-transparent interior; keeps visual unchanged but reveals gradient ring */
+    /* Reveal the exact major gradient as the border image via layered background */
+    --hover-gradient-border: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+    /* Keep interior visually unchanged; a tiny transparent paint ensures proper background layering in some browsers */
     --hover-gradient-padding: rgba(255,255,255,0.01);
-    /* Slight elevation without changing interior background */
     box-shadow: 0 1px 2px rgba(2,6,23,0.06);
     outline: none;
   }
