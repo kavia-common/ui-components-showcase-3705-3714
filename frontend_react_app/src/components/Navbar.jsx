@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import Portal from "./ui/primitives/Portal";
 
 /**
  * Navbar: outer shell remains square; inner interactive elements are rounded for better tactility.
@@ -55,7 +56,7 @@ export default function Navbar({ theme, onToggle }) {
   function computeAndSetMenuPosition() {
     /**
      * Compute dropdown viewport-aligned coordinates from the trigger (getBoundingClientRect)
-     * and set fixed overlay coordinates with an 8–10px offset, aligned to the trigger's right edge.
+     * and set body-level fixed overlay coordinates with an 8–10px offset, aligned to the trigger's right edge.
      * Desktop/laptop: right-aligned under trigger; Mobile behavior handled by MobileMenu component.
      */
     const btn = triggerRef.current;
@@ -171,9 +172,9 @@ export default function Navbar({ theme, onToggle }) {
     >
       {/* Outer wrapper spans full viewport width, never overflows horizontally */}
       <div
-        className="app-header-major rounded-none w-full max-w-screen overflow-x-hidden"
-        // Ensure the navbar wrapper itself never scrolls vertically. Keep horizontal hidden and allow overlays to be visible.
-        style={{ overflowY: "hidden" }}
+        className="app-header-major rounded-none w-full max-w-screen"
+        // Ensure the navbar shell never clips overlays; avoid overflow:hidden that could clip body-level overlays.
+        style={{ overflow: "visible" }}
       >
         {/* Keep inner overlay-friendly */}
         <div className="app-header-inner" style={{ overflow: "visible" }}>
@@ -243,67 +244,69 @@ export default function Navbar({ theme, onToggle }) {
 
                   {/* Dropdown panel: fixed, viewport-constrained, pointer-events managed */}
                   {open && (
-                    <>
-                      {/* Backdrop to reinforce overlay behavior and enable click-away */}
-                      <div
-                        className="fixed inset-0 z-[98] bg-black/20 backdrop-blur-[1px] pointer-events-auto"
-                        aria-hidden="true"
-                        onClick={() => setOpen(false)}
-                      />
-                      {/* Dropdown panel: fixed at body level, anchored under trigger with computed coords */}
-                      <div
-                        id="nav-more-menu"
-                        ref={menuRef}
-                        role="menu"
-                        aria-label="More components"
-                        className={[
-                          "fixed z-[100] pointer-events-auto",
-                          // Responsive constraints
-                          "min-w-[16rem] max-w-[90vw]",
-                          // Panel height and scroll
-                          "max-h-[min(70vh,28rem)] overflow-y-auto",
-                          // Panel styling: readable text, border, shadow
-                          "rounded-xl shadow-card bg-white border border-black/10",
-                          "animate-slideDown",
-                          "text-slate-900",
-                        ].join(" ")}
-                        style={{
-                          // Position: align right edge to trigger right, directly under it with small offset
-                          left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,
-                          right: typeof menuPos.right === "number" ? `${menuPos.right}px` : menuPos.right,
-                          top: `${menuPos.top}px`,
-                          // Explicit width to avoid layout jitter and allow right-edge alignment calc
-                          width: menuPos.width ? `${menuPos.width}px` : undefined,
-                        }}
-                      >
-                        <ul className="py-1" role="none">
-                          {moreItems.map((item, idx) => (
-                            <li key={item.to} role="none">
-                              <NavLink
-                                to={item.to}
-                                className={({ isActive }) =>
-                                  [
-                                    "block w-full text-left px-4 py-2.5 text-sm",
-                                    "rounded-md",
-                                    isActive
-                                      ? "bg-gray-50 text-slate-900"
-                                      : "text-slate-900 hover:bg-gray-50",
-                                    idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
-                                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
-                                  ]
-                                    .filter(Boolean)
-                                    .join(" ")
-                                }
-                                role="menuitem"
-                                onClick={() => setOpen(false)}
-                              >
-                                {item.label}
-                              </NavLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </>
+                    <Portal>
+                      <>
+                        {/* Backdrop for click-outside close, at body level */}
+                        <div
+                          className="fixed inset-0 z-[998] bg-black/20 backdrop-blur-[1px] pointer-events-auto"
+                          aria-hidden="true"
+                          onClick={() => setOpen(false)}
+                        />
+                        {/* Dropdown panel: body-level fixed overlay */}
+                        <div
+                          id="nav-more-menu"
+                          ref={menuRef}
+                          role="menu"
+                          aria-label="More components"
+                          className={[
+                            "fixed pointer-events-auto",
+                            // Very high z-index to float above any header/footer
+                            "z-[1000]",
+                            // Width constraints
+                            "min-w-[16rem] max-w-[90vw]",
+                            // Height + scroll
+                            "max-h-[min(70vh,28rem)] overflow-y-auto",
+                            // Visuals
+                            "rounded-xl shadow-card bg-white border border-black/10",
+                            "animate-slideDown",
+                            "text-slate-900",
+                          ].join(" ")}
+                          style={{
+                            left: typeof menuPos.left === "number" ? `${menuPos.left}px` : menuPos.left,
+                            right: typeof menuPos.right === "number" ? `${menuPos.right}px` : menuPos.right,
+                            top: `${menuPos.top}px`,
+                            width: menuPos.width ? `${menuPos.width}px` : undefined,
+                          }}
+                        >
+                          <ul className="py-1" role="none">
+                            {moreItems.map((item, idx) => (
+                              <li key={item.to} role="none">
+                                <NavLink
+                                  to={item.to}
+                                  className={({ isActive }) =>
+                                    [
+                                      "block w-full text-left px-4 py-2.5 text-sm",
+                                      "rounded-md",
+                                      isActive
+                                        ? "bg-gray-50 text-slate-900"
+                                        : "text-slate-900 hover:bg-gray-50",
+                                      idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
+                                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0] focus-visible:ring-offset-0",
+                                    ]
+                                      .filter(Boolean)
+                                      .join(" ")
+                                  }
+                                  role="menuitem"
+                                  onClick={() => setOpen(false)}
+                                >
+                                  {item.label}
+                                </NavLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </>
+                    </Portal>
                   )}
                 </div>
               </div>
