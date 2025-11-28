@@ -74,10 +74,13 @@ export default function Navbar({ theme, onToggle }) {
     // Small vertical gap from the trigger
     const gap = 10; // 8–10px
     // Responsive constraints
-    const idealMin = 256; // 16rem
-    const maxPanelWidth = Math.min(vw - 16, 420); // viewport margin + practical max
-    // Try to keep near trigger width but respect min/max constraints
-    const panelWidth = Math.max(idealMin, Math.min(maxPanelWidth, Math.max(rect.width, 280)));
+    const idealMin = 192; // 12rem for a narrower default
+    const maxPanelWidth = Math.min(vw - 16, 360); // modest cap for desktop dropdown
+    // Try to keep near trigger width but respect min/max constraints; aim around 12–16rem
+    const panelWidth = Math.max(
+      idealMin,
+      Math.min(maxPanelWidth, Math.max(rect.width, 224)) // nudge base toward ~14rem
+    );
 
     // Align the panel's right edge with trigger's right edge
     const right = Math.max(8, vw - rect.right);
@@ -336,7 +339,8 @@ export default function Navbar({ theme, onToggle }) {
                             className={[
                               "fixed pointer-events-auto",
                               "z-[1000]",
-                              "min-w-[16rem] max-w-[90vw]",
+                              // Narrower desktop dropdown width with safe responsive clamp
+                              "min-w-[12rem] w-48 max-w-[90vw]",
                               "max-h-[min(70vh,28rem)] overflow-y-auto",
                               "rounded-xl",
                               // Use exact requested brand gradient with slight transparency; no blur
