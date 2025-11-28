@@ -304,4 +304,41 @@
   .bento-tile-header :is(a, button, [role="button"]):focus-visible {
     box-shadow: 0 0 0 2px rgba(255,255,255,0.9);
   }
+
+  /* PUBLIC_INTERFACE
+     icon-gradient-major: apply major brand gradient to icons using text fill.
+     - Use with inline text icons or SVG with currentColor (pair with .icon-gradient-text to clip)
+     - Intended size: 18–20px for subtle visual hint
+  */
+  .icon-gradient-major {
+    background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+  }
+  /* Helper for gradient text fill on icons (emoji/text or SVG paths using currentColor) */
+  .icon-gradient-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Optional: mask-based gradient for monochrome SVGs using mask-image; apply to a wrapper if needed.
+     Use when SVG does not rely on currentColor. Keep available but unused here for simplicity.
+  */
+  .icon-gradient-mask {
+    background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+
+  /* Spacing helper for subtle placement under descriptions */
+  .icon-subtle-spacing {
+    margin-top: 0.375rem; /* ~6px for a light baseline gap */
+  }
+
+  /* Size helpers for small icons */
+  .icon-18 { width: 18px; height: 18px; }
+  .icon-20 { width: 20px; height: 20px; }
 }

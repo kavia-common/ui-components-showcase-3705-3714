@@ -60,22 +60,67 @@ export default function BentoMenu({ items = [], className = "" }) {
 
   // Body shows the concise 1–2 line description in the lighter answer surface.
   // Keep layout and behavior intact; ensure accessible contrast and consistent placement.
-  const Body = ({ item }) => (
-    <div className="px-5 py-4">
-      {item.bodyText ? (
-        <p className="text-sm leading-5 text-text/80">
-          {item.bodyText}
-        </p>
-      ) : (
-        <div className="flex items-center justify-between text-sm">
-          <p className="text-text/80">Learn more</p>
-          <span className="text-text/50 text-xs" aria-hidden="true">
-            {item.href || item.onClick ? "Open" : ""}
-          </span>
-        </div>
-      )}
-    </div>
-  );
+  const ExploreIcon = ({ decorative = true, label = "Explore" }) => {
+    // Chevron-in-circle built with currentColor so gradient text utility applies.
+    const svg = (
+      <svg
+        className="icon-18"
+        viewBox="0 0 24 24"
+        role="img"
+        aria-label={decorative ? undefined : label}
+        aria-hidden={decorative ? "true" : undefined}
+        focusable={decorative ? "false" : "true"}
+      >
+        <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.12" />
+        <path
+          d="M10 8l4 4-4 4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+
+    return (
+      <span
+        className="inline-flex items-center icon-subtle-spacing"
+        // text transparent via clipping to show gradient
+      >
+        <span className="icon-gradient-major icon-gradient-text inline-flex">
+          {svg}
+        </span>
+      </span>
+    );
+  };
+
+  const Body = ({ item }) => {
+    const hasLink = !!item.href || !!item.onClick;
+    // If the tile itself is interactive, keep the icon decorative to avoid duplicating focus stops.
+    // If the tile is non-interactive, expose the icon label for SR discoverability.
+    const decorative = hasLink;
+
+    return (
+      <div className="px-5 py-4">
+        {item.bodyText ? (
+          <>
+            <p className="text-sm leading-5 text-text/80">
+              {item.bodyText}
+            </p>
+            <ExploreIcon decorative={decorative} />
+          </>
+        ) : (
+          <div className="flex items-center justify-between text-sm">
+            <p className="text-text/80">Learn more</p>
+            <span className="text-text/50 text-xs" aria-hidden="true">
+              {hasLink ? "Open" : ""}
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // Render anchor or button preserving layout/hover behaviors
   const TileInner = ({ item }) => (
