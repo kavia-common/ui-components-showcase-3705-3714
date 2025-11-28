@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import FormWizard from "../../components/ui/FormWizard";
+import Header from "../../components/Header";
 
 /**
 / PUBLIC_INTERFACE
@@ -179,16 +180,10 @@ export default function FormWizardDemoPage() {
 
   return (
     <section className="space-y-6">
-      <header className="rounded-2xl overflow-hidden border border-black/5">
-        <div className="bg-brand-gradient">
-          <div className="px-6 py-6">
-            <h1 className="text-2xl font-bold text-white">Form Wizard</h1>
-            <p className="text-white mt-1">
-              Multi-step forms with validation and accessible progress indicators.
-            </p>
-          </div>
-        </div>
-      </header>
+      <Header
+        title="Form Wizard"
+        subtitle="Multi-step forms with validation and accessible progress indicators."
+      />
 
       <FormWizard
         steps={steps}

@@ -32,8 +32,9 @@ export default function Navbar({ theme, onToggle }) {
   return (
     <nav className="sticky top-0 z-40">
       {/* Major section gradient bar with solid foregrounds for contrast */}
-      <div className="w-full app-gradient-major">
-        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div className="w-full app-header-major">
+        <div className="app-header-inner">
+          <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
             <div className="h-8 w-8 rounded-xl bg-white text-text grid place-items-center font-bold shadow-soft">
               UI
@@ -63,6 +64,7 @@ export default function Navbar({ theme, onToggle }) {
 
           <div className="flex items-center gap-3">
             <ThemeToggle theme={theme} onToggle={onToggle} />
+          </div>
           </div>
         </div>
       </div>

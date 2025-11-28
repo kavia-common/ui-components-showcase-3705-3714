@@ -1,5 +1,6 @@
 import React from "react";
 import { useToast } from "../../components/ui/ToastProvider";
+import Header from "../../components/Header";
 
 /**
 / PUBLIC_INTERFACE
@@ -22,16 +23,10 @@ export default function ToastDemoPage() {
   return (
     <section className="space-y-6">
       {/* Header band adopts the brand gradient; content remains solid for readability */}
-      <header className="rounded-2xl overflow-hidden border border-black/5">
-        <div className="bg-brand-gradient">
-          <div className="px-6 py-6">
-            <h1 className="text-2xl font-bold text-white">Toast</h1>
-            <p className="text-white mt-1">
-              Ephemeral notifications rendered via a provider with an aria-live region.
-            </p>
-          </div>
-        </div>
-      </header>
+      <Header
+        title="Toast"
+        subtitle="Ephemeral notifications rendered via a provider with an aria-live region."
+      />
 
       {/* Solid surface for interactive content to preserve contrast */}
       <div className="ocean-surface p-6 flex flex-wrap gap-3">

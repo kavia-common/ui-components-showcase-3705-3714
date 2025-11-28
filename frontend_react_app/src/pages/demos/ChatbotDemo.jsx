@@ -1,5 +1,6 @@
 import React from "react";
 import Chatbot from "../../components/ui/Chatbot";
+import Header from "../../components/Header";
 
 /**
 / PUBLIC_INTERFACE
@@ -20,16 +21,11 @@ export default function ChatbotDemoPage() {
 
   return (
     <>
-      <header className="rounded-2xl overflow-hidden border border-black/5 mb-6">
-        <div className="bg-brand-gradient">
-          <div className="px-6 py-6">
-            <h1 className="text-2xl font-bold text-white">Chatbot</h1>
-            <p className="text-white mt-1">
-              Conversational UI with a floating panel and mock responses.
-            </p>
-          </div>
-        </div>
-      </header>
+      <Header
+        className="mb-6"
+        title="Chatbot"
+        subtitle="Conversational UI with a floating panel and mock responses."
+      />
       {/* Floating Action Button (FAB) — always visible */}
       <button
         type="button"

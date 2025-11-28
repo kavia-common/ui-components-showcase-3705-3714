@@ -1,5 +1,6 @@
 import React from "react";
 import Carousel from "../../components/ui/Carousel";
+import Header from "../../components/Header";
 
 /**
 / PUBLIC_INTERFACE
@@ -34,16 +35,10 @@ export default function CarouselDemoPage() {
 
   return (
     <section className="space-y-6">
-      <header className="rounded-2xl overflow-hidden border border-black/5">
-        <div className="bg-brand-gradient">
-          <div className="px-6 py-6">
-            <h1 className="text-2xl font-bold text-white">Carousel</h1>
-            <p className="text-white mt-1">
-              Slide through content with autoplay, indicators, keyboard and swipe support.
-            </p>
-          </div>
-        </div>
-      </header>
+      <Header
+        title="Carousel"
+        subtitle="Slide through content with autoplay, indicators, keyboard and swipe support."
+      />
 
       <Carousel items={slides} />
     </section>

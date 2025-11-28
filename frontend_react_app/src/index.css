@@ -69,6 +69,40 @@
   .app-gradient-major {
     background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
   }
+
+  /* PUBLIC_INTERFACE
+     app-header-major: Shared header surface with brand gradient background and subtle glass overlay.
+     Use this for page and section headers to ensure consistent look.
+  */
+  .app-header-major {
+    position: relative;
+    border-radius: 1rem; /* match rounded-2xl */
+    overflow: hidden;
+    /* Base: gradient background */
+    background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+    /* Inner glass overlay for readability */
+  }
+  .app-header-major .app-header-inner {
+    /* Glass layer with blur and subtle white tint to improve text contrast */
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: saturate(120%) blur(6px);
+    -webkit-backdrop-filter: saturate(120%) blur(6px);
+  }
+  .app-header-title {
+    color: #ffffff;
+    font-weight: 700;
+  }
+  .app-header-subtitle {
+    color: rgba(255,255,255,0.92);
+  }
+  /* Accessible focus within header */
+  .app-header-major :is(a, button, [role="button"]) {
+    outline: none;
+  }
+  .app-header-major :is(a, button, [role="button"]):focus-visible {
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.7);
+    border-radius: 0.5rem;
+  }
   /* Slightly lighter brand gradient for surfaces like Bento tiles where a softer intensity is desired.
      Keeps the same hue stops but reduces visual intensity by lowering color opacity atop a subtle base.
      Use on backgrounds where text remains white for high contrast. */
