@@ -285,25 +285,36 @@
   }
 
   /* PUBLIC_INTERFACE
-     nav-dropdown-panel-gradient: exact background for Navbar dropdown panel.
-     Requirements:
-     - Exact gradient: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%)
-     - No blur; body-level fixed overlay (handled in component)
-     - Ensure internal scrolling (max-h) and readability
+     dropdown-bg-major-translucent: Slightly translucent brand gradient background.
+     - Exact gradient: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)
+     - Adds a subtle semi-transparent veil for readability
+     - No blur; intended for overlays like dropdown panels
   */
-  .nav-dropdown-panel-gradient {
-    /* Slightly reduce perceived opacity by blending a semi-transparent white veil over the same gradient.
-       This keeps the original gradient visible while lightening it for better content readability and more transparency. */
-    background-image:
-      linear-gradient(87deg, rgba(149, 191, 240, 0.85) 20%, rgba(172, 125, 233, 0.85) 80%);
-    /* Ensure no backdrop blur is applied here */
+  .dropdown-bg-major-translucent {
+    /* Compose the exact required brand gradient with alpha for translucency */
+    background-image: linear-gradient(
+      45deg,
+      rgba(175, 36, 151, 0.86) 10%,
+      rgba(144, 45, 154, 0.86) 20%,
+      rgba(24, 64, 160, 0.86) 100%
+    );
+    /* No backdrop blur for dropdown panel */
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    /* Subtle border and floating shadow for separation over content */
+    /* Maintain separation over page content */
     border: 1px solid rgba(255, 255, 255, 0.22);
     box-shadow:
       0 10px 24px -10px rgba(2, 6, 23, 0.18),
       0 6px 12px -8px rgba(2, 6, 23, 0.12);
+    color: #fff;
+  }
+
+  /* PUBLIC_INTERFACE
+     nav-dropdown-panel-gradient: legacy alias kept for backwards compatibility.
+     Now delegates to dropdown-bg-major-translucent to use the brand gradient.
+  */
+  .nav-dropdown-panel-gradient {
+    composes: dropdown-bg-major-translucent;
   }
 
   /* PUBLIC_INTERFACE

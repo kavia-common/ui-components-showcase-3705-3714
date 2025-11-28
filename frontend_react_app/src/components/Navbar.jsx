@@ -337,8 +337,8 @@ export default function Navbar({ theme, onToggle }) {
                               "min-w-[16rem] max-w-[90vw]",
                               "max-h-[min(70vh,28rem)] overflow-y-auto",
                               "rounded-xl",
-                              // Use exact requested gradient on the dropdown panel; no blur
-                              "nav-dropdown-panel-gradient",
+                              // Use exact requested brand gradient with slight transparency; no blur
+                              "dropdown-bg-major-translucent",
                               "animate-slideDown",
                               // Higher contrast body text over translucent gradient: use white text for maximum contrast
                               "text-white",
