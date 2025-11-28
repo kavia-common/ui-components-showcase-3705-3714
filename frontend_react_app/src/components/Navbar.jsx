@@ -160,7 +160,7 @@ export default function Navbar({ theme, onToggle }) {
                     </span>
                   </button>
 
-                  {/* Dropdown panel: uses lighter answer-palette surface */}
+                  {/* Dropdown panel: uses lighter answer-palette surface with constrained height and scrolling */}
                   {open && (
                     <div
                       id="nav-more-menu"
@@ -168,24 +168,38 @@ export default function Navbar({ theme, onToggle }) {
                       role="menu"
                       aria-label="More components"
                       className={[
-                        "absolute left-0 mt-2 w-56 rounded-xl shadow-card z-50",
-                        "app-answer-surface app-answer-border",
+                        // Position directly under trigger and ensure it overlays content
+                        "absolute left-0 mt-2 z-50",
+                        // Size: sensible min-width and clamp height for long lists
+                        "min-w-[14rem] w-56 max-h-80 overflow-y-auto",
+                        // Visual: surface and border with subtle padding
+                        "rounded-xl shadow-card app-answer-surface app-answer-border",
+                        // Animation
                         "animate-slideDown",
                       ].join(" ")}
                     >
                       <ul className="py-1" role="none">
-                        {moreItems.map((item) => (
+                        {moreItems.map((item, idx) => (
                           <li key={item.to} role="none">
                             <NavLink
                               to={item.to}
                               className={({ isActive }) =>
                                 [
-                                  "block w-full text-left px-3 py-2 text-sm rounded-md",
+                                  // Full-width, legible spacing
+                                  "block w-full text-left px-3 py-2 text-sm",
+                                  // Maintain inner rounding tasteful; shell stays square
+                                  "rounded-md",
+                                  // Text/readability on light surface
                                   isActive
-                                    ? "bg-white text-text shadow-soft"
-                                    : "text-text/80 hover:bg-white",
+                                    ? "bg-white text-slate-800 shadow-soft"
+                                    : "text-slate-800 hover:bg-white",
+                                  // Divider between items except last
+                                  idx !== moreItems.length - 1 ? "border-b border-black/5" : "",
+                                  // Accessibility focus
                                   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]",
-                                ].join(" ")
+                                ]
+                                  .filter(Boolean)
+                                  .join(" ")
                               }
                               role="menuitem"
                               onClick={() => setOpen(false)}
@@ -272,10 +286,16 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
           ref={panelRef}
           role="menu"
           aria-label="Navigation"
-          className="absolute right-0 mt-2 w-64 rounded-xl shadow-card z-50 app-answer-surface app-answer-border animate-slideDown"
+          className={[
+            "absolute right-0 mt-2 z-50",
+            // Size constraints for small screens
+            "min-w-[14rem] w-64 max-h-80 overflow-y-auto",
+            "rounded-xl shadow-card app-answer-surface app-answer-border",
+            "animate-slideDown",
+          ].join(" ")}
         >
           <ul className="py-1" role="none">
-            {[...primary, ...more].map((item) => (
+            {[...primary, ...more].map((item, idx, arr) => (
               <li key={item.to} role="none">
                 <NavLink
                   to={item.to}
@@ -283,7 +303,10 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
                   className={({ isActive }) =>
                     [
                       "block w-full text-left px-3 py-2 text-sm rounded-md",
-                      isActive ? "bg-white text-text shadow-soft" : "text-text/80 hover:bg-white",
+                      isActive
+                        ? "bg-white text-slate-800 shadow-soft"
+                        : "text-slate-800 hover:bg-white",
+                      idx !== arr.length - 1 ? "border-b border-black/5" : "",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]",
                     ].join(" ")
                   }
