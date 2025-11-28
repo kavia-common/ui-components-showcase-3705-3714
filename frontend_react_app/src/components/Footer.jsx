@@ -1,30 +1,26 @@
 import React from "react";
 
 /**
- * Footer with brand, quick links, and contact/social sections.
- * - Uses the major gradient shell with a glassy inner panel.
- * - Columns stack on small screens and align in a row on larger screens.
- * - Ensures accessible color contrast and focus states.
+ * Footer reverted to its prior compact arrangement:
+ * - Gradient shell with a glassy inner overlay.
+ * - Three-column content on sm+ and stacked on mobile.
+ * - Only change: consistent rounded-xl applied to panels.
  */
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="mt-12" aria-labelledby="site-footer-heading">
-      {/* Visual separator from content */}
       <div className="border-t border-black/10" aria-hidden="true"></div>
 
-      {/* Major gradient shell */}
-      <div className="app-header-major">
+      <div className="app-header-major rounded-xl">
         <div className="app-header-inner">
-          {/* Inner content panel using answer palette for improved readability */}
           <div className="mx-auto max-w-6xl px-4 py-8">
             <h2 id="site-footer-heading" className="sr-only">
               Footer
             </h2>
 
-            <div className="app-answer-surface app-answer-border px-6 py-6">
-              {/* Columns */}
+            <div className="app-answer-surface app-answer-border px-6 py-6 rounded-xl">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {/* Brand */}
                 <div>
@@ -70,7 +66,7 @@ export default function Footer() {
                     <li>
                       <a
                         href="mailto:hello@example.com"
-                        className="inline-flex items-center gap-2 rounded px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
+                        className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
                         aria-label="Email us"
                       >
                         ✉ Email
@@ -81,19 +77,19 @@ export default function Footer() {
                         href="https://github.com/"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
+                        className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
                         aria-label="Visit our GitHub"
                       >
                         ⎇ GitHub
                       </a>
                     </li>
                     <li>
-                      <span className="inline-flex items-center gap-2 rounded px-2 py-1 app-answer-subtle">
+                      <span className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle">
                         Theme: Ocean Professional
                       </span>
                     </li>
                     <li>
-                      <span className="inline-flex items-center gap-2 rounded px-2 py-1 app-answer-subtle">
+                      <span className="inline-flex items-center gap-2 rounded-xl px-2 py-1 app-answer-subtle">
                         Built with React + Tailwind
                       </span>
                     </li>
@@ -102,7 +98,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Bottom fine print within gradient shell for visual continuity */}
             <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="text-xs text-white/85">
                 Crafted with attention to accessibility and responsive design.
@@ -126,7 +121,7 @@ function FooterLink({ href, label }) {
     <li>
       <a
         href={href}
-        className="inline-flex items-center gap-2 rounded px-2 py-1 text-text/70 hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
+        className="inline-flex items-center gap-2 rounded-xl px-2 py-1 text-text/70 hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1840a0]"
         aria-label={`Go to ${label}`}
       >
         <span aria-hidden="true" className="text-text/40">→</span>

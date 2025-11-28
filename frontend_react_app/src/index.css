@@ -76,7 +76,7 @@
   */
   .app-header-major {
     position: relative;
-    border-radius: 1rem; /* match rounded-2xl */
+    border-radius: 0.875rem; /* rounded-xl for consistent radius */
     overflow: hidden;
     /* Base: keep major gradient as-is per requirement */
     background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
