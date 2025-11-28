@@ -78,15 +78,14 @@
     position: relative;
     border-radius: 1rem; /* match rounded-2xl */
     overflow: hidden;
-    /* Base: gradient background */
+    /* Base: keep major gradient as-is per requirement */
     background-image: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
-    /* Inner glass overlay for readability */
   }
   .app-header-major .app-header-inner {
-    /* Glass layer with blur and subtle white tint to improve text contrast */
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: saturate(120%) blur(6px);
-    -webkit-backdrop-filter: saturate(120%) blur(6px);
+    /* Soften glass: increase translucency and reduce saturation for a subtler overlay */
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: saturate(105%) blur(5px);
+    -webkit-backdrop-filter: saturate(105%) blur(5px);
   }
   .app-header-title {
     color: #ffffff;
@@ -109,13 +108,13 @@
   .bg-brand-gradient-soft {
     background-image:
       linear-gradient(45deg,
-        rgba(175, 36, 151, 0.92) 10%,
-        rgba(144, 45, 154, 0.92) 20%,
-        rgba(24, 64, 160, 0.92) 100%);
-    /* Ensure underlying base is neutral to avoid unintended mixing; preserve solid look (not translucent). */
-    background-color: #0f1730; /* deep base so reduced alpha still appears solid */
-    /* Prevent accidental overrides by other bg-* utilities when composing classNames elsewhere */
+        rgba(175, 36, 151, 0.65) 10%,
+        rgba(144, 45, 154, 0.62) 20%,
+        rgba(24, 64, 160, 0.60) 100%);
+    /* Neutral deep base kept but slightly lightened to avoid overly heavy feel */
+    background-color: #121a34;
     background-blend-mode: normal;
+    /* Lighten perceived shadow around tiles by slightly reducing contrast via inner overlay on hover if needed */
   }
   .border-brand-gradient {
     position: relative;
@@ -136,9 +135,9 @@
   }
   .glow-brand {
     box-shadow:
-      0 0 0 1px rgba(175, 36, 151, 0.25),
-      0 12px 24px -8px rgba(24, 64, 160, 0.28),
-      0 6px 12px -6px rgba(144, 45, 154, 0.22);
+      0 0 0 1px rgba(175, 36, 151, 0.18),
+      0 12px 24px -8px rgba(24, 64, 160, 0.18),
+      0 6px 12px -6px rgba(144, 45, 154, 0.16);
   }
 
   /* A subtle gradient text utility for headings; ensure good contrast by pairing with strong sizes */
@@ -202,13 +201,13 @@
      - Adds a soft border for separation.
      - Dark mode adjusts overlay for contrast while keeping content readable. */
   .brand-panel-soft {
-    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.06) 10%, rgba(144, 45, 154, 0.06) 20%, rgba(24, 64, 160, 0.06) 100%);
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.045) 10%, rgba(144, 45, 154, 0.045) 20%, rgba(24, 64, 160, 0.045) 100%);
     background-color: #ffffff;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.045);
   }
   @media (prefers-color-scheme: dark) {
     .brand-panel-soft {
-      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.12) 10%, rgba(144, 45, 154, 0.12) 20%, rgba(24, 64, 160, 0.12) 100%);
+      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.10) 10%, rgba(144, 45, 154, 0.10) 20%, rgba(24, 64, 160, 0.10) 100%);
       background-color: #0b0b0c;
       border-color: rgba(255,255,255,0.08);
     }
@@ -219,13 +218,13 @@
      - Maintains white base and soft border for contrast.
      - Apply conditionally when panels are expanded. */
   .brand-panel-soft-strong {
-    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.10) 10%, rgba(144, 45, 154, 0.10) 20%, rgba(24, 64, 160, 0.10) 100%);
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.075) 10%, rgba(144, 45, 154, 0.075) 20%, rgba(24, 64, 160, 0.075) 100%);
     background-color: #ffffff;
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.055);
   }
   @media (prefers-color-scheme: dark) {
     .brand-panel-soft-strong {
-      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.18) 10%, rgba(144, 45, 154, 0.18) 20%, rgba(24, 64, 160, 0.18) 100%);
+      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.15) 10%, rgba(144, 45, 154, 0.15) 20%, rgba(24, 64, 160, 0.15) 100%);
       background-color: #0b0b0c;
       border-color: rgba(255,255,255,0.10);
     }
@@ -236,15 +235,15 @@
      - Ensures accessible contrast for text/icons by keeping content containers (ocean-surface) opaque.
      - Avoid using transparency overlays inside content. */
   .brand-panel-strong {
-    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.16) 10%, rgba(144, 45, 154, 0.16) 20%, rgba(24, 64, 160, 0.16) 100%);
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.14) 10%, rgba(144, 45, 154, 0.14) 20%, rgba(24, 64, 160, 0.14) 100%);
     background-color: #ffffff;
-    border: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.075);
   }
   @media (prefers-color-scheme: dark) {
     .brand-panel-strong {
-      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.26) 10%, rgba(144, 45, 154, 0.26) 20%, rgba(24, 64, 160, 0.26) 100%);
+      background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.24) 10%, rgba(144, 45, 154, 0.24) 20%, rgba(24, 64, 160, 0.24) 100%);
       background-color: #0b0b0c;
-      border-color: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.11);
     }
   }
 
@@ -253,26 +252,28 @@
      Use for hero sections and demo page headers to provide a soft, readable, light surface. */
   .app-answer-surface {
     @apply rounded-2xl;
-    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.06) 10%, rgba(144, 45, 154, 0.06) 20%, rgba(24, 64, 160, 0.06) 100%);
-    background-color: #ffffff;
+    background-image: linear-gradient(45deg, rgba(175, 36, 151, 0.045) 10%, rgba(144, 45, 154, 0.045) 20%, rgba(24, 64, 160, 0.045) 100%);
+    background-color: rgba(255,255,255,0.92); /* subtle translucency */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
   }
 
   /* PUBLIC_INTERFACE
      app-answer-border: soft separator border matching the answer palette. */
   .app-answer-border {
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.05);
   }
 
   /* PUBLIC_INTERFACE
      app-answer-heading: heading style that harmonizes with the answer surface while maintaining contrast. */
   .app-answer-heading {
-    color: #0b1a3a; /* deep navy for strong contrast on light surface */
+    color: #11224a; /* slightly lighter than previous deep navy */
     font-weight: 700;
   }
 
   /* PUBLIC_INTERFACE
      app-answer-subtle: secondary text color for descriptions on answer surfaces. */
   .app-answer-subtle {
-    color: rgba(17, 24, 39, 0.78); /* text-text with slight opacity */
+    color: rgba(17, 24, 39, 0.72); /* soften while keeping readability */
   }
 }

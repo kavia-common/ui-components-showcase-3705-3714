@@ -11,7 +11,15 @@ import React from "react";
  */
 export default function Header({ title, subtitle, className = "", children }) {
   return (
-    <header className={["app-answer-surface app-answer-border", className].filter(Boolean).join(" ")}>
+    <header
+      className={[
+        // Softer answer surface and border utilities keep headers subtle and consistent
+        "app-answer-surface app-answer-border",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <div className="px-6 py-6 sm:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
