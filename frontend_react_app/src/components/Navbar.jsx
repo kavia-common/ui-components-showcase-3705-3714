@@ -153,44 +153,46 @@ export default function Navbar({ theme, onToggle }) {
 
   return (
     <nav className="sticky inset-x-0 top-0 z-[55]" aria-label="Site">
-      {/* Outer navbar wrapper: full width with safe gutters, no horizontal overflow */}
-      <div className="w-full max-w-[100vw] overflow-x-hidden app-header-major rounded-none">
+      {/* Outer wrapper spans full viewport width, never overflows horizontally */}
+      <div className="app-header-major rounded-none w-full max-w-screen overflow-x-hidden">
         <div className="app-header-inner">
-          {/* Responsive horizontal padding; center inner content */}
+          {/* Respect gutters at all breakpoints; clamp to content container */}
           <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8">
-            {/* Ensure internal layout wraps and never pushes width */}
-            <div className="h-14 flex items-center justify-between gap-3 flex-wrap">
-              {/* Brand (left) */}
-              <div className="min-w-0 shrink-0 overflow-hidden">
+            {/* Internal row must never force width > 100%; allow wrapping on narrow widths */}
+            <div className="h-14 flex items-center justify-between gap-3 flex-wrap w-full">
+              {/* Brand (left) - allow shrink to avoid pushing others; truncate long text */}
+              <div className="min-w-0 shrink overflow-hidden">
                 <NavLink to="/" className="flex items-center gap-2" aria-label="Home">
-                  {/* Brand mark rounded for inner element only */}
+                  {/* Inner item may be rounded */}
                   <div className="h-8 w-8 rounded-lg bg-white text-text grid place-items-center font-bold shadow-soft">
                     UI
                   </div>
-                  <span className="text-base sm:text-lg font-semibold text-white truncate">
+                  <span className="text-base sm:text-lg font-semibold text-white truncate max-w-[50vw] sm:max-w-none">
                     Components Showcase
                   </span>
                 </NavLink>
               </div>
 
-              {/* Primary links + More (center on md+) */}
+              {/* Primary links + More (center on md+) - allow wrapping and prevent overflow */}
               <div
-                className="hidden md:flex items-center justify-center gap-1.5"
+                className="hidden md:flex items-center justify-center gap-1.5 flex-shrink min-w-0"
                 role="navigation"
                 aria-label="Primary"
               >
-                {primaryNav.map((item) => (
-                  <NavLink
-                    key={item.to}
-                    to={item.to}
-                    end={item.end}
-                    className={linkClass}
-                  >
-                    {item.label}
-                  </NavLink>
-                ))}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {primaryNav.map((item) => (
+                    <NavLink
+                      key={item.to}
+                      to={item.to}
+                      end={item.end}
+                      className={linkClass}
+                    >
+                      {item.label}
+                    </NavLink>
+                  ))}
+                </div>
 
-                {/* Dropdown trigger uses major gradient accent subtly via border ring utility */}
+                {/* Dropdown trigger (positioned element should not affect layout width) */}
                 <div className="relative">
                   <button
                     ref={triggerRef}
@@ -218,7 +220,7 @@ export default function Navbar({ theme, onToggle }) {
                     </span>
                   </button>
 
-                  {/* Dropdown panel rendered as fixed to avoid overflow clipping and ensure visibility */}
+                  {/* Dropdown panel: fixed, viewport-constrained, pointer-events managed */}
                   {open && (
                     <div
                       id="nav-more-menu"
@@ -226,8 +228,7 @@ export default function Navbar({ theme, onToggle }) {
                       role="menu"
                       aria-label="More components"
                       className={[
-                        "fixed z-[100]",
-                        // Constrain panel so it never expands layout width
+                        "fixed z-[100] pointer-events-auto",
                         "min-w-[14rem] w-auto sm:w-56 max-w-[90vw]",
                         "max-h-[min(70vh,28rem)] overflow-y-auto",
                         "rounded-xl shadow-card app-answer-surface app-answer-border",
@@ -277,15 +278,14 @@ export default function Navbar({ theme, onToggle }) {
                 </div>
               </div>
 
-              {/* Actions (right) */}
+              {/* Actions (right) - prevent layout growth */}
               <div className="flex items-center justify-end gap-2 shrink-0">
-                {/* On small screens, provide condensed nav including More as a single select-like menu */}
+                {/* Mobile menu occupies its own absolute panel; does not expand row width */}
                 <MobileMenu
                   primary={primaryNav}
                   more={moreItems}
                   onAfterNavigate={() => setOpen(false)}
                 />
-                {/* Theme toggle already rounded; ensure accessible focus */}
                 <ThemeToggle theme={theme} onToggle={onToggle} />
               </div>
             </div>
@@ -351,13 +351,17 @@ function MobileMenu({ primary, more, onAfterNavigate }) {
           aria-label="Navigation"
           className={[
             "absolute right-0 mt-2 z-[100]",
-            // Constrain to viewport and avoid pushing layout width
-            "w-[min(100vw-1rem,24rem)] sm:w-64 min-w-[14rem] max-w-[95vw]",
+            // Constrain strictly to viewport width; prefer viewport calc over fixed widths
+            "w-[min(100vw-1rem,24rem)] min-w-[14rem] max-w-[95vw]",
             "max-h-[70vh] overflow-y-auto",
             "rounded-xl shadow-card app-answer-surface app-answer-border",
             "animate-slideDown",
             "text-slate-800",
           ].join(" ")}
+          style={{
+            // Ensure no accidental horizontal overflow if parent mis-measures
+            maxWidth: "95vw",
+          }}
         >
           <ul className="py-1" role="none">
             {[...primary, ...more].map((item, idx, arr) => (
