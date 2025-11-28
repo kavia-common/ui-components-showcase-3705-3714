@@ -428,34 +428,38 @@
      - Works over translucent dropdown panels
   */
   .hover-bg-subtle {
-    /* At rest: no background to preserve base state */
+    /* At rest: keep items fully transparent (no bg, no border) */
     background-color: transparent;
-    transition: background-color 140ms ease;
+    background-image: none;
+    transition: background-color 140ms ease, background-image 140ms ease;
   }
   .hover-bg-subtle:hover,
   .hover-bg-subtle:focus-visible {
-    /* Slightly stronger than before; remains harmonious with answer palette */
+    /* Stronger translucent layer that remains readable over the dropdown's app gradient:
+       - Brighter veil improves contrast on the linear-gradient(87deg, #95bff0 20%, #ac7de9 80%)
+       - Slight brand-tinted gradient maintains theme continuity without overpowering text
+    */
     background-image: linear-gradient(
       45deg,
-      rgba(175, 36, 151, 0.085) 10%,
-      rgba(144, 45, 154, 0.085) 20%,
-      rgba(24, 64, 160, 0.085) 100%
+      rgba(175, 36, 151, 0.14) 10%,
+      rgba(144, 45, 154, 0.14) 20%,
+      rgba(24, 64, 160, 0.14) 100%
     );
-    /* Increase veil from 0.55 -> 0.62 (~+0.07) for clearer highlight */
-    background-color: rgba(255, 255, 255, 0.62);
+    /* Veil increased to ~0.74 to lift legibility over the dropdown gradient */
+    background-color: rgba(255, 255, 255, 0.74);
   }
   @media (prefers-color-scheme: dark) {
     .hover-bg-subtle:hover,
     .hover-bg-subtle:focus-visible {
-      /* Increase dark-mode gradient tint slightly for parity */
+      /* Dark mode: bump tints for parity while keeping content readable */
       background-image: linear-gradient(
         45deg,
-        rgba(175, 36, 151, 0.12) 10%,
-        rgba(144, 45, 154, 0.12) 20%,
-        rgba(24, 64, 160, 0.12) 100%
+        rgba(175, 36, 151, 0.2) 10%,
+        rgba(144, 45, 154, 0.2) 20%,
+        rgba(24, 64, 160, 0.2) 100%
       );
-      /* Lift veil from 0.10 -> 0.14 for better visibility on dark */
-      background-color: rgba(255, 255, 255, 0.14);
+      /* Slightly stronger veil on dark for clarity */
+      background-color: rgba(255, 255, 255, 0.18);
     }
   }
 
