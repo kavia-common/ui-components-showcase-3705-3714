@@ -44,6 +44,9 @@ export default function Navbar({ theme, onToggle }) {
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
 
+  // Delay timers to avoid flicker when moving pointer between trigger and panel
+  const hoverTimers = useRef({ open: null, close: null });
+
   // Focusable selector constant to avoid any templating/escaping mistakes.
   const FOCUSABLE_SELECTOR =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -96,6 +99,14 @@ export default function Navbar({ theme, onToggle }) {
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
   }, [open]);
+
+  // Cleanup any pending timers when component unmounts
+  useEffect(() => {
+    return () => {
+      if (hoverTimers.current.open) clearTimeout(hoverTimers.current.open);
+      if (hoverTimers.current.close) clearTimeout(hoverTimers.current.close);
+    };
+  }, []);
 
   // Keyboard navigation and Escape to close
   useEffect(() => {
@@ -219,25 +230,33 @@ export default function Navbar({ theme, onToggle }) {
                   <div
                     className="relative"
                     onMouseEnter={() => {
-                      // Enable hover-to-open only on md+ where this group is visible.
-                      if (window.matchMedia("(min-width: 768px)").matches) {
+                      if (!window.matchMedia("(min-width: 768px)").matches) return;
+                      // Cancel any pending close
+                      if (hoverTimers.current.close) {
+                        clearTimeout(hoverTimers.current.close);
+                        hoverTimers.current.close = null;
+                      }
+                      hoverTimers.current.open = setTimeout(() => {
                         computeAndSetMenuPosition();
                         setOpen(true);
-                      }
+                      }, 80); // small delay to smooth hover
                     }}
                     onMouseLeave={() => {
-                      if (window.matchMedia("(min-width: 768px)").matches) {
-                        setOpen(false);
+                      if (!window.matchMedia("(min-width: 768px)").matches) return;
+                      // Cancel any pending open
+                      if (hoverTimers.current.open) {
+                        clearTimeout(hoverTimers.current.open);
+                        hoverTimers.current.open = null;
                       }
+                      hoverTimers.current.close = setTimeout(() => {
+                        setOpen(false);
+                      }, 120); // small close delay to prevent flicker
                     }}
                     onFocusCapture={(e) => {
-                      // If the trigger or container receives focus on desktop, open it.
-                      if (window.matchMedia("(min-width: 768px)").matches) {
-                        // Only open when focusing within the trigger container
-                        if (e.target && (triggerRef.current?.contains(e.target) || e.currentTarget === e.target)) {
-                          computeAndSetMenuPosition();
-                          setOpen(true);
-                        }
+                      if (!window.matchMedia("(min-width: 768px)").matches) return;
+                      if (e.target && (triggerRef.current?.contains(e.target) || e.currentTarget === e.target)) {
+                        computeAndSetMenuPosition();
+                        setOpen(true);
                       }
                     }}
                   >
@@ -296,9 +315,16 @@ export default function Navbar({ theme, onToggle }) {
                       <Portal>
                         <>
                           <div
-                            className="fixed inset-0 z-[998] bg-black/15 backdrop-blur-[1px] pointer-events-auto"
+                            className="fixed inset-0 z-[998] bg-black/15 pointer-events-auto"
                             aria-hidden="true"
                             onClick={() => setOpen(false)}
+                            onMouseEnter={() => {
+                              // hovering backdrop should not auto-close; leave as-is
+                              if (hoverTimers.current.close) {
+                                clearTimeout(hoverTimers.current.close);
+                                hoverTimers.current.close = null;
+                              }
+                            }}
                           />
                           <div
                             id="nav-more-menu"
@@ -319,6 +345,20 @@ export default function Navbar({ theme, onToggle }) {
                               right: typeof menuPos.right === "number" ? `${menuPos.right}px` : menuPos.right,
                               top: `${menuPos.top}px`,
                               width: menuPos.width ? `${menuPos.width}px` : undefined,
+                            }}
+                            onMouseEnter={() => {
+                              // Cancel pending close when entering panel
+                              if (hoverTimers.current.close) {
+                                clearTimeout(hoverTimers.current.close);
+                                hoverTimers.current.close = null;
+                              }
+                            }}
+                            onMouseLeave={() => {
+                              // Small delay on leaving the panel to allow moving back to trigger
+                              if (hoverTimers.current.close) clearTimeout(hoverTimers.current.close);
+                              hoverTimers.current.close = setTimeout(() => {
+                                setOpen(false);
+                              }, 120);
                             }}
                           >
                             <ul className="py-1" role="none">
