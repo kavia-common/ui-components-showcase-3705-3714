@@ -68,7 +68,7 @@ export default function BentoMenu({ items = [], className = "" }) {
      */
     const svg = (
       <svg
-        className="w-5 h-5 inline-block"
+        className="w-6 h-6 inline-block"
         viewBox="0 0 24 24"
         role="img"
         aria-label={decorative ? undefined : label}
@@ -76,12 +76,12 @@ export default function BentoMenu({ items = [], className = "" }) {
         focusable={decorative ? "false" : "true"}
       >
         {/* Use currentColor so the gradient text fill from the wrapper applies */}
-        <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.16" />
+        <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.18" />
         <path
           d="M10 8l4 4-4 4"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.2"
+          strokeWidth="2.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -89,25 +89,19 @@ export default function BentoMenu({ items = [], className = "" }) {
     );
 
     return (
-      <span
-        className="mt-1 inline-flex items-center"
-      >
-        {/* Gradient text fill for the icon; include a subtle text-shadow-like outline via dual-layer for visibility */}
-        <span className="relative inline-flex">
-          {/* Outline/fallback layer to ensure contrast on very light backgrounds */}
-          <span
-            className="absolute inset-0"
-            aria-hidden="true"
-            style={{
-              // soft outline using shadow; works across browsers without extra filters
-              filter: "drop-shadow(0 0 0.5px rgba(0,0,0,0.25))",
-            }}
-          >
-            {svg}
-          </span>
-          <span className="icon-gradient-major icon-gradient-text inline-flex relative">
-            {svg}
-          </span>
+      <span className="relative inline-flex">
+        {/* Outline/fallback layer to ensure contrast on very light backgrounds */}
+        <span
+          className="absolute inset-0"
+          aria-hidden="true"
+          style={{
+            filter: "drop-shadow(0 0 0.75px rgba(0,0,0,0.32))",
+          }}
+        >
+          {svg}
+        </span>
+        <span className="icon-gradient-major icon-gradient-text inline-flex relative">
+          {svg}
         </span>
       </span>
     );
@@ -120,24 +114,38 @@ export default function BentoMenu({ items = [], className = "" }) {
     const decorative = hasLink;
 
     return (
-      <div className="px-5 py-4">
+      <div className="px-5 py-4 relative">
         {item.bodyText ? (
           <>
-            <p className="text-sm leading-5 text-text/80">
+            <p className="text-sm leading-5 text-text/80 pr-8">
               {item.bodyText}
             </p>
-            {/* Add slight separation and ensure icon is on top of any backgrounds */}
-            <div className="mt-1.5 relative z-10">
+
+            {/* Larger explore icon anchored to bottom-right of the tile body.
+                - Non-interactive (decorative) when the entire tile is the control.
+                - Provides ARIA label if tile is not interactive. */}
+            <span
+              className="pointer-events-none absolute bottom-2 right-2 z-10"
+              aria-hidden={decorative ? "true" : undefined}
+            >
               <ExploreIcon decorative={decorative} />
-            </div>
+            </span>
           </>
         ) : (
-          <div className="flex items-center justify-between text-sm">
-            <p className="text-text/80">Learn more</p>
-            <span className="text-text/50 text-xs" aria-hidden="true">
-              {hasLink ? "Open" : ""}
+          <>
+            <div className="flex items-center justify-between text-sm pr-8">
+              <p className="text-text/80">Learn more</p>
+              <span className="text-text/50 text-xs" aria-hidden="true">
+                {hasLink ? "Open" : ""}
+              </span>
+            </div>
+            <span
+              className="pointer-events-none absolute bottom-2 right-2 z-10"
+              aria-hidden={decorative ? "true" : undefined}
+            >
+              <ExploreIcon decorative={decorative} />
             </span>
-          </div>
+          </>
         )}
       </div>
     );
@@ -146,7 +154,7 @@ export default function BentoMenu({ items = [], className = "" }) {
   // Render anchor or button preserving layout/hover behaviors
   const TileInner = ({ item }) => (
     <div
-      className={`h-full w-full overflow-hidden rounded-2xl ${tileSurface}`}
+      className={`h-full w-full overflow-hidden rounded-2xl relative ${tileSurface}`}
     >
       <Header item={item} />
       <Body item={item} />
